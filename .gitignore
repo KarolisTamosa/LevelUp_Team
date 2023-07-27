@@ -396,3 +396,4 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+/ConvrsorDeMonedas_LevelUp_Solution/ConvrsorDeMonedas_LevelUp/Properties/launchSettings.json

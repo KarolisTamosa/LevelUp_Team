@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33829.357
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "1. ConvrsorDeMonedas_LevelUp", "ConvrsorDeMonedas_LevelUp\1. ConvrsorDeMonedas_LevelUp.csproj", "{C044B665-A279-4DC2-94AA-798C11F870D6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "1. Presentacion", "ConvrsorDeMonedas_LevelUp\1. Presentacion.csproj", "{C044B665-A279-4DC2-94AA-798C11F870D6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "2. Negocio", "Negocio\2. Negocio.csproj", "{984FCD59-AB62-41B2-BC7D-7CA912480D82}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "2. Negocio", "Negocio\2. Negocio.csproj", "{984FCD59-AB62-41B2-BC7D-7CA912480D82}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "3. Entidades", "BBDD\3. Entidades.csproj", "{8EB5919F-3221-4029-90C2-E43BD521284C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "3. Datos", "BBDD\3. Datos.csproj", "{8EB5919F-3221-4029-90C2-E43BD521284C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
