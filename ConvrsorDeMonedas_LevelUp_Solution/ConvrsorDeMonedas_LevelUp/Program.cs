@@ -3,12 +3,16 @@ using System.Collections.Generic;
 
 namespace ConvrsorDeMonedas_LevelUp
 {
-    public class Divisa
+    public class Program
     {
 
         public static void Main(string[] args)
         {
+            
 
+        }
+        private void MenuPrincipal()
+        {
             bool salir = false;
             List<Divisa> divisas = new List<Divisa>();
 
@@ -91,6 +95,10 @@ namespace ConvrsorDeMonedas_LevelUp
                 }
             }
             Console.WriteLine("Saliendo del programa...");
+        }
+        private void MostrarDivisas()
+        {
+            procesador.MostrarListadoDivisas(procesadorAPI.RecogerMonedasDesdeApi());
         }
     }
 }

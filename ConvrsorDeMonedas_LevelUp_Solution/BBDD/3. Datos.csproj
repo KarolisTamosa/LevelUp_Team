@@ -7,11 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BBDD\3. Datos.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Test\" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
 </Project>
