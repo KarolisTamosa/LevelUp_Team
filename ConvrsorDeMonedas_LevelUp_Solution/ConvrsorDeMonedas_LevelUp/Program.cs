@@ -1,12 +1,16 @@
-﻿namespace ConvrsorDeMonedas_LevelUp
+﻿using System;
+using System.Collections.Generic;
+
+namespace ConvrsorDeMonedas_LevelUp
 {
     public class Divisa
     {
 
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
 
             bool salir = false;
+            List<Divisa> divisas = new List<Divisa>();
 
             while (!salir)
             {
@@ -31,6 +35,7 @@
                 Console.WriteLine("                                                                          ");
                 Console.WriteLine("          Escribe el número de la opción que deseas realizar.             ");
                 string opcion = Console.ReadLine();
+                ProcesadorArchivoJSON procesador = new ProcesadorArchivoJSON();
 
                 switch (opcion)
                 {
@@ -41,11 +46,38 @@
                         Console.Clear();
                         Console.WriteLine("Leyendo y procesando el archivo JSON...");
 
-                        ProcesadorArchivoJSON procesador = new ProcesadorArchivoJSON();
                         procesador.ProcesarArchivoJSON();
                         break;
                     case "3":
-                        Console.WriteLine("Implementación pendiente...");
+                        Console.Clear();
+                        Console.WriteLine("╔════════════════════════════════════════════════════════════════════════╗");
+                        Console.WriteLine("║   1. Modificar las divisas                                             ║");
+                        Console.WriteLine("║   2. Agregar una nueva divisa                                          ║");
+                        Console.WriteLine("║   3. Eliminar una divisa                                               ║");
+                        Console.WriteLine("║   5. Salir                                                             ║");
+                        Console.WriteLine("╚════════════════════════════════════════════════════════════════════════╝");
+                        string opcioninterna = Console.ReadLine();
+
+                        switch (opcioninterna)
+                        {
+                            case "1":
+                                procesador.ModificarDivisas();
+                                break;
+                            case "2":
+                                Console.Clear();
+                                procesador.AgregarDivisa();
+                                break;
+                            case "3":
+                                Console.Clear();
+                                procesador.EliminarDivisa();
+                                break;
+                            case "4":
+                                salir = true;
+                                break;
+                            default:
+                                Console.WriteLine("Opción inválida. Por favor, ingrese una opción válida (1-4).");
+                                break;
+                        }
                         break;
                     case "4":
                         Console.WriteLine("Implementación pendiente...");

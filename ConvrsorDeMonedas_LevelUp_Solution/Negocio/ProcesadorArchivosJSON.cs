@@ -16,10 +16,11 @@ namespace ConvrsorDeMonedas_LevelUp
     }
     public class ProcesadorArchivoJSON
     {
+        string rutaArchivoJSON = Path.Combine("C:/archivos/inbox", "monedas.json");
+        string rutaFinalJSON = Path.Combine("C:/archivos/final", "monedas_final.json");
         public void ProcesarArchivoJSON()
         {
-            string rutaArchivoJSON = Path.Combine("C:/archivos/inbox", "monedas.json");
-            string rutaFinalJSON = Path.Combine("C:/archivos/final", "monedas_final.json");
+
 
             if (File.Exists(rutaArchivoJSON))
             {
@@ -81,7 +82,117 @@ namespace ConvrsorDeMonedas_LevelUp
             }
         }
 
-        static void MostrarListadoDivisas(List<Divisa> divisas)
+        public void ModificarDivisas()
+        {
+
+            string json = File.ReadAllText(rutaFinalJSON);
+            List<Divisa> divisas = JsonConvert.DeserializeObject<List<Divisa>>(json);
+            Console.Clear();
+            Console.WriteLine("╔═══════════════════════════════════════════╗");
+            Console.WriteLine("║          Listado de Divisas               ║");
+            Console.WriteLine("╠═══════════════════════════════════════════╣");
+            Console.WriteLine("║   Nombre            │ Valor en Dólares    ║");
+            Console.WriteLine("╠═══════════════════════════════════════════╣");
+
+            foreach (Divisa divisa in divisas)
+            {
+                Console.WriteLine($"║   {divisa.Nombre,-18}│ {divisa.ValorEnDolares,15:N4}     ║");
+            }
+
+            Console.WriteLine("╚═══════════════════════════════════════════╝");
+            Console.WriteLine("╔════════════════════════════════════════════════════╗");
+            Console.WriteLine("║ Escribe el nombre de la divisa que deseas modificar║");
+            Console.WriteLine("╚════════════════════════════════════════════════════╝");
+            string nombreDivisaModificar = Console.ReadLine();
+
+            Divisa divisaEncontrada = divisas.Find(divisa => divisa.Nombre == nombreDivisaModificar);
+            if (divisaEncontrada == null)
+            {
+                Console.WriteLine("No se encontró la divisa.");
+                return;
+            }
+            Console.Clear();
+            Console.WriteLine("╔══════════════════════════╗");
+            Console.WriteLine("║ Escribe el nuevo nombre. ║");
+            Console.WriteLine("╚══════════════════════════╝");
+            string nuevoNombre = Console.ReadLine();
+            divisaEncontrada.Nombre = nuevoNombre;
+            Console.WriteLine("Nombre modificado exitosamente.");
+            GuardarDivisas(divisas);
+        }
+
+        public void AgregarDivisa()
+        {
+            string json = File.ReadAllText(rutaFinalJSON);
+            List<Divisa> divisas = JsonConvert.DeserializeObject<List<Divisa>>(json);
+            Console.WriteLine("╔════════════════════════════════════════════════════════╗");
+            Console.WriteLine("║ Escribe el nombre de la nueva divisa que quieres añadir║");
+            Console.WriteLine("╚════════════════════════════════════════════════════════╝");
+            string nuevoNombre = Console.ReadLine();
+
+            Console.WriteLine("╔════════════════════════════════════════════════════════╗");
+            Console.WriteLine("║ Escribe el código de la nueva divisa que quieres añadir║");
+            Console.WriteLine("╚════════════════════════════════════════════════════════╝");
+            string nuevoCodigo = Console.ReadLine();
+
+            Console.WriteLine("╔═══════════════════════════════════════════════╗");
+            Console.WriteLine("║ Escribe el valor en dólares de la nueva divisa║");
+            Console.WriteLine("╚═══════════════════════════════════════════════╝");
+            double nuevoValor;
+            if (!double.TryParse(Console.ReadLine(), out nuevoValor))
+            {
+                Console.WriteLine("El valor ingresado no es válido.");
+                return;
+            }
+
+            divisas.Add(new Divisa { Nombre = nuevoNombre, Codigo = nuevoCodigo, ValorEnDolares = nuevoValor });
+            Console.WriteLine("Divisa agregada exitosamente.");
+
+            GuardarDivisas(divisas);
+        }
+
+        public void EliminarDivisa()
+        {
+            string json = File.ReadAllText(rutaFinalJSON);
+            List<Divisa> divisas = JsonConvert.DeserializeObject<List<Divisa>>(json);
+            Console.Clear();
+            Console.WriteLine("╔═══════════════════════════════════════════╗");
+            Console.WriteLine("║          Listado de Divisas               ║");
+            Console.WriteLine("╠═══════════════════════════════════════════╣");
+            Console.WriteLine("║   Nombre            │ Valor en Dólares    ║");
+            Console.WriteLine("╠═══════════════════════════════════════════╣");
+
+            foreach (Divisa divisa in divisas)
+            {
+                Console.WriteLine($"║   {divisa.Nombre,-18}│ {divisa.ValorEnDolares,15:N4}     ║");
+            }
+
+            Console.WriteLine("╚═══════════════════════════════════════════╝");
+            Console.WriteLine("Escribe el nombre de la divisa que deseas eliminar:");
+            string nombreDivisaEliminar = Console.ReadLine();
+
+            Divisa divisaEncontrada = divisas.Find(divisa => divisa.Nombre == nombreDivisaEliminar);
+            if (divisaEncontrada == null)
+            {
+                Console.WriteLine("No se encontró la divisa.");
+                return;
+            }
+
+            divisas.Remove(divisaEncontrada);
+            Console.WriteLine("Divisa eliminada exitosamente.");
+
+            GuardarDivisas(divisas);
+        }
+
+        private void GuardarDivisas(List<Divisa> divisas)
+        {
+            string rutaArchivoFinal = Path.Combine("C:/archivos/final", "monedas_final.json");
+            string json = JsonConvert.SerializeObject(divisas, Formatting.Indented);
+            File.WriteAllText(rutaArchivoFinal, json);
+            Console.WriteLine("Cambios guardados en el archivo JSON.");
+        }
+
+        public static void MostrarListadoDivisas(List<Divisa> divisas)
         {
             while (true)
             {
