@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using Newtonsoft.Json;
-using System.Threading;
+﻿using Newtonsoft.Json;
 
-namespace ConvrsorDeMonedas_LevelUp
+namespace Negocio
 {
     public class Divisa
     {
         public string Nombre { get; set; }
         public string Codigo { get; set; }
-        public double ValorEnDolares { get; set; }
+        public decimal ValorEnDolares { get; set; }
 
         public static string jsonProcesado;
     }
@@ -81,7 +77,7 @@ namespace ConvrsorDeMonedas_LevelUp
             }
         }
 
-        static void MostrarListadoDivisas(List<Divisa> divisas)
+        public void MostrarListadoDivisas(List<Divisa> divisas)
         {
             while (true)
             {

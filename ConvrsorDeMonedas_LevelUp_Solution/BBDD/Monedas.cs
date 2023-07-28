@@ -1,20 +1,19 @@
-﻿using Datos.Entidades;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace Datos
 {
     
-    internal class Monedas
+    public static class Monedas
     {
-        private string MONEDAS_API_URL = "https://v6.exchangerate-api.com/v6/a2add358f81f3345c05f21c9/latest/USD";
+        private static string MONEDAS_API_URL = "https://v6.exchangerate-api.com/v6/a2add358f81f3345c05f21c9/latest/USD";
         private static string MONEDAS_API_KEY = "a2add358f81f3345c05f21c9";
-        public async Task<ResultadoApiMonedas?> ImportarMonedasDesdeApiAsync(out bool errores)
+        private static async Task<ResultadoApiMonedas> ImportarMonedasDesdeApiAsync()
         {
             using (var httpClient = new HttpClient())
             {
                 httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {MONEDAS_API_KEY}");
                 ResultadoApiMonedas resultadoApi = null;
-                
+
                 try
                 {
                     HttpResponseMessage response = await httpClient.GetAsync(MONEDAS_API_URL);
@@ -37,5 +36,11 @@ namespace Datos
 
                 return resultadoApi;
             }
+        }
+        public static ResultadoApiMonedas ImportarMonedasDesdeApi()
+        {
+            return ImportarMonedasDesdeApiAsync().GetAwaiter().GetResult();
+        }
+
     }
 }

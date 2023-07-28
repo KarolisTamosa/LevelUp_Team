@@ -1,11 +1,18 @@
-﻿namespace Presentacion
-{
-    public class Divisa
-    {
+﻿using Negocio;
 
+namespace Presentacion
+{
+    public class Program
+    {
+        ProcesadorArchivoJSON procesador = new ProcesadorArchivoJSON();
+        ProcesadorAPIMonedas procesadorAPI = new ProcesadorAPIMonedas();
         static void Main(string[] args)
         {
+            
 
+        }
+        private void MenuPrincipal()
+        {
             bool salir = false;
 
             while (!salir)
@@ -41,7 +48,6 @@
                         Console.Clear();
                         Console.WriteLine("Leyendo y procesando el archivo JSON...");
 
-                        ProcesadorArchivoJSON procesador = new ProcesadorArchivoJSON();
                         procesador.ProcesarArchivoJSON();
                         break;
                     case "3":
@@ -59,6 +65,10 @@
                 }
             }
             Console.WriteLine("Saliendo del programa...");
+        }
+        private void MostrarDivisas()
+        {
+            procesador.MostrarListadoDivisas(procesadorAPI.RecogerMonedasDesdeApi());
         }
     }
 }

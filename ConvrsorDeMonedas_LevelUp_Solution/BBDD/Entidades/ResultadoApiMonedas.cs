@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Datos.Entidades
+namespace Datos
 {
-    internal class ResultadoApiMonedas
+    public class ResultadoApiMonedas
     {
         public string Result { get; set; }
         public string Documentation { get; set; }
