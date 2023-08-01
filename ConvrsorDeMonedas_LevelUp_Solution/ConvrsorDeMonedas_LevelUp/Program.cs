@@ -5,7 +5,6 @@ namespace ConvrsorDeMonedas_LevelUp
 {
     public class Program
     {
-        //ProcesadorArchivoJSON procesador = new ProcesadorArchivoJSON();
         static void Main(string[] args)
         {
             Program program = new();
@@ -40,59 +39,65 @@ namespace ConvrsorDeMonedas_LevelUp
                 Console.WriteLine("                                                                          ");
                 Console.WriteLine("          Escribe el número de la opción que deseas realizar.             ");
                 string opcion = Console.ReadLine();
-                ProcesadorArchivoJSON procesador = new ProcesadorArchivoJSON();
+
+                return opcionMenu;
+            } while (opcionMenu == -1);
+        }
 
         private int PedirNumeroOpcionMenuPrincipal()
         {
             int result = -1;
             int.TryParse(Console.ReadLine(), out result);
-            return this.ComprobarValorPedidoCorrecto(result, 1, 5) ? result : -1;
+            switch (result)
+            {
+                case 1:
 
-                        procesador.ProcesarArchivoJSON();
-                        break;
-                    case "3":
-                        Console.Clear();
-                        Console.WriteLine("╔════════════════════════════════════════════════════════════════════════╗");
-                        Console.WriteLine("║   1. Modificar las divisas                                             ║");
-                        Console.WriteLine("║   2. Agregar una nueva divisa                                          ║");
-                        Console.WriteLine("║   3. Eliminar una divisa                                               ║");
-                        Console.WriteLine("║   5. Salir                                                             ║");
-                        Console.WriteLine("╚════════════════════════════════════════════════════════════════════════╝");
-                        string opcioninterna = Console.ReadLine();
+                    ProcesadorArchivoJSON.ProcesarArchivoJSON();
+                    break;
+                case 3:
+                    Console.Clear();
+                    Console.WriteLine("╔════════════════════════════════════════════════════════════════════════╗");
+                    Console.WriteLine("║   1. Modificar las divisas                                             ║");
+                    Console.WriteLine("║   2. Agregar una nueva divisa                                          ║");
+                    Console.WriteLine("║   3. Eliminar una divisa                                               ║");
+                    Console.WriteLine("║   5. Salir                                                             ║");
+                    Console.WriteLine("╚════════════════════════════════════════════════════════════════════════╝");
+                    string opcioninterna = Console.ReadLine();
 
-                        switch (opcioninterna)
-                        {
-                            case "1":
-                                procesador.ModificarDivisas();
-                                break;
-                            case "2":
-                                Console.Clear();
-                                procesador.AgregarDivisa();
-                                break;
-                            case "3":
-                                Console.Clear();
-                                procesador.EliminarDivisa();
-                                break;
-                            case "4":
-                                salir = true;
-                                break;
-                            default:
-                                Console.WriteLine("Opción inválida. Por favor, ingrese una opción válida (1-4).");
-                                break;
-                        }
-                        break;
-                    case "4":
-                        Console.WriteLine("Implementación pendiente...");
-                        break;
-                    case "5":
-                        salir = true;
-                        break;
-                    default:
-                        Console.WriteLine("Opción inválida. Por favor, ingrese una opción válida (1-5).");
-                        break;
-                }
+                    switch (opcioninterna)
+                    {
+                        case "1":
+                            ProcesadorArchivoJSON.ModificarDivisas();
+                            break;
+                        case "2":
+                            Console.Clear();
+                            ProcesadorArchivoJSON.AgregarDivisa();
+                            break;
+                        case "3":
+                            Console.Clear();
+                            ProcesadorArchivoJSON.EliminarDivisa();
+                            break;
+                        case "4":
+                            break;
+                        default:
+                            Console.WriteLine("Opción inválida. Por favor, ingrese una opción válida (1-4).");
+                            break;
+                    }
+                    break;
+                case 4:
+                    ProcesadorArchivoJSON.MostrarHistorial();
+                    Console.WriteLine("Implementación pendiente...");
+                    break;
+                case 5:
+                    break;
+                default:
+                    Console.WriteLine("Opción inválida. Por favor, ingrese una opción válida (1-5).");
+                    break;
             }
             Console.WriteLine("Saliendo del programa...");
+
+            return this.ComprobarValorPedidoCorrecto(result, 1, 5) ? result : -1;
+
         }
 
         private bool ComprobarValorPedidoCorrecto(int AComprobar, int min, int max)
@@ -101,7 +106,8 @@ namespace ConvrsorDeMonedas_LevelUp
         }
         private void MostrarDivisas()
         {
-            //procesador.MostrarListadoDivisas(procesadorAPI.RecogerMonedasDesdeApi());
+            Console.WriteLine(ProcesadorAPIMonedas.RecogerListaDivisas());
         }
     }
+
 }

@@ -3,11 +3,11 @@
 namespace Negocio
 {
     
-    internal class ProcesadorArchivoJSON
+    public static class ProcesadorArchivoJSON
     {
-        string rutaArchivoJSON = Path.Combine("C:/archivos/inbox", "monedas.json");
-        string rutaFinalJSON = Path.Combine("C:/archivos/final", "monedas_final.json");
-        public void ProcesarArchivoJSON()
+        private static string  rutaArchivoJSON = Path.Combine("C:/archivos/inbox", "monedas.json");
+        private static string rutaFinalJSON = Path.Combine("C:/archivos/final", "monedas_final.json");
+        public static void ProcesarArchivoJSON()
         {
 
 
@@ -71,7 +71,7 @@ namespace Negocio
             }
         }
 
-        public void ModificarDivisas()
+        public static void ModificarDivisas()
         {
 
             string json = File.ReadAllText(rutaFinalJSON);
@@ -110,7 +110,7 @@ namespace Negocio
             GuardarDivisas(divisas);
         }
 
-        public void AgregarDivisa()
+        public static void AgregarDivisa()
         {
             string json = File.ReadAllText(rutaFinalJSON);
             List<Divisa> divisas = JsonConvert.DeserializeObject<List<Divisa>>(json);
@@ -140,7 +140,7 @@ namespace Negocio
             GuardarDivisas(divisas);
         }
 
-        public void EliminarDivisa()
+        public static void EliminarDivisa()
         {
             string json = File.ReadAllText(rutaFinalJSON);
             List<Divisa> divisas = JsonConvert.DeserializeObject<List<Divisa>>(json);
@@ -173,7 +173,9 @@ namespace Negocio
             GuardarDivisas(divisas);
         }
 
-        private void GuardarDivisas(List<Divisa> divisas)
+        
+
+        private static void GuardarDivisas(List<Divisa> divisas)
         {
             string rutaArchivoFinal = Path.Combine("C:/archivos/final", "monedas_final.json");
             string json = JsonConvert.SerializeObject(divisas, Formatting.Indented);
@@ -220,6 +222,10 @@ namespace Negocio
                     Console.WriteLine("Opción inválida. Por favor, ingrese una opción válida (1-2).");
                 }
             }
+        }
+        public static void MostrarHistorial()
+        {
+
         }
     }
 }

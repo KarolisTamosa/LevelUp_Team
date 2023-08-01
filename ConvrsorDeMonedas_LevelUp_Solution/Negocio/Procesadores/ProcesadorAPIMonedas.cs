@@ -3,7 +3,7 @@ using Datos;
 
 namespace Negocio
 {
-    internal static class ProcesadorAPIMonedas
+    public static class ProcesadorAPIMonedas
     {
         private static List<Divisa> listaDivisa = new List<Divisa>();
         private static List<Divisa> ImportarDivisasDesdeApi()
@@ -17,9 +17,10 @@ namespace Negocio
             }).ToList();
         }
 
-        internal static List<Divisa> RecogerListaDivisas()
+        public static List<Divisa> RecogerListaDivisas()
         {
             return listaDivisa;
         }
+
     }
 }
