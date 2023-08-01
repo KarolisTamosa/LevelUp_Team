@@ -6,9 +6,7 @@ using System.Threading.Tasks;
 
 namespace Negocio
 {
-    internal class Moneda
+    public class Controller
     {
-        public string Nombre { get; set; }
-        public decimal ValorRespectoDolar { get; set; }
     }
 }

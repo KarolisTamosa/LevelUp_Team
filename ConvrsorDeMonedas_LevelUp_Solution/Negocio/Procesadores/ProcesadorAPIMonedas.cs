@@ -1,16 +1,12 @@
-﻿using Negocio;
+﻿
 using Datos;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Negocio
 {
-    public class ProcesadorAPIMonedas
+    internal static class ProcesadorAPIMonedas
     {
-        public List<Divisa> RecogerMonedasDesdeApi()
+        private static List<Divisa> listaDivisa = new List<Divisa>();
+        private static List<Divisa> ImportarDivisasDesdeApi()
         {
             ResultadoApiMonedas resultadoApiMonedas = Monedas.ImportarMonedasDesdeApi();
 
@@ -19,6 +15,11 @@ namespace Negocio
                 Nombre = m.Key,
                 ValorEnDolares = m.Value
             }).ToList();
-        } 
+        }
+
+        internal static List<Divisa> RecogerListaDivisas()
+        {
+            return listaDivisa;
+        }
     }
 }
