@@ -1,4 +1,5 @@
 ﻿
+using ConversorDeMoneda.Negocio;
 using Entidades;
 
 namespace ConversorDeMoneda
@@ -16,7 +17,7 @@ namespace ConversorDeMoneda
         public static void MeterMoneda(double valor, string tipo)
         {
             monedas.Add(new Moneda(ultimoID, valor, tipo));
-            ultimoID+=1;
+            ultimoID += 1;
         }
         public static double ConvertirMoneda(int tipoMonedaOrigen, int tipoMonedaDestino, double dineroAConvertir)
         {
@@ -24,10 +25,39 @@ namespace ConversorDeMoneda
             Moneda moneda2 = BuscarMonedaPorTipo(tipoMonedaDestino);
 
             var factor = (moneda2.Valor / moneda1.Valor);
-            return  factor *  dineroAConvertir;
 
-            
+            //guardar en historial
+            return factor * dineroAConvertir;
+
+
         }
+
+        public static double ObtenerFactor(Divisa moneda1, Divisa moneda2)
+        {
+            return moneda2.ValorEnDolares / moneda1.ValorEnDolares;
+        }
+        public static void GuardarEnHistorial(Divisa moneda1, Divisa moneda2, double importe, double resultado)
+        {
+            //ruta historial
+            //c:
+            //string rutaHistorial = Path.Combine("C:/archivos/historial", "historial.json");
+            //string carpetaHistorial = @"C:/archivos/inbox";
+
+            //string rutaHistorial = "historial.json";
+            var registro = new HistorialMonedasPorUsuario()
+            {
+                IdUsuario = 1,
+                MonedaOrigen = moneda1,
+                MonedaDestino = moneda2,
+                Importe = importe,
+                FactorCambio = ObtenerFactor(moneda1, moneda2),
+                FechaConversion = DateTime.Now,
+                Resultado = resultado
+            };
+            Program.Historial.Add(registro);
+        }
+
+        
 
         private static Moneda BuscarMonedaPorTipo(int tipoMoneda)
         {
