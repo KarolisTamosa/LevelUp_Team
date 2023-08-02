@@ -78,7 +78,7 @@ namespace Presentacion
                             EliminarDivisa();
                             break;
                         case "4":
-                            MostrarHistorial();
+                            
                             
                             break;
                         default:
@@ -87,8 +87,7 @@ namespace Presentacion
                     }
                     break;
                 case 4:
-                    ProcesadorArchivoJSON.MostrarHistorial();
-                    Console.WriteLine("Implementación pendiente...");
+                    MostrarHistorial();
                     break;
                 case 5:
                     break;
@@ -436,16 +435,38 @@ namespace Presentacion
 
         public void MostrarHistorial()
         {
+            Console.Clear();
             if (Historial.Count == 0)
             {
                 Console.WriteLine("No existen registros en el historial");
+                Console.ReadLine();
                 return;
             }
             foreach(var registro in Historial)
             {
                 Console.WriteLine(registro.ToString());
             }
-            Console.ReadLine();
+
+            Console.WriteLine("         ╔════════════════════════════╗      ");
+            Console.WriteLine("         ║   1. Volver atrás          ║      ");
+            Console.WriteLine("         ║   2. Salir                 ║      ");
+            Console.WriteLine("         ╚════════════════════════════╝      ");
+            Console.Write("                  Ingrese una opción:              ");
+            string opcionListado = Console.ReadLine();
+
+            if (opcionListado == "1")
+            {
+                MenuPrincipal();
+            }
+            else if (opcionListado == "2")
+            {
+                Console.WriteLine("Saliendo del programa...");
+                Environment.Exit(0);
+            }
+            else
+            {
+                Console.WriteLine("Opción inválida. Por favor, ingrese una opción válida (1-2).");
+            }
         }
     }
 }
