@@ -1,4 +1,5 @@
 ﻿using Negocio;
+using Negocio.Entidades;
 using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.Runtime.CompilerServices;
@@ -7,16 +8,25 @@ namespace Presentacion
 {
     public class Program
     {
-
+        public static List<HistorialMonedasPorUsuario> Historial;
         public Program()
         {
-
+            VerificarHistorialVacio();
             Controller.err.PropertyChanged += MyClass_PropertyChanged;
             Controller.CrearCarpetas();
             ProcesadorArchivoJSON.CrearJsonConListaDivisa();
             ProcesadorArchivoJSON.ProcesarArchivoJSON();
 
         }
+
+        private void VerificarHistorialVacio()
+        {
+            if (Historial == null)
+            {
+                Historial = new List<HistorialMonedasPorUsuario>();
+            }
+        }
+
         static void Main(string[] args)
         {
             Program program = new();
@@ -67,6 +77,8 @@ namespace Presentacion
                             EliminarDivisa();
                             break;
                         case "4":
+                            MostrarHistorial();
+                            
                             break;
                         default:
                             Console.WriteLine("Opción inválida. Por favor, ingrese una opción válida (1-4).");
@@ -390,11 +402,25 @@ namespace Presentacion
                     }
                 } while (!comprobarImporte);
 
-                double resultado = conversor.Convertir(nombreEntrada, nombreSalida, importe, divisas);
+                double resultado = conversor.Convertir(nombreEntrada, nombreSalida, importe, divisas, Historial);
                 Console.WriteLine(resultado);
                 Console.ReadLine();
             }
+
+        }
+
+        public void MostrarHistorial()
+        {
+            if (Historial.Count == 0)
+            {
+                Console.WriteLine("No existen registros en el historial");
+                return;
+            }
+            foreach(var registro in Historial)
+            {
+                Console.WriteLine(registro.ToString());
+            }
+            Console.ReadLine();
         }
     }
 }
- 
