@@ -12,9 +12,12 @@ namespace Negocio
 
         public static void CrearJsonConListaDivisa()
         {
-            ResultadoApiMonedas listaDivisas = Monedas.ImportarMonedasDesdeApi();
+            if(!File.Exists(rutaFinalJSON))
+            {
+                ResultadoApiMonedas listaDivisas = Monedas.ImportarMonedasDesdeApi();
+                ArchivosJSON.CrearArchivoJsonPorApi(listaDivisas);
+            }
 
-            ArchivosJSON.CrearArchivoJsonPorApi(listaDivisas);
 
         }
         public static void ProcesarArchivoJSON()
@@ -207,43 +210,7 @@ namespace Negocio
 
         public static void MostrarListadoDivisas(List<Divisa> divisas)
         {
-            while (true)
-            {
-                Console.Clear();
-                Console.WriteLine("╔═══════════════════════════════════════════╗");
-                Console.WriteLine("║          Listado de Divisas               ║");
-                Console.WriteLine("╠═══════════════════════════════════════════╣");
-                Console.WriteLine("║   Nombre            │ Valor en Dólares    ║");
-                Console.WriteLine("╠═══════════════════════════════════════════╣");
-
-                foreach (Divisa divisa in divisas)
-                {
-                    Console.WriteLine($"║   {divisa.Nombre,-18}│ {divisa.ValorEnDolares,15:N4}     ║");
-                }
-
-                Console.WriteLine("╚═══════════════════════════════════════════╝");
-
-                Console.WriteLine("         ╔════════════════════════════╗      ");
-                Console.WriteLine("         ║   1. Volver atrás          ║      ");
-                Console.WriteLine("         ║   2. Salir                 ║      ");
-                Console.WriteLine("         ╚════════════════════════════╝      ");
-                Console.Write("                  Ingrese una opción:              ");
-                string opcionListado = Console.ReadLine();
-
-                if (opcionListado == "1")
-                {
-                    break;
-                }
-                else if (opcionListado == "2")
-                {
-                    Console.WriteLine("Saliendo del programa...");
-                    Environment.Exit(0);
-                }
-                else
-                {
-                    Console.WriteLine("Opción inválida. Por favor, ingrese una opción válida (1-2).");
-                }
-            }
+            
         }
 
         public static List<Divisa> CogerDivisasDeJson()
