@@ -134,7 +134,7 @@ namespace Negocio
                 return;
             }
 
-            divisas.Add(new Divisa { Nombre = nuevoNombre, Codigo = nuevoCodigo, ValorEnDolares = nuevoValor });
+            divisas.Add(new Divisa { Nombre = nuevoNombre, Codigo = nuevoCodigo, ValorEnDolares = (decimal)nuevoValor });
             Console.WriteLine("Divisa agregada exitosamente.");
 
             GuardarDivisas(divisas);

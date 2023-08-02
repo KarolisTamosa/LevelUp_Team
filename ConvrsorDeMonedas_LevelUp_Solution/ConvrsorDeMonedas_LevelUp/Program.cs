@@ -14,8 +14,6 @@ namespace ConvrsorDeMonedas_LevelUp
         private int MenuPrincipal()
         {
             int opcionMenu = 0;
-
-
             do
             {
                 Console.Clear();
