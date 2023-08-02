@@ -5,7 +5,7 @@
         public Conversor() { }
         public bool ComprobarNombre(string nombreEntrada, List<Divisa> lista)
         {
-            return lista.Exists(objeto => objeto.Nombre == nombreEntrada);
+            return lista.Exists(objeto => objeto.Nombre.ToUpper() == nombreEntrada);
 
         }
         public bool ComprobarImporte(double importe)
