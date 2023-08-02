@@ -32,5 +32,16 @@ namespace Negocio
             }).ToList();
         }
 
+        public static ResultadoApiMonedas CambiarAJsonApiMonedas(List<Divisa> divisas)
+        {
+
+            ResultadoApiMonedas resultApiMonedas = ProcesadorArchivoJSON.CogerResultadoApiMonedasDeJson();
+
+            resultApiMonedas.Conversion_Rates = divisas.ToDictionary(d => d.Nombre, d => d.ValorEnDolares);
+
+            return resultApiMonedas;
+        }
+
+
     }
 }

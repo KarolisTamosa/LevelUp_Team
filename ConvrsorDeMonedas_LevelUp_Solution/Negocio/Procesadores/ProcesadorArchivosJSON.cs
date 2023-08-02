@@ -26,7 +26,7 @@ namespace Negocio
             {
                 try
                 {
-                    List<Divisa> divisas = CogerDivisasDeJson();
+                    ResultadoApiMonedas divisas = CogerResultadoApiMonedasDeJsonInbox();
 
 
                     Console.WriteLine("Contenido del archivo JSON procesado:");
@@ -43,7 +43,6 @@ namespace Negocio
 
                     File.Move(rutaArchivoProgreso, rutaArchivoFinal);
 
-                    MostrarListadoDivisas(divisas);
                 }
                 catch (JsonReaderException)
                 {
@@ -68,8 +67,7 @@ namespace Negocio
                 if (File.Exists(rutaFinalJSON))
                 {
                     string json = File.ReadAllText(rutaFinalJSON);
-                    List<Divisa> divisas = JsonConvert.DeserializeObject<List<Divisa>>(json);
-                    MostrarListadoDivisas(divisas);
+                    ResultadoApiMonedas divisas = JsonConvert.DeserializeObject<ResultadoApiMonedas>(json);
                 }
                 else
                 {
@@ -160,7 +158,7 @@ namespace Negocio
                 return;
             }
 
-            divisas.Add(new Divisa { Nombre = nuevoNombre, Codigo = nuevoCodigo, ValorEnDolares = (decimal)nuevoValor });
+            divisas.Add(new Divisa { Nombre = nuevoNombre, ValorEnDolares = (decimal)nuevoValor });
             Console.WriteLine("Divisa agregada exitosamente.");
 
             GuardarDivisas(divisas);
@@ -202,23 +200,55 @@ namespace Negocio
 
         private static void GuardarDivisas(List<Divisa> divisas)
         {
+
+            ResultadoApiMonedas resultadoApiMonedas = ProcesadorAPIMonedas.CambiarAJsonApiMonedas(divisas);
+
             string rutaArchivoFinal = Path.Combine("C:/archivos/final", "monedas_final.json");
-            string json = JsonConvert.SerializeObject(divisas, Formatting.Indented);
+            string json = JsonConvert.SerializeObject(resultadoApiMonedas, Formatting.Indented);
             File.WriteAllText(rutaArchivoFinal, json);
             Console.WriteLine("Cambios guardados en el archivo JSON.");
         }
 
-        public static void MostrarListadoDivisas(List<Divisa> divisas)
-        {
-            
-        }
-
         public static List<Divisa> CogerDivisasDeJson()
         {
-            string json = File.ReadAllText(rutaFinalJSON);
-            ResultadoApiMonedas resultadoApiMonedas = JsonConvert.DeserializeObject<ResultadoApiMonedas>(json);
+            ResultadoApiMonedas resultadoApiMonedas = CogerResultadoApiMonedasDeJson();
+
+
             return ProcesadorAPIMonedas.Cambiar(resultadoApiMonedas);
         }
+        public static ResultadoApiMonedas CogerResultadoApiMonedasDeJson()
+        {
+            ResultadoApiMonedas a = new();
+            try
+            {
+                string json = File.ReadAllText(rutaFinalJSON);
+                 a = JsonConvert.DeserializeObject<ResultadoApiMonedas>(json);
+            }
+            catch (Exception e)
+            {
+
+                Console.WriteLine(e.Message);
+            }
+  
+            return a;
+        }
+        public static ResultadoApiMonedas CogerResultadoApiMonedasDeJsonInbox()
+        {
+            ResultadoApiMonedas a = new();
+            try
+            {
+                string json = File.ReadAllText(rutaArchivoJSON);
+                a = JsonConvert.DeserializeObject<ResultadoApiMonedas>(json);
+            }
+            catch (Exception e)
+            {
+
+                Console.WriteLine(e.Message);
+            }
+
+            return a;
+        }
+
         public static void MostrarHistorial()
         {
 
