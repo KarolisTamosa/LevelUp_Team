@@ -1,5 +1,6 @@
 ﻿using Datos;
 using Newtonsoft.Json;
+using System.Reflection.Metadata.Ecma335;
 
 namespace Negocio
 {
@@ -22,8 +23,8 @@ namespace Negocio
             {
                 try
                 {
-                    string json = File.ReadAllText(rutaArchivoJSON);
-                    List<Divisa> divisas = JsonConvert.DeserializeObject<List<Divisa>>(json);
+                    List<Divisa> divisas = CogerDivisasDeJson();
+
 
                     Console.WriteLine("Contenido del archivo JSON procesado:");
 
@@ -83,9 +84,8 @@ namespace Negocio
 
             try
             {
-                string json = File.ReadAllText(rutaFinalJSON);
-                ResultadoApiMonedas resultadoApiMonedas = JsonConvert.DeserializeObject<ResultadoApiMonedas>(json);
-                List<Divisa> divisas = ProcesadorAPIMonedas.Cambiar(resultadoApiMonedas);
+                List<Divisa> divisas = CogerDivisasDeJson();
+
                 Console.Clear();
                 Console.WriteLine("╔═══════════════════════════════════════════╗");
                 Console.WriteLine("║          Listado de Divisas               ║");
@@ -135,8 +135,8 @@ namespace Negocio
 
         public static void AgregarDivisa()
         {
-            string json = File.ReadAllText(rutaFinalJSON);
-            List<Divisa> divisas = JsonConvert.DeserializeObject<List<Divisa>>(json);
+            List<Divisa> divisas = CogerDivisasDeJson();
+
             Console.WriteLine("╔════════════════════════════════════════════════════════╗");
             Console.WriteLine("║ Escribe el nombre de la nueva divisa que quieres añadir║");
             Console.WriteLine("╚════════════════════════════════════════════════════════╝");
@@ -165,8 +165,7 @@ namespace Negocio
 
         public static void EliminarDivisa()
         {
-            string json = File.ReadAllText(rutaFinalJSON);
-            List<Divisa> divisas = JsonConvert.DeserializeObject<List<Divisa>>(json);
+            List<Divisa> divisas = CogerDivisasDeJson();
             Console.Clear();
             Console.WriteLine("╔═══════════════════════════════════════════╗");
             Console.WriteLine("║          Listado de Divisas               ║");
@@ -245,6 +244,13 @@ namespace Negocio
                     Console.WriteLine("Opción inválida. Por favor, ingrese una opción válida (1-2).");
                 }
             }
+        }
+
+        public static List<Divisa> CogerDivisasDeJson()
+        {
+            string json = File.ReadAllText(rutaFinalJSON);
+            ResultadoApiMonedas resultadoApiMonedas = JsonConvert.DeserializeObject<ResultadoApiMonedas>(json);
+            return ProcesadorAPIMonedas.Cambiar(resultadoApiMonedas);
         }
         public static void MostrarHistorial()
         {
