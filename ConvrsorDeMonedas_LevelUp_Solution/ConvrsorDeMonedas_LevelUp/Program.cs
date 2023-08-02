@@ -61,11 +61,11 @@ namespace Presentacion
                             break;
                         case "2":
                             Console.Clear();
-                            ProcesadorArchivoJSON.AgregarDivisa();
+                            AgregarDivisa();
                             break;
                         case "3":
                             Console.Clear();
-                            ProcesadorArchivoJSON.EliminarDivisa();
+                            EliminarDivisa();
                             break;
                         case "4":
                             break;
@@ -125,11 +125,6 @@ namespace Presentacion
             int.TryParse(Console.ReadLine(), out result);
 
             return this.ComprobarValorPedidoCorrecto(result, 1, 5) ? result : -1;
-
-        }
-
-        private void asas()
-        {
 
         }
 
@@ -237,7 +232,7 @@ namespace Presentacion
                 Console.WriteLine("╚════════════════════════════════════════════════════╝");
                 string nombreDivisaModificar = Console.ReadLine();
 
-                Divisa divisaEncontrada = divisas.Find(divisa => divisa.Nombre == nombreDivisaModificar);
+                Divisa divisaEncontrada = divisas.Find(divisa => divisa.Nombre.ToUpper() == nombreDivisaModificar.ToUpper());
                 if (divisaEncontrada == null)
                 {
                     Console.WriteLine("No se encontró la divisa.");
@@ -263,7 +258,56 @@ namespace Presentacion
             }
         }
 
+        public static void AgregarDivisa()
+        {
+            List<Divisa> divisas = ProcesadorArchivoJSON.CogerDivisasDeJson();
 
+            Console.WriteLine("╔════════════════════════════════════════════════════════╗");
+            Console.WriteLine("║ Escribe el nombre de la nueva divisa que quieres añadir║");
+            Console.WriteLine("╚════════════════════════════════════════════════════════╝");
+            string nuevoNombre = Console.ReadLine();
+
+            Console.WriteLine("╔════════════════════════════════════════════════════════╗");
+            Console.WriteLine("║ Escribe el código de la nueva divisa que quieres añadir║");
+            Console.WriteLine("╚════════════════════════════════════════════════════════╝");
+            string nuevoCodigo = Console.ReadLine();
+
+            Console.WriteLine("╔═══════════════════════════════════════════════╗");
+            Console.WriteLine("║ Escribe el valor en dólares de la nueva divisa║");
+            Console.WriteLine("╚═══════════════════════════════════════════════╝");
+            double nuevoValor;
+            if (!double.TryParse(Console.ReadLine(), out nuevoValor))
+            {
+                Console.WriteLine("El valor ingresado no es válido.");
+                return;
+            }
+
+            divisas.Add(new Divisa { Nombre = nuevoNombre, ValorEnDolares = (decimal)nuevoValor });
+            Console.WriteLine("Divisa agregada exitosamente.");
+
+            ProcesadorArchivoJSON.GuardarDivisas(divisas);
+        }
+        private static void EliminarDivisa()
+        {
+            List<Divisa> divisas = ProcesadorArchivoJSON.CogerDivisasDeJson();
+            Console.Clear();
+            Console.WriteLine("╔═══════════════════════════════════════════╗");
+            Console.WriteLine("║          Listado de Divisas               ║");
+            Console.WriteLine("╠═══════════════════════════════════════════╣");
+            Console.WriteLine("║   Nombre            │ Valor en Dólares    ║");
+            Console.WriteLine("╠═══════════════════════════════════════════╣");
+
+            foreach (Divisa divisa in divisas)
+            {
+                Console.WriteLine($"║   {divisa.Nombre,-18}│ {divisa.ValorEnDolares,15:N4}     ║");
+            }
+
+            Console.WriteLine("╚═══════════════════════════════════════════╝");
+            Console.WriteLine("Escribe el nombre de la divisa que deseas eliminar:");
+            string nombreDivisaEliminar = Console.ReadLine();
+
+            ProcesadorArchivoJSON.EliminarDivisa(nombreDivisaEliminar);
+        }
 
     }
 

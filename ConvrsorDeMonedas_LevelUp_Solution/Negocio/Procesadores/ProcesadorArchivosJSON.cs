@@ -59,64 +59,21 @@ namespace Negocio
                 }
                 catch (Exception ex)
                 {
-                    Controller.err.MyStringProperty = $"Error general al leer o procesar el archivo JSON: {ex.Message}";
+                    Controller.err.NuevoError($"Error general al leer o procesar el archivo JSON: {ex.Message}");
                 }
             }
         }
 
        
 
-        public static void AgregarDivisa()
-        {
-            List<Divisa> divisas = CogerDivisasDeJson();
+       
 
-            Console.WriteLine("╔════════════════════════════════════════════════════════╗");
-            Console.WriteLine("║ Escribe el nombre de la nueva divisa que quieres añadir║");
-            Console.WriteLine("╚════════════════════════════════════════════════════════╝");
-            string nuevoNombre = Console.ReadLine();
-
-            Console.WriteLine("╔════════════════════════════════════════════════════════╗");
-            Console.WriteLine("║ Escribe el código de la nueva divisa que quieres añadir║");
-            Console.WriteLine("╚════════════════════════════════════════════════════════╝");
-            Controller.err.NuevoError("asd");
-            string nuevoCodigo = Console.ReadLine();
-
-            Console.WriteLine("╔═══════════════════════════════════════════════╗");
-            Console.WriteLine("║ Escribe el valor en dólares de la nueva divisa║");
-            Console.WriteLine("╚═══════════════════════════════════════════════╝");
-            double nuevoValor;
-            if (!double.TryParse(Console.ReadLine(), out nuevoValor))
-            {
-                Console.WriteLine("El valor ingresado no es válido.");
-                return;
-            }
-
-            divisas.Add(new Divisa { Nombre = nuevoNombre, ValorEnDolares = (decimal)nuevoValor });
-            Console.WriteLine("Divisa agregada exitosamente.");
-
-            GuardarDivisas(divisas);
-        }
-
-        public static void EliminarDivisa()
+        public static void EliminarDivisa(string nombreDivisaEliminar)
         {
             try
             {
-                List<Divisa> divisas = CogerDivisasDeJson();
-                Console.Clear();
-                Console.WriteLine("╔═══════════════════════════════════════════╗");
-                Console.WriteLine("║          Listado de Divisas               ║");
-                Console.WriteLine("╠═══════════════════════════════════════════╣");
-                Console.WriteLine("║   Nombre            │ Valor en Dólares    ║");
-                Console.WriteLine("╠═══════════════════════════════════════════╣");
+                List<Divisa> divisas = ProcesadorArchivoJSON.CogerDivisasDeJson();
 
-                foreach (Divisa divisa in divisas)
-                {
-                    Console.WriteLine($"║   {divisa.Nombre,-18}│ {divisa.ValorEnDolares,15:N4}     ║");
-                }
-
-                Console.WriteLine("╚═══════════════════════════════════════════╝");
-                Console.WriteLine("Escribe el nombre de la divisa que deseas eliminar:");
-                string nombreDivisaEliminar = Console.ReadLine();
 
                 Divisa divisaEncontrada = divisas.Find(divisa => divisa.Nombre == nombreDivisaEliminar);
                 if (divisaEncontrada == null)
@@ -133,7 +90,7 @@ namespace Negocio
             catch (Exception e)
             {
 
-                Controller.err.MyStringProperty = e.Message;
+               Controller.err.NuevoError(e.Message);
             }
             
         }
