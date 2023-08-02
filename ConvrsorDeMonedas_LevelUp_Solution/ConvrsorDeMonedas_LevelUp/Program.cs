@@ -5,54 +5,39 @@ namespace ConvrsorDeMonedas_LevelUp
 {
     public class Program
     {
+        public Program()
+        {
+            Controller.CrearCarpetas();
+            ProcesadorArchivoJSON.CrearJsonConListaDivisa();
+                
+
+        }
         static void Main(string[] args)
         {
             Program program = new();
-            int opcionMenuPrincipal = program.MenuPrincipal();
-            Console.WriteLine(opcionMenuPrincipal);
-        }
-        private int MenuPrincipal()
-        {
-            int opcionMenu = 0;
-
-
+            int opcionMenuPrincipal;
             do
             {
-                Console.Clear();
-                Console.WriteLine("                                                                          ");
-                Console.WriteLine("                                                                          ");
-                Console.WriteLine("░█████╗░░█████╗░███╗░░██╗██╗░░░██╗███████╗██████╗░░██████╗░█████╗░██████╗░");
-                Console.WriteLine("██╔══██╗██╔══██╗████╗░██║██║░░░██║██╔════╝██╔══██╗██╔════╝██╔══██╗██╔══██╗");
-                Console.WriteLine("██║░░╚═╝██║░░██║██╔██╗██║╚██╗░██╔╝█████╗░░██████╔╝╚█████╗░██║░░██║██████╔╝");
-                Console.WriteLine("██║░░██╗██║░░██║██║╚████║░╚████╔╝░██╔══╝░░██╔══██╗░╚═══██╗██║░░██║██╔══██╗");
-                Console.WriteLine("╚█████╔╝╚█████╔╝██║░╚███║░░╚██╔╝░░███████╗██║░░██║██████╔╝╚█████╔╝██║░░██║");
-                Console.WriteLine("░╚════╝░░╚════╝░╚═╝░░╚══╝░░░╚═╝░░░╚══════╝╚═╝░░╚═╝╚═════╝░░╚════╝░╚═╝░░╚═╝");
-                Console.WriteLine("                                                                          ");
-                Console.WriteLine("╔════════════════════════════════════════════════════════════════════════╗");
-                Console.WriteLine("║   1. Conversor de monedas                                              ║");
-                Console.WriteLine("║   2. Listado de divisas                                                ║");
-                Console.WriteLine("║   3. Editor de divisas                                                 ║");
-                Console.WriteLine("║   4. Historial de conversiones                                         ║");
-                Console.WriteLine("║   5. Salir                                                             ║");
-                Console.WriteLine("╚════════════════════════════════════════════════════════════════════════╝");
-                Console.WriteLine("                         Powered by LevelUp_Team                          ");
-                Console.WriteLine("                                                                          ");
-                Console.WriteLine("          Escribe el número de la opción que deseas realizar.             ");
-                string opcion = Console.ReadLine();
+                opcionMenuPrincipal = program.MenuPrincipal();
+                if (opcionMenuPrincipal != -1)
+                {
+                    program.EjecutarValorElegidoMenuPrincipal(opcionMenuPrincipal);
 
-                return opcionMenu;
-            } while (opcionMenu == -1);
+                }
+            } while (opcionMenuPrincipal != 5);
+            
         }
 
-        private int PedirNumeroOpcionMenuPrincipal()
+        private void EjecutarValorElegidoMenuPrincipal(int opcionMenuPrincipal)
         {
-            int result = -1;
-            int.TryParse(Console.ReadLine(), out result);
-            switch (result)
+            switch (opcionMenuPrincipal)
             {
                 case 1:
-
-                    ProcesadorArchivoJSON.ProcesarArchivoJSON();
+                    Console.WriteLine("TODO");
+                    Console.ReadLine();
+                    break;
+                case 2:
+                    MostrarDivisas();
                     break;
                 case 3:
                     Console.Clear();
@@ -95,9 +80,52 @@ namespace ConvrsorDeMonedas_LevelUp
                     break;
             }
             Console.WriteLine("Saliendo del programa...");
+        }
+
+        private int MenuPrincipal()
+        {
+            int opcionMenu = 0;
+
+            do
+            {
+                Console.Clear();
+                Console.WriteLine("                                                                          ");
+                Console.WriteLine("                                                                          ");
+                Console.WriteLine("░█████╗░░█████╗░███╗░░██╗██╗░░░██╗███████╗██████╗░░██████╗░█████╗░██████╗░");
+                Console.WriteLine("██╔══██╗██╔══██╗████╗░██║██║░░░██║██╔════╝██╔══██╗██╔════╝██╔══██╗██╔══██╗");
+                Console.WriteLine("██║░░╚═╝██║░░██║██╔██╗██║╚██╗░██╔╝█████╗░░██████╔╝╚█████╗░██║░░██║██████╔╝");
+                Console.WriteLine("██║░░██╗██║░░██║██║╚████║░╚████╔╝░██╔══╝░░██╔══██╗░╚═══██╗██║░░██║██╔══██╗");
+                Console.WriteLine("╚█████╔╝╚█████╔╝██║░╚███║░░╚██╔╝░░███████╗██║░░██║██████╔╝╚█████╔╝██║░░██║");
+                Console.WriteLine("░╚════╝░░╚════╝░╚═╝░░╚══╝░░░╚═╝░░░╚══════╝╚═╝░░╚═╝╚═════╝░░╚════╝░╚═╝░░╚═╝");
+                Console.WriteLine("                                                                          ");
+                Console.WriteLine("╔════════════════════════════════════════════════════════════════════════╗");
+                Console.WriteLine("║   1. Conversor de divsas                                               ║");
+                Console.WriteLine("║   2. Listado de divisas                                                ║");
+                Console.WriteLine("║   3. Editor de divisas                                                 ║");
+                Console.WriteLine("║   4. Historial de conversiones                                         ║");
+                Console.WriteLine("║   5. Salir                                                             ║");
+                Console.WriteLine("╚════════════════════════════════════════════════════════════════════════╝");
+                Console.WriteLine("                         Powered by LevelUp_Team                          ");
+                Console.WriteLine("                                                                          ");
+                Console.WriteLine("          Escribe el número de la opción que deseas realizar.             ");
+                opcionMenu = PedirNumeroOpcionMenuPrincipal();
+            } while (opcionMenu == -1);
+            return opcionMenu;
+
+        }
+
+        private int PedirNumeroOpcionMenuPrincipal()
+        {
+            int result = -1;
+            int.TryParse(Console.ReadLine(), out result);
 
             return this.ComprobarValorPedidoCorrecto(result, 1, 5) ? result : -1;
 
+        }
+
+        private void asas()
+        {
+            
         }
 
         private bool ComprobarValorPedidoCorrecto(int AComprobar, int min, int max)
@@ -106,7 +134,7 @@ namespace ConvrsorDeMonedas_LevelUp
         }
         private void MostrarDivisas()
         {
-            Console.WriteLine(ProcesadorAPIMonedas.RecogerListaDivisas());
+            ProcesadorArchivoJSON.MostrarListadoDivisas(ProcesadorAPIMonedas.RecogerListaDivisas());
         }
     }
 
