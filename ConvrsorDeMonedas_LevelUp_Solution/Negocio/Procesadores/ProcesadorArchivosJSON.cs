@@ -1,5 +1,6 @@
 ﻿using Datos;
 using Newtonsoft.Json;
+using System.Globalization;
 using System.Reflection.Metadata.Ecma335;
 
 namespace Negocio
@@ -22,11 +23,12 @@ namespace Negocio
         }
         public static void ProcesarArchivoJSON()
         {
+            
             if (File.Exists(rutaArchivoJSON))
             {
                 try
                 {
-                    List<Divisa> divisas = CogerDivisasDeJson();
+                    ResultadoApiMonedas divisas = CogerResultadoApiMonedasDeJsonInbox();
 
 
                     Console.WriteLine("Contenido del archivo JSON procesado:");
@@ -43,14 +45,11 @@ namespace Negocio
 
                     File.Move(rutaArchivoProgreso, rutaArchivoFinal);
 
-                    MostrarListadoDivisas(divisas);
                 }
-                catch (JsonReaderException)
+                catch (JsonReaderException e)
                 {
-                    Console.WriteLine("╔═══════════════════════════════════════════════════════════════════════════════════════════════════╗");
-                    Console.WriteLine("║ Error al leer o procesar el archivo JSON. El archivo será movido a la carpeta 'final' como '.err'.║");
-                    Console.WriteLine("╚═══════════════════════════════════════════════════════════════════════════════════════════════════╝");
-                    Console.ReadLine();
+                    Controller.err.MyStringProperty = e.Message;
+
 
                     string nombreArchivoError = $"monedas{DateTime.Now:yyyyMMdd_HHmmss}.err";
                     string rutaArchivoError = Path.Combine("C:/archivos/inbox", nombreArchivoError);
@@ -60,164 +59,98 @@ namespace Negocio
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"Error general al leer o procesar el archivo JSON: {ex.Message}");
+                    Controller.err.NuevoError($"Error general al leer o procesar el archivo JSON: {ex.Message}");
                 }
-            }
-            else
-            {
-                if (File.Exists(rutaFinalJSON))
-                {
-                    string json = File.ReadAllText(rutaFinalJSON);
-                    List<Divisa> divisas = JsonConvert.DeserializeObject<List<Divisa>>(json);
-                    MostrarListadoDivisas(divisas);
-                }
-                else
-                {
-                    Console.WriteLine("╔════════════════════════════════════════════════╗");
-                    Console.WriteLine("║ No tienes monedas para mostrar en este momento.║");
-                    Console.WriteLine("╚════════════════════════════════════════════════╝");
-                    Console.ReadLine();
-                }
-
             }
         }
 
-        public static void ModificarDivisas()
-        {
+       
 
+       
+
+        public static void EliminarDivisa(string nombreDivisaEliminar)
+        {
             try
             {
-                List<Divisa> divisas = CogerDivisasDeJson();
+                List<Divisa> divisas = ProcesadorArchivoJSON.CogerDivisasDeJson();
 
-                Console.Clear();
-                Console.WriteLine("╔═══════════════════════════════════════════╗");
-                Console.WriteLine("║          Listado de Divisas               ║");
-                Console.WriteLine("╠═══════════════════════════════════════════╣");
-                Console.WriteLine("║   Nombre            │ Valor en Dólares    ║");
-                Console.WriteLine("╠═══════════════════════════════════════════╣");
 
-                foreach (Divisa divisa in divisas)
-                {
-                    Console.WriteLine($"║   {divisa.Nombre,-18}│ {divisa.ValorEnDolares,15:N4}     ║");
-                }
-
-                Console.WriteLine("╚═══════════════════════════════════════════╝");
-                Console.WriteLine("╔════════════════════════════════════════════════════╗");
-                Console.WriteLine("║ Escribe el nombre de la divisa que deseas modificar║");
-                Console.WriteLine("╚════════════════════════════════════════════════════╝");
-                string nombreDivisaModificar = Console.ReadLine();
-
-                Divisa divisaEncontrada = divisas.Find(divisa => divisa.Nombre == nombreDivisaModificar);
+                Divisa divisaEncontrada = divisas.Find(divisa => divisa.Nombre == nombreDivisaEliminar);
                 if (divisaEncontrada == null)
                 {
                     Console.WriteLine("No se encontró la divisa.");
                     return;
                 }
-                Console.Clear();
-                Console.WriteLine("╔══════════════════════════╗");
-                Console.WriteLine("║ Escribe el nuevo nombre. ║");
-                Console.WriteLine("╚══════════════════════════╝");
-                string nuevoNombre = Console.ReadLine();
-                divisaEncontrada.Nombre = nuevoNombre;
-                Console.WriteLine("Nombre modificado exitosamente.");
+
+                divisas.Remove(divisaEncontrada);
+                Console.WriteLine("Divisa eliminada exitosamente.");
+
                 GuardarDivisas(divisas);
             }
-            catch (DirectoryNotFoundException)
+            catch (Exception e)
             {
-                Controller.CrearCarpetas();
+
+               Controller.err.NuevoError(e.Message);
             }
-            catch (FileNotFoundException)
-            {
-                ProcesarArchivoJSON();
-                ModificarDivisas();
-            }
-
-
-
-        }
-
-        public static void AgregarDivisa()
-        {
-            List<Divisa> divisas = CogerDivisasDeJson();
-
-            Console.WriteLine("╔════════════════════════════════════════════════════════╗");
-            Console.WriteLine("║ Escribe el nombre de la nueva divisa que quieres añadir║");
-            Console.WriteLine("╚════════════════════════════════════════════════════════╝");
-            string nuevoNombre = Console.ReadLine();
-
-            Console.WriteLine("╔════════════════════════════════════════════════════════╗");
-            Console.WriteLine("║ Escribe el código de la nueva divisa que quieres añadir║");
-            Console.WriteLine("╚════════════════════════════════════════════════════════╝");
-            string nuevoCodigo = Console.ReadLine();
-
-            Console.WriteLine("╔═══════════════════════════════════════════════╗");
-            Console.WriteLine("║ Escribe el valor en dólares de la nueva divisa║");
-            Console.WriteLine("╚═══════════════════════════════════════════════╝");
-            double nuevoValor;
-            if (!double.TryParse(Console.ReadLine(), out nuevoValor))
-            {
-                Console.WriteLine("El valor ingresado no es válido.");
-                return;
-            }
-
-            divisas.Add(new Divisa { Nombre = nuevoNombre, Codigo = nuevoCodigo, ValorEnDolares = (decimal)nuevoValor });
-            Console.WriteLine("Divisa agregada exitosamente.");
-
-            GuardarDivisas(divisas);
-        }
-
-        public static void EliminarDivisa()
-        {
-            List<Divisa> divisas = CogerDivisasDeJson();
-            Console.Clear();
-            Console.WriteLine("╔═══════════════════════════════════════════╗");
-            Console.WriteLine("║          Listado de Divisas               ║");
-            Console.WriteLine("╠═══════════════════════════════════════════╣");
-            Console.WriteLine("║   Nombre            │ Valor en Dólares    ║");
-            Console.WriteLine("╠═══════════════════════════════════════════╣");
-
-            foreach (Divisa divisa in divisas)
-            {
-                Console.WriteLine($"║   {divisa.Nombre,-18}│ {divisa.ValorEnDolares,15:N4}     ║");
-            }
-
-            Console.WriteLine("╚═══════════════════════════════════════════╝");
-            Console.WriteLine("Escribe el nombre de la divisa que deseas eliminar:");
-            string nombreDivisaEliminar = Console.ReadLine();
-
-            Divisa divisaEncontrada = divisas.Find(divisa => divisa.Nombre == nombreDivisaEliminar);
-            if (divisaEncontrada == null)
-            {
-                Console.WriteLine("No se encontró la divisa.");
-                return;
-            }
-
-            divisas.Remove(divisaEncontrada);
-            Console.WriteLine("Divisa eliminada exitosamente.");
-
-            GuardarDivisas(divisas);
+            
         }
 
         
 
-        private static void GuardarDivisas(List<Divisa> divisas)
+        public static void GuardarDivisas(List<Divisa> divisas)
         {
+
+            ResultadoApiMonedas resultadoApiMonedas = ProcesadorAPIMonedas.CambiarAJsonApiMonedas(divisas);
+
             string rutaArchivoFinal = Path.Combine("C:/archivos/final", "monedas_final.json");
-            string json = JsonConvert.SerializeObject(divisas, Formatting.Indented);
+            string json = JsonConvert.SerializeObject(resultadoApiMonedas, Formatting.Indented);
             File.WriteAllText(rutaArchivoFinal, json);
             Console.WriteLine("Cambios guardados en el archivo JSON.");
         }
 
-        public static void MostrarListadoDivisas(List<Divisa> divisas)
-        {
-            
-        }
-
         public static List<Divisa> CogerDivisasDeJson()
         {
-            string json = File.ReadAllText(rutaArchivoJSON);
-            ResultadoApiMonedas resultadoApiMonedas = JsonConvert.DeserializeObject<ResultadoApiMonedas>(json);
+            ResultadoApiMonedas resultadoApiMonedas = CogerResultadoApiMonedasDeJson();
+
+
             return ProcesadorAPIMonedas.Cambiar(resultadoApiMonedas);
+        }
+        public static ResultadoApiMonedas CogerResultadoApiMonedasDeJson()
+        {
+            ResultadoApiMonedas a = new();
+            try
+            {
+                string json = File.ReadAllText(rutaFinalJSON);
+                 a = JsonConvert.DeserializeObject<ResultadoApiMonedas>(json);
+            }
+            catch (Exception e)
+            {
+
+                Controller.err.MyStringProperty = e.Message;
+            }
+  
+            return a;
+        }
+        public static ResultadoApiMonedas CogerResultadoApiMonedasDeJsonInbox()
+        {
+            ResultadoApiMonedas a = new();
+            try
+            {
+                string json = File.ReadAllText(rutaArchivoJSON);
+                a = JsonConvert.DeserializeObject<ResultadoApiMonedas>(json);
+            }
+            catch (Exception e)
+            {
+
+                Controller.err.MyStringProperty = e.Message;
+            }
+
+            return a;
+        }
+
+        public static void MeterErrorEnJson(string err)
+        {
+
         }
         public static void MostrarHistorial()
         {

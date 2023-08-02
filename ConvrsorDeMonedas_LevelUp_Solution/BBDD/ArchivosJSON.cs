@@ -15,11 +15,10 @@ namespace Datos
         public static void CrearArchivoJsonPorApi(ResultadoApiMonedas resultadoApi)
         {
             string json = JsonConvert.SerializeObject(resultadoApi, Formatting.Indented);
-            if (!File.Exists(rutaArchivoJSON))
+            using (StreamWriter sw = new StreamWriter(rutaArchivoJSON)) 
             {
-                File.Create(rutaArchivoJSON);//.Close();
+                sw.Write(json);
             }
-            File.WriteAllText(rutaArchivoJSON, json);
         }
     }
 }

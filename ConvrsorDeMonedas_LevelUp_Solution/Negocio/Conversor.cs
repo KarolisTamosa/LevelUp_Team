@@ -1,39 +1,32 @@
-﻿//namespace Negocio
-//{
-//    public class Conversor
-//    {
-//        private static int ultimoID = 0;
-//        private static List<Moneda> monedas = new List<Moneda>();
-//        public static void CrearMonedas()
-//        {
-//            MeterMoneda(1.00, "Euros");
-//            MeterMoneda(1.12, "Dolares");
-//            MeterMoneda(0.87, "Libras");
-//        }
-//        public static void MeterMoneda(double valor, string tipo)
-//        {
-//            monedas.Add(new Moneda(ultimoID, valor, tipo));
-//            ultimoID += 1;
-//        }
-//        public static double ConvertirMoneda(int tipoMonedaOrigen, int tipoMonedaDestino, double dineroAConvertir)
-//        {
-//            Moneda moneda1 = BuscarMonedaPorTipo(tipoMonedaOrigen);
-//            Moneda moneda2 = BuscarMonedaPorTipo(tipoMonedaDestino);
+﻿using Datos;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-//            return (moneda2.Valor / moneda1.Valor) * dineroAConvertir;
+namespace Negocio
+{
+    public class Conversor
+    {
+        public Conversor() { }
+        public bool ComprobarNombre(string nombreEntrada, List<Divisa> lista)
+        {
+            return lista.Exists(objeto => objeto.Nombre == nombreEntrada);
 
+        }
+        public bool ComprobarImporte(double importe)
+        {
+            return importe >= 0;
+        }
 
-//        }
-
-//        private static Moneda BuscarMonedaPorTipo(int tipoMoneda)
-//        {
-//            return monedas.Find(m => m.Id.Equals(tipoMoneda));
-//        }
-//        public static List<String> ObtenerToStringDeMonedas()
-//        {
-//            return (from moneda in monedas.Distinct()
-//                    select moneda.ToString()).ToList(); ;
-
-//        }
-//    }
-//}
+        public double Convertir(string nombreEntrada, string nombreSalida, double importe,List<Divisa> lista)
+        {
+            Divisa origen = lista.Where(moneda => moneda.Nombre.ToUpper().Equals(nombreEntrada)).FirstOrDefault();
+            Divisa destino = lista.Where(moneda => moneda.Nombre.ToUpper().Equals(nombreSalida)).FirstOrDefault();
+            var factor = (destino.ValorEnDolares/ origen.ValorEnDolares);
+            var resultado = (double)factor * importe;
+            return resultado;
+        }
+    }
+}
