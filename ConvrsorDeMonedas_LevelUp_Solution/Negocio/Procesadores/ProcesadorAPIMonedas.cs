@@ -19,7 +19,17 @@ namespace Negocio
 
         public static List<Divisa> RecogerListaDivisas()
         {
+            listaDivisa = ImportarDivisasDesdeApi();
             return listaDivisa;
+        }
+
+        public static List<Divisa> Cambiar(ResultadoApiMonedas resultadoApiMonedas)
+        {
+            return resultadoApiMonedas.Conversion_Rates.Select(m => new Divisa()
+            {
+                Nombre = m.Key,
+                ValorEnDolares = m.Value
+            }).ToList();
         }
 
     }
