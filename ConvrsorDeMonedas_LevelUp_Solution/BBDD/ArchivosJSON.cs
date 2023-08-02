@@ -17,7 +17,7 @@ namespace Datos
             string json = JsonConvert.SerializeObject(resultadoApi, Formatting.Indented);
             if (!File.Exists(rutaArchivoJSON))
             {
-                File.Create(rutaArchivoJSON);
+                File.Create(rutaArchivoJSON);//.Close();
             }
             File.WriteAllText(rutaArchivoJSON, json);
         }

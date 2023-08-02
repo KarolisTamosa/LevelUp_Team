@@ -1,12 +1,15 @@
-﻿using Entidades;
+﻿using ConversorDeMoneda.Negocio;
+using Entidades;
 
 namespace ConversorDeMoneda
 {
-    internal class Program
+    public class Program
     {
+        public static List<HistorialMonedasPorUsuario> Historial;
         static void Main(string[] args)
         {
             {
+                VerificarHistorialVacio();
                 Console.WriteLine("                                                                          ");
                 Console.WriteLine("                                                                          ");
                 Console.WriteLine("░█████╗░░█████╗░███╗░░██╗██╗░░░██╗███████╗██████╗░░██████╗░█████╗░██████╗░");
@@ -38,8 +41,23 @@ namespace ConversorDeMoneda
 
             Console.WriteLine(Controlador.ConvertirMoneda(monedaOrigen, monedaDestino, dineroAConvertir));
 
-
+            MostrarHistorial();
          }
+
+        private static void MostrarHistorial()
+        {
+            foreach(var registro in Historial) { 
+                Console.WriteLine(registro.ToString());
+            }
+        }
+
+        private static void VerificarHistorialVacio()
+        {
+            if (Historial == null)
+            {
+                Historial = new List<HistorialMonedasPorUsuario>();
+            }
+        }
 
         private double PedirDineroAConvertir()
         {

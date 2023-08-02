@@ -61,6 +61,7 @@ namespace ConvrsorDeMonedas_LevelUp
                         case "3":
                             Console.Clear();
                             ProcesadorArchivoJSON.EliminarDivisa();
+                            Console.ReadLine();
                             break;
                         case "4":
                             break;

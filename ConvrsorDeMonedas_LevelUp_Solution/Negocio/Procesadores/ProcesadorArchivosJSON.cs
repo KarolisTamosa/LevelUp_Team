@@ -215,7 +215,7 @@ namespace Negocio
 
         public static List<Divisa> CogerDivisasDeJson()
         {
-            string json = File.ReadAllText(rutaFinalJSON);
+            string json = File.ReadAllText(rutaArchivoJSON);
             ResultadoApiMonedas resultadoApiMonedas = JsonConvert.DeserializeObject<ResultadoApiMonedas>(json);
             return ProcesadorAPIMonedas.Cambiar(resultadoApiMonedas);
         }
