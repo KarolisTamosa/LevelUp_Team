@@ -174,6 +174,7 @@ namespace ConvrsorDeMonedas_LevelUp
         }
         private void MostrarDivisasConversor()
         {
+            Conversor conversor = new Conversor();  
             List<Divisa> divisas = ProcesadorArchivoJSON.CogerDivisasDeJson();
             while (true)
             {
@@ -191,33 +192,16 @@ namespace ConvrsorDeMonedas_LevelUp
 
                 Console.WriteLine("╚═══════════════════════════════════════════╝");
 
-                Console.WriteLine("         ╔════════════════════════════╗      ");
-                Console.WriteLine("         ║   1. Volver atrás          ║      ");
-                Console.WriteLine("         ║   2. Salir                 ║      ");
-                Console.WriteLine("         ╚════════════════════════════╝      ");
-                Console.Write("                  Ingrese una opción:              ");
-                string opcionListado = Console.ReadLine();
-
-                if (opcionListado == "1")
-                {
-                    break;
-                }
-                else if (opcionListado == "2")
-                {
-                    Console.WriteLine("Saliendo del programa...");
-                    Environment.Exit(0);
-                }
-                else
-                {
-                    Console.WriteLine("Opción inválida. Por favor, ingrese una opción válida (1-2).");
-                }
+                string nombreEntrada;
                 bool comprobarNombre;
                 do
                 {
-                    Console.WriteLine("Inserte el nombre de la divisa de entrada:");
-                    string nombreEntrada = Console.ReadLine();
+                    Console.WriteLine("╔════════════════════════════════════════════════════════════════════════╗");
+                    Console.WriteLine("║                   Inserte el nombre de la divisa de entrada:           ║");
+                    Console.WriteLine("╚════════════════════════════════════════════════════════════════════════╝");
+                    nombreEntrada = Console.ReadLine();
 
-                    comprobarNombre = ComprobarNombre(nombreEntrada, divisas);
+                    comprobarNombre = conversor.ComprobarNombre(nombreEntrada, divisas);
 
                     if (comprobarNombre)
                     {
@@ -229,13 +213,15 @@ namespace ConvrsorDeMonedas_LevelUp
                     }
                 } while (!comprobarNombre);
                 comprobarNombre = false;
-                
+                string nombreSalida;
                 do
                 {
-                    Console.WriteLine("Inserte el nombre de la divisa de entrada:");
-                    string nombreEntrada = Console.ReadLine();
+                    Console.WriteLine("╔════════════════════════════════════════════════════════════════════════╗");
+                    Console.WriteLine("║                   Inserte el nombre de la divisa de salida:            ║");
+                    Console.WriteLine("╚════════════════════════════════════════════════════════════════════════╝");
+                    nombreSalida = Console.ReadLine();
 
-                    comprobarNombre = ComprobarNombre(nombreEntrada, divisas);
+                    comprobarNombre = conversor.ComprobarNombre(nombreSalida, divisas);
 
                     if (comprobarNombre)
                     {
@@ -247,12 +233,15 @@ namespace ConvrsorDeMonedas_LevelUp
                     }
                 } while (!comprobarNombre);
                 bool comprobarImporte;
+                double importe;
                 do
                 {
-                    Console.WriteLine("Seleccione el importe a convertir:");
-                    double importe;
+                    Console.WriteLine("╔════════════════════════════════════════════════════════════════════════╗");
+                    Console.WriteLine("║                      Seleccione el importe a convertir:                ║");
+                    Console.WriteLine("╚════════════════════════════════════════════════════════════════════════╝");
+                    
                     double.TryParse(Console.ReadLine(), out importe);
-                    comprobarImporte = ComprobarImporte(importe);
+                    comprobarImporte = conversor.ComprobarImporte(importe);
 
                     if (comprobarImporte)
                     {
@@ -260,29 +249,13 @@ namespace ConvrsorDeMonedas_LevelUp
                     }
                     else
                     {
-                        Console.WriteLine("Inserte un nombre de divisa valido");
+                        Console.WriteLine("Inserte un importe valido");
                     }
                 } while (!comprobarImporte);
 
-
-            }
-        }
-        private bool ComprobarNombre(string nombreEntrada,List<Divisa> lista)
-        {
-            return lista.Exists(objeto => objeto.Nombre == nombreEntrada);
-
-        }
-        private bool ComprobarImporte(double importe)
-        {
-           
-            if (importe >= 0)
-            {
-                return true;
-
-            }
-            else
-            {
-                return false;
+                double resultado = conversor.Convertir(nombreEntrada, nombreSalida, importe,divisas);
+                Console.WriteLine (resultado);
+                Console.ReadLine();
             }
         }
     }
