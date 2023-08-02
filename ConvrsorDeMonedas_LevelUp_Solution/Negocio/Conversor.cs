@@ -22,8 +22,8 @@ namespace Negocio
 
         public double Convertir(string nombreEntrada, string nombreSalida, double importe,List<Divisa> lista)
         {
-            Divisa origen = lista.Where(moneda => moneda.Nombre.ToUpper().Equals(nombreEntrada)).FirstOrDefault();
-            Divisa destino = lista.Where(moneda => moneda.Nombre.ToUpper().Equals(nombreSalida)).FirstOrDefault();
+            Divisa origen = lista.Where(moneda => moneda.Nombre.ToUpper().Equals(nombreEntrada.ToUpper())).FirstOrDefault();
+            Divisa destino = lista.Where(moneda => moneda.Nombre.ToUpper().Equals(nombreSalida.ToUpper())).FirstOrDefault();
             var factor = (destino.ValorEnDolares/ origen.ValorEnDolares);
             var resultado = (double)factor * importe;
             return resultado;

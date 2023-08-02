@@ -1,4 +1,5 @@
-﻿using Negocio;
+﻿using Microsoft.VisualBasic;
+using Negocio;
 using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.Runtime.CompilerServices;
@@ -38,7 +39,7 @@ namespace Presentacion
             switch (opcionMenuPrincipal)
             {
                 case 1:
-                    MostrarDivisasConversor();
+                    Conversor();
                     break;
                 case 2:
                     MostrarDivisas();
@@ -309,7 +310,7 @@ namespace Presentacion
         }
 
 
-        public static void MostrarDivisasConversor()
+        public static void Conversor()
         {
             Conversor conversor = new Conversor();
             List<Divisa> divisas = ProcesadorArchivoJSON.CogerDivisasDeJson();
@@ -338,7 +339,7 @@ namespace Presentacion
                     Console.WriteLine("╚════════════════════════════════════════════════════════════════════════╝");
                     nombreEntrada = Console.ReadLine();
 
-                    comprobarNombre = conversor.ComprobarNombre(nombreEntrada, divisas);
+                    comprobarNombre = conversor.ComprobarNombre(nombreEntrada.ToUpper(), divisas);
 
                     if (comprobarNombre)
                     {
@@ -353,12 +354,12 @@ namespace Presentacion
                 string nombreSalida;
                 do
                 {
-                    Console.WriteLine("╔════════════════════════════════════════════════════════════════════════╗");
-                    Console.WriteLine("║                   Inserte el nombre de la divisa de salida:            ║");
-                    Console.WriteLine("╚════════════════════════════════════════════════════════════════════════╝");
+                    Console.WriteLine("╔═════════════════════════════════════════════════════╗");
+                    Console.WriteLine("║      Inserte el nombre de la divisa de salida:      ║");
+                    Console.WriteLine("╚═════════════════════════════════════════════════════╝");
                     nombreSalida = Console.ReadLine();
 
-                    comprobarNombre = conversor.ComprobarNombre(nombreSalida, divisas);
+                    comprobarNombre = conversor.ComprobarNombre(nombreSalida.ToUpper(), divisas);
 
                     if (comprobarNombre)
                     {
@@ -373,9 +374,9 @@ namespace Presentacion
                 double importe;
                 do
                 {
-                    Console.WriteLine("╔════════════════════════════════════════════════════════════════════════╗");
-                    Console.WriteLine("║                      Seleccione el importe a convertir:                ║");
-                    Console.WriteLine("╚════════════════════════════════════════════════════════════════════════╝");
+                    Console.WriteLine("╔══════════════════════════════════════════════╗");
+                    Console.WriteLine("║      Seleccione el importe a convertir:      ║");
+                    Console.WriteLine("╚══════════════════════════════════════════════╝");
 
                     double.TryParse(Console.ReadLine(), out importe);
                     comprobarImporte = conversor.ComprobarImporte(importe);
@@ -391,8 +392,32 @@ namespace Presentacion
                 } while (!comprobarImporte);
 
                 double resultado = conversor.Convertir(nombreEntrada, nombreSalida, importe, divisas);
-                Console.WriteLine(resultado);
-                Console.ReadLine();
+                Console.Clear();
+                Console.WriteLine("═════════════════════════════════════════════════════════════════════════════════════════════════════");
+                Console.WriteLine("  EL resultado de la conversión es: " + resultado + " " + nombreSalida.ToUpper()+"                             ");
+                Console.WriteLine("  La divisa de entrada ha sido: " + nombreEntrada.ToUpper() + "                                                ");
+                Console.WriteLine("═════════════════════════════════════════════════════════════════════════════════════════════════════");
+
+                Console.WriteLine("         ╔════════════════════════════╗      ");
+                Console.WriteLine("         ║   1. Volver atrás          ║      ");
+                Console.WriteLine("         ║   2. Salir                 ║      ");
+                Console.WriteLine("         ╚════════════════════════════╝      ");
+                Console.Write("                  Ingrese una opción:              ");
+                string opcionListado = Console.ReadLine();
+
+                if (opcionListado == "1")
+                {
+                    break;
+                }
+                else if (opcionListado == "2")
+                {
+                    Console.WriteLine("Saliendo del programa...");
+                    Environment.Exit(0);
+                }
+                else
+                {
+                    Console.WriteLine("Opción inválida. Por favor, ingrese una opción válida (1-2).");
+                }
             }
         }
     }
