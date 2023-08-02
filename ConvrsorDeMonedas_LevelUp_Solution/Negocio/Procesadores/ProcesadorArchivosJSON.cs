@@ -8,12 +8,10 @@ namespace Negocio
     
     public static class ProcesadorArchivoJSON
     {
-        private static string  rutaArchivoJSON = Path.Combine("C:/archivos/inbox", "monedas.json");
-        private static string rutaFinalJSON = Path.Combine("C:/archivos/final", "monedas_final.json");
 
         public static void CrearJsonConListaDivisa()
         {
-            if(!File.Exists(rutaFinalJSON))
+            if(!ArchivosJSON.ExisteArchivoFinalJSON())
             {
                 ResultadoApiMonedas listaDivisas = Monedas.ImportarMonedasDesdeApi();
                 ArchivosJSON.CrearArchivoJsonPorApi(listaDivisas);
@@ -23,39 +21,18 @@ namespace Negocio
         }
         public static void ProcesarArchivoJSON()
         {
-            
-            if (File.Exists(rutaArchivoJSON))
+
+            if (ArchivosJSON.ExisteArchivoInboxJSON())
             {
                 try
                 {
-                    ResultadoApiMonedas divisas = CogerResultadoApiMonedasDeJsonInbox();
-
-
-                    Console.WriteLine("Contenido del archivo JSON procesado:");
-
-                    string rutaArchivoBackup = Path.Combine("C:/archivos/backup", $"monedas_{DateTime.Now:yyyyMMdd_HHmmss}.json");
-                    File.Copy(rutaArchivoJSON, rutaArchivoBackup);
-
-                    string rutaArchivoProgreso = Path.Combine("C:/archivos/proceso", $"monedas_progreso{DateTime.Now:yyyyMMdd_HHmmss}.json");
-                    File.Move(rutaArchivoJSON, rutaArchivoProgreso);
-
-                    string rutaArchivoFinal = Path.Combine("C:/archivos/final", $"monedas_final.json");
-                    if (File.Exists(rutaArchivoFinal))
-                        File.Delete(rutaArchivoFinal);
-
-                    File.Move(rutaArchivoProgreso, rutaArchivoFinal);
-
+                    ArchivosJSON.ProcesarArchivoJSON();
                 }
                 catch (JsonReaderException e)
                 {
                     Controller.err.MyStringProperty = e.Message;
 
-
-                    string nombreArchivoError = $"monedas{DateTime.Now:yyyyMMdd_HHmmss}.err";
-                    string rutaArchivoError = Path.Combine("C:/archivos/inbox", nombreArchivoError);
-
-                    string rutaFinalerrorJSON = Path.Combine("C:/archivos/final", nombreArchivoError);
-                    File.Move(rutaArchivoJSON, rutaFinalerrorJSON);
+                    ArchivosJSON.CrearArchivoErrDeInbox();
                 }
                 catch (Exception ex)
                 {
@@ -78,13 +55,10 @@ namespace Negocio
                 Divisa divisaEncontrada = divisas.Find(divisa => divisa.Nombre == nombreDivisaEliminar);
                 if (divisaEncontrada == null)
                 {
-                    Console.WriteLine("No se encontró la divisa.");
                     return;
                 }
 
                 divisas.Remove(divisaEncontrada);
-                Console.WriteLine("Divisa eliminada exitosamente.");
-
                 GuardarDivisas(divisas);
             }
             catch (Exception e)
@@ -102,10 +76,8 @@ namespace Negocio
 
             ResultadoApiMonedas resultadoApiMonedas = ProcesadorAPIMonedas.CambiarAJsonApiMonedas(divisas);
 
-            string rutaArchivoFinal = Path.Combine("C:/archivos/final", "monedas_final.json");
-            string json = JsonConvert.SerializeObject(resultadoApiMonedas, Formatting.Indented);
-            File.WriteAllText(rutaArchivoFinal, json);
-            Console.WriteLine("Cambios guardados en el archivo JSON.");
+            ArchivosJSON.GuardarDivisas(resultadoApiMonedas);
+            
         }
 
         public static List<Divisa> CogerDivisasDeJson()
@@ -120,15 +92,14 @@ namespace Negocio
             ResultadoApiMonedas a = new();
             try
             {
-                string json = File.ReadAllText(rutaFinalJSON);
-                 a = JsonConvert.DeserializeObject<ResultadoApiMonedas>(json);
+                a = ArchivosJSON.CogerResultadoApiMonedasDeJson();
             }
             catch (Exception e)
             {
 
                 Controller.err.MyStringProperty = e.Message;
             }
-  
+
             return a;
         }
         public static ResultadoApiMonedas CogerResultadoApiMonedasDeJsonInbox()
@@ -136,8 +107,7 @@ namespace Negocio
             ResultadoApiMonedas a = new();
             try
             {
-                string json = File.ReadAllText(rutaArchivoJSON);
-                a = JsonConvert.DeserializeObject<ResultadoApiMonedas>(json);
+                a = ArchivosJSON.CogerResultadoApiMonedasDeJsonInbox();
             }
             catch (Exception e)
             {

@@ -49,6 +49,7 @@ namespace Presentacion
                     Console.WriteLine("║   1. Modificar las divisas                                             ║");
                     Console.WriteLine("║   2. Agregar una nueva divisa                                          ║");
                     Console.WriteLine("║   3. Eliminar una divisa                                               ║");
+                    Console.WriteLine("║   4. Resetear listado divisas                                          ║");
                     Console.WriteLine("║   5. Salir                                                             ║");
                     Console.WriteLine("╚════════════════════════════════════════════════════════════════════════╝");
                     string opcioninterna = Console.ReadLine();
@@ -67,9 +68,11 @@ namespace Presentacion
                             EliminarDivisa();
                             break;
                         case "4":
+                            Console.Clear();
+                            ResetearListadoDivisas();
                             break;
                         default:
-                            Console.WriteLine("Opción inválida. Por favor, ingrese una opción válida (1-4).");
+                            Console.WriteLine("Opción inválida. Por favor, ingrese una opción válida (1-5).");
                             break;
                     }
                     break;
@@ -86,6 +89,22 @@ namespace Presentacion
             Console.WriteLine("Saliendo del programa...");
         }
 
+        private void ResetearListadoDivisas()
+        {
+            Console.WriteLine("╔═════════════════════════════════════════════════════════════════════════════════════════════════════╗");
+            Console.WriteLine("║ ¿Estas seguro que quieres resetear todos los datos de las divisas?. Se perderán los cambios(S/N).   ║");
+            Console.WriteLine("╚═════════════════════════════════════════════════════════════════════════════════════════════════════╝");
+
+            bool respuesta = PreguntarSiNo();
+            if (respuesta) Controller.ResetearDatosJsonListadoDivisa();
+            
+        }
+        private bool PreguntarSiNo()
+        {
+            string respuesta = Console.ReadLine().ToUpper();
+
+            return respuesta == "S";
+        }
         private int MenuPrincipal()
         {
             int opcionMenu = 0;
