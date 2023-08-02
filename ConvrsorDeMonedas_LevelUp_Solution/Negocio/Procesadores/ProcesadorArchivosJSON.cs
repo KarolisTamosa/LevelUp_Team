@@ -1,8 +1,4 @@
 ﻿using Datos;
-using Newtonsoft.Json;
-using System.Globalization;
-using System.Reflection.Metadata.Ecma335;
-
 namespace Negocio
 {
     
@@ -19,6 +15,7 @@ namespace Negocio
 
 
         }
+
         public static void ProcesarArchivoJSON()
         {
 
@@ -28,22 +25,12 @@ namespace Negocio
                 {
                     ArchivosJSON.ProcesarArchivoJSON();
                 }
-                catch (JsonReaderException e)
-                {
-                    Controller.err.MyStringProperty = e.Message;
-
-                    ArchivosJSON.CrearArchivoErrDeInbox();
-                }
                 catch (Exception ex)
                 {
                     Controller.err.NuevoError($"Error general al leer o procesar el archivo JSON: {ex.Message}");
                 }
             }
         }
-
-       
-
-       
 
         public static void EliminarDivisa(string nombreDivisaEliminar)
         {
@@ -68,8 +55,6 @@ namespace Negocio
             }
             
         }
-
-        
 
         public static void GuardarDivisas(List<Divisa> divisas)
         {

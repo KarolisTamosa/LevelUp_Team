@@ -1,4 +1,4 @@
-﻿namespace Negocio.Entidades
+﻿namespace Negocio
 {
     public class HistorialMonedasPorUsuario
     {

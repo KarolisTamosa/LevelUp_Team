@@ -1,9 +1,5 @@
-﻿using Microsoft.VisualBasic;
-using Negocio;
-using Negocio.Entidades;
+﻿using Negocio;
 using System.ComponentModel;
-using System.ComponentModel.Design;
-using System.Runtime.CompilerServices;
 
 namespace Presentacion
 {

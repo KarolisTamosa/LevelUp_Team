@@ -1,5 +1,4 @@
-﻿
-using Datos;
+﻿using Datos;
 
 namespace Negocio
 {
@@ -41,7 +40,5 @@ namespace Negocio
 
             return resultApiMonedas;
         }
-
-
     }
 }
