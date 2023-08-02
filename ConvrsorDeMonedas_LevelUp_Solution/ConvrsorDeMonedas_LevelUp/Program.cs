@@ -9,7 +9,7 @@ namespace ConvrsorDeMonedas_LevelUp
         {
             Controller.CrearCarpetas();
             ProcesadorArchivoJSON.CrearJsonConListaDivisa();
-                
+            ProcesadorArchivoJSON.ProcesarArchivoJSON();
 
         }
         static void Main(string[] args)

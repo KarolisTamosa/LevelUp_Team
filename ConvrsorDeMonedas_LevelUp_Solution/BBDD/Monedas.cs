@@ -9,10 +9,11 @@ namespace Datos
         private static string MONEDAS_API_KEY = "a2add358f81f3345c05f21c9";
         private static async Task<ResultadoApiMonedas> ImportarMonedasDesdeApiAsync()
         {
+            ResultadoApiMonedas resultadoApi = new();
+
             using (var httpClient = new HttpClient())
             {
                 httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {MONEDAS_API_KEY}");
-                ResultadoApiMonedas resultadoApi = null;
 
                 try
                 {
@@ -34,8 +35,8 @@ namespace Datos
                     Console.WriteLine($"Ocurrió un error: {ex.Message}");
                 }
 
-                return resultadoApi;
             }
+            return resultadoApi;
         }
         public static ResultadoApiMonedas ImportarMonedasDesdeApi()
         {

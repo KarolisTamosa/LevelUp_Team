@@ -24,15 +24,15 @@ namespace Negocio
                 {
                     Directory.CreateDirectory(@"C:\archivos\inbox");
                 }
-                else if (!Directory.Exists(@"C:\archivos\proceso")) 
+                if (!Directory.Exists(@"C:\archivos\proceso")) 
                 {
                     Directory.CreateDirectory(@"C:\archivos\proceso");
                 }
-                else if (!Directory.Exists(@"C:\archivos\backup"))
+                if (!Directory.Exists(@"C:\archivos\backup"))
                 {
                     Directory.CreateDirectory(@"C:\archivos\backup");
                 }
-                else if (!Directory.Exists(@"C:\archivos\final"))
+                if (!Directory.Exists(@"C:\archivos\final"))
                 {
                     Directory.CreateDirectory(@"C:\archivos\final");
                 }
