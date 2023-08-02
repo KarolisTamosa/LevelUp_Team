@@ -8,6 +8,7 @@ namespace Negocio
 {
     public static class Controller
     {
+        public static ErrorChange err = new ErrorChange();
         public static void CrearCarpetas()
         {
             if (!Directory.Exists(@"C:\archivos"))
