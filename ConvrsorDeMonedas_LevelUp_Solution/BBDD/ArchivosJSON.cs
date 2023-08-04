@@ -9,7 +9,7 @@ namespace Datos
         private static string rutaFinalJSON = Path.Combine("C:/archivos/final", "monedas_final.json");
 
 
-        public static void CrearArchivoJsonPorApi(ResultadoApiMonedas resultadoApi)
+        public static void CrearArchivoJsonPorApi(ResultadoApiDivisas resultadoApi)
         {
             string json = JsonConvert.SerializeObject(resultadoApi, Formatting.Indented);
             using (StreamWriter sw = new StreamWriter(rutaArchivoJSON)) 
@@ -61,10 +61,7 @@ namespace Datos
         public static void ProcesarArchivoJSON()
         {
 
-            ResultadoApiMonedas divisas = CogerResultadoApiMonedasDeJsonInbox();
-
-
-            Console.WriteLine("Contenido del archivo JSON procesado:");
+            ResultadoApiDivisas divisas = CogerResultadoApiMonedasDeJsonInbox();
 
             string rutaArchivoBackup = Path.Combine("C:/archivos/backup", $"monedas_{DateTime.Now:yyyyMMdd_HHmmss}.json");
             File.Copy(rutaArchivoJSON, rutaArchivoBackup);
@@ -79,16 +76,16 @@ namespace Datos
             File.Move(rutaArchivoProgreso, rutaArchivoFinal);
           
         }
-        public static ResultadoApiMonedas CogerResultadoApiMonedasDeJson()
+        public static ResultadoApiDivisas CogerResultadoApiMonedasDeJson()
         {
                 string json = File.ReadAllText(rutaFinalJSON);
-                return JsonConvert.DeserializeObject<ResultadoApiMonedas>(json);
+                return JsonConvert.DeserializeObject<ResultadoApiDivisas>(json);
         }
-        public static ResultadoApiMonedas CogerResultadoApiMonedasDeJsonInbox()
+        public static ResultadoApiDivisas CogerResultadoApiMonedasDeJsonInbox()
         {
 
                 string json = File.ReadAllText(rutaArchivoJSON);
-                return JsonConvert.DeserializeObject<ResultadoApiMonedas>(json);
+                return JsonConvert.DeserializeObject<ResultadoApiDivisas>(json);
         }
 
         public static void CrearArchivoErrDeInbox()
@@ -109,7 +106,7 @@ namespace Datos
             return File.Exists(rutaArchivoJSON);
         }
 
-        public static void GuardarDivisas(ResultadoApiMonedas resultadoApiMonedas)
+        public static void GuardarDivisas(ResultadoApiDivisas resultadoApiMonedas)
         {
             string rutaArchivoFinal = Path.Combine("C:/archivos/final", "monedas_final.json");
             string json = JsonConvert.SerializeObject(resultadoApiMonedas, Formatting.Indented);

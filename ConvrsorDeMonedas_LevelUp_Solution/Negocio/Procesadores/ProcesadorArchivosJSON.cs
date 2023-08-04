@@ -9,7 +9,7 @@ namespace Negocio
         {
             if(!ArchivosJSON.ExisteArchivoFinalJSON())
             {
-                ResultadoApiMonedas listaDivisas = Monedas.ImportarMonedasDesdeApi();
+                ResultadoApiDivisas listaDivisas = ApiDivisas.ImportarMonedasDesdeApi();
                 ArchivosJSON.CrearArchivoJsonPorApi(listaDivisas);
             }
 
@@ -59,7 +59,7 @@ namespace Negocio
         public static void GuardarDivisas(List<Divisa> divisas)
         {
 
-            ResultadoApiMonedas resultadoApiMonedas = ProcesadorAPIMonedas.CambiarAJsonApiMonedas(divisas);
+            ResultadoApiDivisas resultadoApiMonedas = ProcesadorDivisas.CambiarListaDivisaAResultadoApiMonedas(divisas);
 
             ArchivosJSON.GuardarDivisas(resultadoApiMonedas);
             
@@ -67,14 +67,14 @@ namespace Negocio
 
         public static List<Divisa> CogerDivisasDeJson()
         {
-            ResultadoApiMonedas resultadoApiMonedas = CogerResultadoApiMonedasDeJson();
+            ResultadoApiDivisas resultadoApiMonedas = CogerResultadoApiMonedasDeJson();
 
 
-            return ProcesadorAPIMonedas.Cambiar(resultadoApiMonedas);
+            return ProcesadorDivisas.CambiarResultadoApiMonedasAListaDivisa(resultadoApiMonedas);
         }
-        public static ResultadoApiMonedas CogerResultadoApiMonedasDeJson()
+        public static ResultadoApiDivisas CogerResultadoApiMonedasDeJson()
         {
-            ResultadoApiMonedas a = new();
+            ResultadoApiDivisas a = new();
             try
             {
                 a = ArchivosJSON.CogerResultadoApiMonedasDeJson();
@@ -87,9 +87,9 @@ namespace Negocio
 
             return a;
         }
-        public static ResultadoApiMonedas CogerResultadoApiMonedasDeJsonInbox()
+        public static ResultadoApiDivisas CogerResultadoApiMonedasDeJsonInbox()
         {
-            ResultadoApiMonedas a = new();
+            ResultadoApiDivisas a = new();
             try
             {
                 a = ArchivosJSON.CogerResultadoApiMonedasDeJsonInbox();
@@ -101,6 +101,12 @@ namespace Negocio
             }
 
             return a;
+        }
+        public static void ResetearDatosJsonListadoDivisa()
+        {
+            ArchivosJSON.EliminarRutaFinalJSON();
+            ProcesadorArchivoJSON.CrearJsonConListaDivisa();
+            ProcesadorArchivoJSON.ProcesarArchivoJSON();
         }
 
         public static void MeterErrorEnJson(string err)

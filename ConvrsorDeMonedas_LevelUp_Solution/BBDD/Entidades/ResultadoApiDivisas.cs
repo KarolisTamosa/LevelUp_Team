@@ -1,6 +1,6 @@
 ﻿namespace Datos
 {
-    public class ResultadoApiMonedas
+    public class ResultadoApiDivisas
     {
         public string Result { get; set; }
         public string Documentation { get; set; }

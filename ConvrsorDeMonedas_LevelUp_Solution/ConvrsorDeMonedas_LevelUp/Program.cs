@@ -33,60 +33,30 @@ namespace Presentacion
                 opcionMenuPrincipal = program.MenuPrincipal();
                 if (opcionMenuPrincipal != -1)
                 {
-                    program.EjecutarValorElegidoMenuPrincipal(opcionMenuPrincipal);
+                    program.EjecutarValorElegidoMenuPrincipal((AccionesMenuPrincipal)opcionMenuPrincipal);
 
                 }
             } while (opcionMenuPrincipal != 5);
 
         }
 
-        private void EjecutarValorElegidoMenuPrincipal(int opcionMenuPrincipal)
+        private void EjecutarValorElegidoMenuPrincipal(AccionesMenuPrincipal opcionMenuPrincipal)
         {
             switch (opcionMenuPrincipal)
             {
-                case 1:
+                case AccionesMenuPrincipal.ConvertirMoneda:
                     Conversor();
                     break;
-                case 2:
+                case AccionesMenuPrincipal.MostrarListadoDivisas:
                     MostrarDivisas();
                     break;
-                case 3:
-                    Console.Clear();
-                    Console.WriteLine("╔════════════════════════════════════════════════════════════════════════╗");
-                    Console.WriteLine("║   1. Modificar las divisas                                             ║");
-                    Console.WriteLine("║   2. Agregar una nueva divisa                                          ║");
-                    Console.WriteLine("║   3. Eliminar una divisa                                               ║");
-                    Console.WriteLine("║   4. Resetear listado divisas                                          ║");
-                    Console.WriteLine("║   5. Salir                                                             ║");
-                    Console.WriteLine("╚════════════════════════════════════════════════════════════════════════╝");
-                    string opcioninterna = Console.ReadLine();
-
-                    switch (opcioninterna)
-                    {
-                        case "1":
-                            ModificarDivisas();
-                            break;
-                        case "2":
-                            Console.Clear();
-                            AgregarDivisa();
-                            break;
-                        case "3":
-                            Console.Clear();
-                            EliminarDivisa();
-                            break;
-                        case "4":
-                            
-                            
-                            break;
-                        default:
-                            Console.WriteLine("Opción inválida. Por favor, ingrese una opción válida (1-5).");
-                            break;
-                    }
+                case AccionesMenuPrincipal.EditorDeListadoDivisas:
+                    MostrarMenuEditorListadoDivisas();
                     break;
-                case 4:
+                case AccionesMenuPrincipal.MostrarHistorialConversiones:
                     MostrarHistorial();
                     break;
-                case 5:
+                case AccionesMenuPrincipal.Salir:
                     break;
                 default:
                     Console.WriteLine("Opción inválida. Por favor, ingrese una opción válida (1-5).");
@@ -95,14 +65,65 @@ namespace Presentacion
             Console.WriteLine("Saliendo del programa...");
         }
 
+        private void MostrarMenuEditorListadoDivisas()
+        {
+            Console.Clear();
+            Console.WriteLine("╔════════════════════════════════════════════════════════════════════════╗");
+            Console.WriteLine("║   1. Modificar las divisas                                             ║");
+            Console.WriteLine("║   2. Agregar una nueva divisa                                          ║");
+            Console.WriteLine("║   3. Eliminar una divisa                                               ║");
+            Console.WriteLine("║   4. Resetear listado divisas                                          ║");
+            Console.WriteLine("║   5. Salir                                                             ║");
+            Console.WriteLine("╚════════════════════════════════════════════════════════════════════════╝");
+            AccionesMenuEditarDivisas opcionMenuEditarDivisas = PedirNumeroOpcionMenuEditarDivisasl(5);
+
+            switch (opcionMenuEditarDivisas)
+            {
+                case AccionesMenuEditarDivisas.ModificarUnaDivisa:
+                    ModificarDivisas();
+                    break;
+                case AccionesMenuEditarDivisas.AgregarNuevaDivisa:
+                    Console.Clear();
+                    AgregarDivisa();
+                    break;
+                case AccionesMenuEditarDivisas.EliminarUnaDivisa:
+                    Console.Clear();
+                    EliminarDivisa();
+                    break;
+                case AccionesMenuEditarDivisas.ResetearTodoListadoDivisas:
+                    ResetearListadoDivisas();
+                    break;
+                case AccionesMenuEditarDivisas.Salir:
+                    break;
+                default:
+                    Console.WriteLine("Opción inválida. Por favor, ingrese una opción válida (1-5).");
+                    break;
+            }
+        }
         private void ResetearListadoDivisas()
         {
+            Console.Clear();
             Console.WriteLine("╔═════════════════════════════════════════════════════════════════════════════════════════════════════╗");
             Console.WriteLine("║ ¿Estas seguro que quieres resetear todos los datos de las divisas?. Se perderán los cambios(S/N).   ║");
             Console.WriteLine("╚═════════════════════════════════════════════════════════════════════════════════════════════════════╝");
 
             bool respuesta = PreguntarSiNo();
-            if (respuesta) Controller.ResetearDatosJsonListadoDivisa();
+            Console.Clear();
+
+            if (respuesta)
+            {
+                ProcesadorArchivoJSON.ResetearDatosJsonListadoDivisa();
+                Console.WriteLine("╔═══════════════════════════════════╗");
+                Console.WriteLine("║ Datos reseteados correctamente.   ║");
+                Console.WriteLine("╚═══════════════════════════════════╝");
+            }
+            else
+            {
+                Console.WriteLine("╔══════════════════════════════════╗");
+                Console.WriteLine("║ No se han reseteado los datos.   ║");
+                Console.WriteLine("╚══════════════════════════════════╝");
+            }
+            Console.ReadLine();
             
         }
         private bool PreguntarSiNo()
@@ -137,18 +158,33 @@ namespace Presentacion
                 Console.WriteLine("                         Powered by LevelUp_Team                          ");
                 Console.WriteLine("                                                                          ");
                 Console.WriteLine("          Escribe el número de la opción que deseas realizar.             ");
-                opcionMenu = PedirNumeroOpcionMenuPrincipal();
+                opcionMenu = PedirNumeroOpcionMenus(5);
             } while (opcionMenu == -1);
             return opcionMenu;
 
         }
 
-        private int PedirNumeroOpcionMenuPrincipal()
+        private int PedirNumeroOpcionMenus(int ultimoNumero)
         {
             int result = -1;
             int.TryParse(Console.ReadLine(), out result);
 
-            return this.ComprobarValorPedidoCorrecto(result, 1, 5) ? result : -1;
+            return this.ComprobarValorPedidoCorrecto(result, 1, ultimoNumero) ? result : -1;
+
+        }
+
+        private AccionesMenuEditarDivisas PedirNumeroOpcionMenuEditarDivisasl(int ultimoNumero)
+        {
+            bool opcionPedidaCorrecto = false;
+            int result = -1;
+            do
+            {
+                opcionPedidaCorrecto = int.TryParse(Console.ReadLine(), out result);
+                opcionPedidaCorrecto = ComprobarValorPedidoCorrecto(result, 1, ultimoNumero);
+
+            } while (!opcionPedidaCorrecto);
+
+            return (AccionesMenuEditarDivisas)result;
 
         }
 
