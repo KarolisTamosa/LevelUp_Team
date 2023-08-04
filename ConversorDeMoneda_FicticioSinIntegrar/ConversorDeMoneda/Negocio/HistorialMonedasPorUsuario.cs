@@ -27,7 +27,10 @@ namespace ConversorDeMoneda.Negocio
             FechaConversion = fechaConversion;
             Resultado = resultado;
         }
+        public HistorialMonedasPorUsuario()
+        {
 
+        }
         public override string ToString()
         {
             return $"IdUsuario: {this.IdUsuario} - Moneda Origen: {this.MonedaOrigen} - Moneda Destino: {this.MonedaDestino} - " +

@@ -75,8 +75,8 @@ namespace Presentacion
                             EliminarDivisa();
                             break;
                         case "4":
-                            
-                            
+
+
                             break;
                         default:
                             Console.WriteLine("Opción inválida. Por favor, ingrese una opción válida (1-5).");
@@ -103,7 +103,7 @@ namespace Presentacion
 
             bool respuesta = PreguntarSiNo();
             if (respuesta) Controller.ResetearDatosJsonListadoDivisa();
-            
+
         }
         private bool PreguntarSiNo()
         {
@@ -163,20 +163,7 @@ namespace Presentacion
             {
                 while (true)
                 {
-                    Console.Clear();
-                    Console.WriteLine("╔═══════════════════════════════════════════╗");
-                    Console.WriteLine("║          Listado de Divisas               ║");
-                    Console.WriteLine("╠═══════════════════════════════════════════╣");
-                    Console.WriteLine("║   Nombre            │ Valor en Dólares    ║");
-                    Console.WriteLine("╠═══════════════════════════════════════════╣");
-
-                    foreach (Divisa divisa in divisas)
-                    {
-                        Console.WriteLine($"║   {divisa.Nombre,-18}│ {divisa.ValorEnDolares,15:N4}     ║");
-                    }
-
-                    Console.WriteLine("╚═══════════════════════════════════════════╝");
-
+                    MostrarListadoDivisas(divisas);
                     Console.WriteLine("         ╔════════════════════════════╗      ");
                     Console.WriteLine("         ║   1. Volver atrás          ║      ");
                     Console.WriteLine("         ║   2. Salir                 ║      ");
@@ -205,6 +192,20 @@ namespace Presentacion
                 Console.ReadLine();
             }
 
+        }
+
+        private static void MostrarListadoDivisas(List<Divisa> divisas)
+        {
+            Console.Clear();
+            Console.WriteLine("╔═══════════════════════════════════════════╗");
+            Console.WriteLine("║          Listado de Divisas               ║");
+            Console.WriteLine("╠═══════════════════════════════════════════╣");
+            Console.WriteLine("║   Nombre            │ Valor en Dólares    ║");
+            Console.WriteLine("╠═══════════════════════════════════════════╣");
+
+            divisas.ForEach(divisa => Console.WriteLine($"║   {divisa.Nombre,-18}│ {divisa.ValorEnDolares,15:N4}     ║"));
+
+            Console.WriteLine("╚═══════════════════════════════════════════╝");
         }
 
         private void SinElementosAMostrar()
@@ -302,7 +303,7 @@ namespace Presentacion
             double nuevoValor;
             if (!double.TryParse(Console.ReadLine(), out nuevoValor))
             {
-                Console.WriteLine("El valor ingresado no es válido.");
+                MostrarMensajeConColor("El valor ingresado no es válido.", ConsoleColor.Yellow);
                 return;
             }
 
@@ -340,61 +341,16 @@ namespace Presentacion
             List<Divisa> divisas = ProcesadorArchivoJSON.CogerDivisasDeJson();
             while (true)
             {
-                Console.Clear();
-                Console.WriteLine("╔═══════════════════════════════════════════╗");
-                Console.WriteLine("║          Listado de Divisas               ║");
-                Console.WriteLine("╠═══════════════════════════════════════════╣");
-                Console.WriteLine("║   Nombre            │ Valor en Dólares    ║");
-                Console.WriteLine("╠═══════════════════════════════════════════╣");
+                MostrarListadoDivisas(divisas);
+                string nombreDivisaOrigen = string.Empty;
+                string nombreDivisaDestino = string.Empty;
+                bool esCodigoMonedaValido = false;
+                MostrarInputCodigoEntradaMientrasSeaInvalido(conversor, divisas, out nombreDivisaOrigen, out esCodigoMonedaValido);
 
-                foreach (Divisa divisa in divisas)
-                {
-                    Console.WriteLine($"║   {divisa.Nombre,-18}│ {divisa.ValorEnDolares,15:N4}     ║");
-                }
+                esCodigoMonedaValido = false;
+                MostrarInputCodigoEntradaMientrasSeaInvalido(conversor, divisas, out nombreDivisaDestino, out esCodigoMonedaValido);
 
-                Console.WriteLine("╚═══════════════════════════════════════════╝");
-
-                string nombreEntrada;
-                bool comprobarNombre;
-                do
-                {
-                    Console.WriteLine("╔════════════════════════════════════════════════════════════════════════╗");
-                    Console.WriteLine("║                   Inserte el nombre de la divisa de entrada:           ║");
-                    Console.WriteLine("╚════════════════════════════════════════════════════════════════════════╝");
-                    nombreEntrada = Console.ReadLine();
-
-                    comprobarNombre = conversor.ComprobarNombre(nombreEntrada.ToUpper(), divisas);
-
-                    if (comprobarNombre)
-                    {
-
-                    }
-                    else
-                    {
-                        Console.WriteLine("Inserte un nombre de divisa valido");
-                    }
-                } while (!comprobarNombre);
-                comprobarNombre = false;
-                string nombreSalida;
-                do
-                {
-                    Console.WriteLine("╔═════════════════════════════════════════════════════╗");
-                    Console.WriteLine("║      Inserte el nombre de la divisa de salida:      ║");
-                    Console.WriteLine("╚═════════════════════════════════════════════════════╝");
-                    nombreSalida = Console.ReadLine();
-
-                    comprobarNombre = conversor.ComprobarNombre(nombreSalida.ToUpper(), divisas);
-
-                    if (comprobarNombre)
-                    {
-
-                    }
-                    else
-                    {
-                        Console.WriteLine("Inserte un nombre de divisa valido");
-                    }
-                } while (!comprobarNombre);
-                bool comprobarImporte;
+                bool esImporteValido = false;
                 double importe;
                 do
                 {
@@ -402,24 +358,26 @@ namespace Presentacion
                     Console.WriteLine("║      Seleccione el importe a convertir:      ║");
                     Console.WriteLine("╚══════════════════════════════════════════════╝");
 
-                    double.TryParse(Console.ReadLine(), out importe);
-                    comprobarImporte = conversor.ComprobarImporte(importe);
-
-                    if (comprobarImporte)
+                    bool valorEsNumerico = double.TryParse(Console.ReadLine(), out importe);
+                    if (!valorEsNumerico)
                     {
-
+                        MostrarMensajeConColor("Inserte un importe valido", ConsoleColor.Yellow);
+                        continue;
                     }
-                    else
+                    esImporteValido = conversor.ComprobarImporte(importe);
+
+                    if (!esImporteValido)
                     {
-                        Console.WriteLine("Inserte un importe valido");
+                        MostrarMensajeConColor("Inserte un importe valido", ConsoleColor.Yellow);
                     }
-                } while (!comprobarImporte);
 
-                double resultado = conversor.Convertir(nombreEntrada, nombreSalida, importe, divisas, Historial);
+                } while (!esImporteValido);
+
+                double resultado = conversor.Convertir(nombreDivisaOrigen, nombreDivisaDestino, importe, divisas, Historial);
                 Console.Clear();
                 Console.WriteLine("═════════════════════════════════════════════════════════════════════════════════════════════════════");
-                Console.WriteLine("  EL resultado de la conversión es: " + resultado + " " + nombreSalida.ToUpper()+"                             ");
-                Console.WriteLine("  La divisa de entrada ha sido: " + nombreEntrada.ToUpper() + "                                                ");
+                Console.WriteLine("  EL resultado de la conversión es: " + resultado + " " + nombreDivisaDestino.ToUpper() + "                             ");
+                Console.WriteLine("  La divisa de entrada ha sido: " + nombreDivisaOrigen.ToUpper() + "                                                ");
                 Console.WriteLine("═════════════════════════════════════════════════════════════════════════════════════════════════════");
 
                 Console.WriteLine("         ╔════════════════════════════╗      ");
@@ -427,7 +385,7 @@ namespace Presentacion
                 Console.WriteLine("         ║   2. Salir                 ║      ");
                 Console.WriteLine("         ╚════════════════════════════╝      ");
                 Console.Write("                  Ingrese una opción:              ");
-                string opcionListado = Console.ReadLine();
+                string opcionListado = Console.ReadLine() ?? string.Empty;
 
                 if (opcionListado == "1")
                 {
@@ -440,10 +398,38 @@ namespace Presentacion
                 }
                 else
                 {
-                    Console.WriteLine("Opción inválida. Por favor, ingrese una opción válida (1-2).");
+                    MostrarMensajeConColor("Opción inválida. Por favor, ingrese una opción válida (1-2).", ConsoleColor.Yellow);
                 }
             }
 
+        }
+
+        private static void MostrarMensajeConColor(string mensaje, ConsoleColor color)
+        {
+            Console.ForegroundColor = color;       // Establece el color del texto a negro
+            Console.WriteLine("╔════════════════════════════════════════════════════════════════════════╗");
+            Console.WriteLine("  " + mensaje);
+            Console.WriteLine("╚════════════════════════════════════════════════════════════════════════╝");
+            // Restablece los colores a sus valores originales
+            Console.ResetColor();
+        }
+
+        private static void MostrarInputCodigoEntradaMientrasSeaInvalido(Conversor conversor, List<Divisa> divisas, out string nombreDivisaOrigen, out bool esCodigoMonedaValido)
+        {
+            do
+            {
+                Console.WriteLine("╔════════════════════════════════════════════════════════════════════════╗");
+                Console.WriteLine("║                   Inserte el nombre de la divisa de entrada:           ║");
+                Console.WriteLine("╚════════════════════════════════════════════════════════════════════════╝");
+                nombreDivisaOrigen = Console.ReadLine() ?? "";
+
+                esCodigoMonedaValido = conversor.ComprobarNombre(nombreDivisaOrigen.ToUpper(), divisas);
+
+                if (!esCodigoMonedaValido)
+                {
+                    MostrarMensajeConColor("Inserte un nombre de divisa valido", ConsoleColor.Yellow);
+                }
+            } while (!esCodigoMonedaValido);
         }
 
         public void MostrarHistorial()
@@ -451,13 +437,17 @@ namespace Presentacion
             Console.Clear();
             if (Historial.Count == 0)
             {
-                Console.WriteLine("No existen registros en el historial");
+                MostrarMensajeConColor("No existen registros en el historial", ConsoleColor.Yellow);
                 Console.ReadLine();
                 return;
             }
-            foreach(var registro in Historial)
+            Console.WriteLine("═════════════════════════════════════════════════════════════════════════════════════════════════════");
+            Console.WriteLine("Historial ═══════════════════════════════════════════════════════════════════════════════════════════");
+            Console.WriteLine("═════════════════════════════════════════════════════════════════════════════════════════════════════");
+            foreach (var registro in Historial)
             {
                 Console.WriteLine(registro.ToString());
+                Console.WriteLine("═════════════════════════════════════════════════════════════════════════════════════════════════════");
             }
 
             Console.WriteLine("         ╔════════════════════════════╗      ");
@@ -478,7 +468,7 @@ namespace Presentacion
             }
             else
             {
-                Console.WriteLine("Opción inválida. Por favor, ingrese una opción válida (1-2).");
+                MostrarMensajeConColor("Opción inválida. Por favor, ingrese una opción válida (1-2).", ConsoleColor.Yellow);
             }
         }
     }

@@ -28,8 +28,8 @@
 
         public override string ToString()
         {
-            return $"IdUsuario: {this.IdUsuario} - Moneda Origen: {this.MonedaOrigen} - Moneda Destino: {this.MonedaDestino} - " +
-                $"Importe: {this.Importe} - Factor Cambio: {this.FactorCambio} - FechaConversion: {this.FechaConversion} - Resultado: {this.Resultado}";
+            return $"Moneda Origen: {this.MonedaOrigen} - Moneda Destino: {this.MonedaDestino} - " +
+                $"Importe: {this.Importe}\n - Factor Cambio: {this.FactorCambio} - FechaConversion: {this.FechaConversion} - Resultado: {this.Resultado}";
         }
     }
 }
