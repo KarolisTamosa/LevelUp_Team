@@ -10,11 +10,6 @@ namespace Negocio
             ArchivosJSON.MirarSiCarpetasEstanCreadasYCrearlas();
         }
 
-        public static void ResetearDatosJsonListadoDivisa()
-        {
-            ArchivosJSON.EliminarRutaFinalJSON();
-            ProcesadorArchivoJSON.CrearJsonConListaDivisa();
-            ProcesadorArchivoJSON.ProcesarArchivoJSON();
-        }
+        
     }
 }
