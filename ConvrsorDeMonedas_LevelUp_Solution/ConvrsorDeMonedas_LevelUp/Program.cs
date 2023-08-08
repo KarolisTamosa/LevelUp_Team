@@ -26,18 +26,17 @@ namespace Presentacion
 
         static void Main(string[] args)
         {
-            //Program program = new();
-            //int opcionMenuPrincipal;
-            //do
-            //{
-            //    opcionMenuPrincipal = program.MenuPrincipal();
-            //    if (opcionMenuPrincipal != -1)
-            //    {
-            //        program.EjecutarValorElegidoMenuPrincipal((AccionesMenuPrincipal)opcionMenuPrincipal);
+            Program program = new();
+            int opcionMenuPrincipal;
+            do
+            {
+                opcionMenuPrincipal = program.MenuPrincipal();
+                if (opcionMenuPrincipal != -1)
+                {
+                    program.EjecutarValorElegidoMenuPrincipal((AccionesMenuPrincipal)opcionMenuPrincipal);
 
-            //    }
-            //} while (opcionMenuPrincipal != 5);
-            EscribirMensaje("program.EjecutarValorElegidoMenuPrincipal((Accsssssssssssssssssssssssssss");
+                }
+            } while (opcionMenuPrincipal != 5);
 
         }
 
