@@ -271,13 +271,15 @@ namespace Presentacion
 
         private static void EscribirMensajeError(string mensaje)
         {
-            Console.ForegroundColor = ConsoleColor.Red;
-            EscribirMensaje(mensaje);
-            Console.ResetColor();
+            MostrarMensajeConColor(mensaje, ConsoleColor.Red);
         }
         private static void EscribirMensajeAlerta(string mensaje)
         {
-            Console.ForegroundColor = ConsoleColor.Yellow;
+            MostrarMensajeConColor(mensaje, ConsoleColor.Yellow);
+        }
+        private static void MostrarMensajeConColor(string mensaje, ConsoleColor color)
+        {
+            Console.ForegroundColor = color;
             EscribirMensaje(mensaje);
             Console.ResetColor();
         }
@@ -286,12 +288,34 @@ namespace Presentacion
             int anchoMensaje = mensaje.Length >= 100 ? 100 : mensaje.Length + 2;
             PintarDetalleArriba(anchoMensaje);
             Console.WriteLine();
-            PintarMensaje(mensaje, anchoMensaje);
+            PintarMensaje(mensaje, anchoMensaje, 100);
+            Console.WriteLine();
+            PintarDetalleAbajo(anchoMensaje);
+        }
+        private static void EscribirMensajeError(string mensaje, int anchoMensaje)
+        {
+            MostrarMensajeConColor(mensaje, ConsoleColor.Red, anchoMensaje);
+        }
+        private static void EscribirMensajeAlerta(string mensaje, int anchoMensaje)
+        {
+            MostrarMensajeConColor(mensaje, ConsoleColor.Yellow, anchoMensaje);
+        }
+        private static void MostrarMensajeConColor(string mensaje, ConsoleColor color, int anchoMensaje)
+        {
+            Console.ForegroundColor = color;
+            EscribirMensaje(mensaje, anchoMensaje);
+            Console.ResetColor();
+        }
+        private static void EscribirMensaje(string mensaje, int anchoMensaje)
+        {
+            PintarDetalleArriba(anchoMensaje);
+            Console.WriteLine();
+            PintarMensaje(mensaje, anchoMensaje, anchoMensaje);
             Console.WriteLine();
             PintarDetalleAbajo(anchoMensaje);
         }
 
-        private static void PintarMensaje(string mensaje, int anchoMensaje)
+        private static void PintarMensaje(string mensaje, int anchoMensaje, int anchoMensajeMaximo)
         {
             int faltaAncho = 0;
             int anchoMensajeSobra = mensaje.Length;
@@ -304,7 +328,7 @@ namespace Presentacion
                     Console.WriteLine(" ║");
                     Console.Write("║ ");
                     i = 0;
-                    anchoMensajeSobra = mensaje.Length - 100;
+                    anchoMensajeSobra = mensaje.Length - anchoMensajeMaximo;
                 }
                 Console.Write(mensaje[i]);
                 faltaAncho = anchoMensaje - (i+1);
@@ -506,15 +530,7 @@ namespace Presentacion
 
         }
 
-        private static void MostrarMensajeConColor(string mensaje, ConsoleColor color)
-        {
-            Console.ForegroundColor = color;       // Establece el color del texto a negro
-            Console.WriteLine("╔════════════════════════════════════════════════════════════════════════╗");
-            Console.WriteLine("  " + mensaje);
-            Console.WriteLine("╚════════════════════════════════════════════════════════════════════════╝");
-            // Restablece los colores a sus valores originales
-            Console.ResetColor();
-        }
+        
 
         private static void MostrarInputCodigoEntrSalMientrasSeaInvalido(Conversor conversor, List<Divisa> divisas, out string nombreDivisaOrigen, out bool esCodigoMonedaValido, bool esDeEntrada)
         {
