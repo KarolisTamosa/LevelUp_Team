@@ -30,7 +30,7 @@ namespace Presentacion
             int opcionMenuPrincipal;
             do
             {
-                opcionMenuPrincipal = program.MenuPrincipal();
+                opcionMenuPrincipal = MenuPrincipal();
                 if (opcionMenuPrincipal != -1)
                 {
                     program.EjecutarValorElegidoMenuPrincipal((AccionesMenuPrincipal)opcionMenuPrincipal);
@@ -132,7 +132,7 @@ namespace Presentacion
 
             return respuesta == "S";
         }
-        private int MenuPrincipal()
+        private static int MenuPrincipal()
         {
             int opcionMenu = 0;
 
@@ -164,12 +164,12 @@ namespace Presentacion
 
         }
 
-        private int PedirNumeroOpcionMenus(int ultimoNumero)
+        private static int PedirNumeroOpcionMenus(int ultimoNumero)
         {
             int result = -1;
             int.TryParse(Console.ReadLine(), out result);
 
-            return this.ComprobarValorPedidoCorrecto(result, 1, ultimoNumero) ? result : -1;
+            return ComprobarValorPedidoCorrecto(result, 1, ultimoNumero) ? result : -1;
 
         }
 
@@ -188,7 +188,7 @@ namespace Presentacion
 
         }
 
-        private bool ComprobarValorPedidoCorrecto(int AComprobar, int min, int max)
+        private static bool ComprobarValorPedidoCorrecto(int AComprobar, int min, int max)
         {
             return (AComprobar >= min && AComprobar <= max);
         }
@@ -200,26 +200,7 @@ namespace Presentacion
                 while (true)
                 {
                     MostrarListadoDivisas(divisas);
-                    Console.WriteLine("         ╔════════════════════════════╗      ");
-                    Console.WriteLine("         ║   1. Volver atrás          ║      ");
-                    Console.WriteLine("         ║   2. Salir                 ║      ");
-                    Console.WriteLine("         ╚════════════════════════════╝      ");
-                    Console.Write("                  Ingrese una opción:              ");
-                    string opcionListado = Console.ReadLine();
-
-                    if (opcionListado == "1")
-                    {
-                        break;
-                    }
-                    else if (opcionListado == "2")
-                    {
-                        Console.WriteLine("Saliendo del programa...");
-                        Environment.Exit(0);
-                    }
-                    else
-                    {
-                        Console.WriteLine("Opción inválida. Por favor, ingrese una opción válida (1-2).");
-                    }
+                    MenuVolverSalir();
                 }
             }
             else
@@ -482,26 +463,7 @@ namespace Presentacion
                 Console.WriteLine("  La divisa de entrada ha sido: " + nombreDivisaOrigen.ToUpper() + "                                                ");
                 Console.WriteLine("═════════════════════════════════════════════════════════════════════════════════════════════════════");
 
-                Console.WriteLine("         ╔════════════════════════════╗      ");
-                Console.WriteLine("         ║   1. Volver atrás          ║      ");
-                Console.WriteLine("         ║   2. Salir                 ║      ");
-                Console.WriteLine("         ╚════════════════════════════╝      ");
-                Console.Write("                  Ingrese una opción:              ");
-                string opcionListado = Console.ReadLine() ?? string.Empty;
-
-                if (opcionListado == "1")
-                {
-                    break;
-                }
-                else if (opcionListado == "2")
-                {
-                    Console.WriteLine("Saliendo del programa...");
-                    Environment.Exit(0);
-                }
-                else
-                {
-                    MostrarMensajeConColor("Opción inválida. Por favor, ingrese una opción válida (1-2).", ConsoleColor.Yellow);
-                }
+                MenuVolverSalir();
             }
 
         }
@@ -562,10 +524,16 @@ namespace Presentacion
                 Console.WriteLine("═════════════════════════════════════════════════════════════════════════════════════════════════════");
             }
 
+            MenuVolverSalir();
+        }
+        private static void MenuVolverSalir()
+        {
+            //var mensaje = "1. Volver atrás\n2. Salir";
             Console.WriteLine("         ╔════════════════════════════╗      ");
             Console.WriteLine("         ║   1. Volver atrás          ║      ");
             Console.WriteLine("         ║   2. Salir                 ║      ");
             Console.WriteLine("         ╚════════════════════════════╝      ");
+            //EscribirMensaje(mensaje);
             Console.Write("                  Ingrese una opción:              ");
             string opcionListado = Console.ReadLine();
 
