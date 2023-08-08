@@ -268,6 +268,19 @@ namespace Presentacion
 
         }
 
+
+        private static void EscribirMensajeError(string mensaje)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            EscribirMensaje(mensaje);
+            Console.ResetColor();
+        }
+        private static void EscribirMensajeAlerta(string mensaje)
+        {
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            EscribirMensaje(mensaje);
+            Console.ResetColor();
+        }
         private static void EscribirMensaje(string mensaje)
         {
             int anchoMensaje = mensaje.Length >= 100 ? 100 : mensaje.Length + 2;
