@@ -17,4 +17,9 @@
         ResetearTodoListadoDivisas = 4,
         Salir = 5
     }
+    public enum AccionesMenuVolverSalir
+    {
+        VolverAtras = 1,
+        Salir = 2
+    }
 }
