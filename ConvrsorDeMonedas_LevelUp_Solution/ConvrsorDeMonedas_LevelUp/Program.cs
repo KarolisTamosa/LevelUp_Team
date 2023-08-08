@@ -185,6 +185,7 @@ namespace Presentacion
             } while (!opcionPedidaCorrecto);
 
             return (AccionesMenuEditarDivisas)result;
+            EscribirMensaje("");
 
         }
 
@@ -268,7 +269,35 @@ namespace Presentacion
 
         }
 
+        private static void EscribirUnaLista(List<string> listaMensaje)
+        {
+            int anchoMensaje = listaMensaje.Max().Length + 2;
 
+            PintarDetalleArriba(anchoMensaje);
+
+            foreach (var item in listaMensaje)
+            {
+                Console.WriteLine();
+                PintarMensaje(item, anchoMensaje, anchoMensaje);
+            }
+            Console.WriteLine();
+
+            PintarDetalleAbajo(anchoMensaje);
+        }
+        private static void EscribirUnaLista(List<string> listaMensaje, int anchoMensaje)
+        {
+
+            PintarDetalleArriba(anchoMensaje);
+
+            foreach (var item in listaMensaje)
+            {
+                Console.WriteLine();
+                PintarMensaje(item, anchoMensaje, anchoMensaje);
+            }
+            Console.WriteLine();
+
+            PintarDetalleAbajo(anchoMensaje);
+        }
         private static void EscribirMensajeError(string mensaje)
         {
             MostrarMensajeConColor(mensaje, ConsoleColor.Red);
@@ -319,16 +348,16 @@ namespace Presentacion
         {
             int faltaAncho = 0;
             int anchoMensajeSobra = mensaje.Length;
-            Console.Write("║ ");
+            Console.Write("║   ");
 
             for (int i = 0; i < anchoMensajeSobra; i++)
             {
-                if(i > 97)
+                if(i >= anchoMensajeMaximo -2)
                 {
-                    Console.WriteLine(" ║");
-                    Console.Write("║ ");
+                    Console.WriteLine("   ║");
+                    Console.Write("║   ");
                     i = 0;
-                    anchoMensajeSobra = mensaje.Length - anchoMensajeMaximo;
+                    anchoMensajeSobra = anchoMensajeSobra - anchoMensajeMaximo;
                 }
                 Console.Write(mensaje[i]);
                 faltaAncho = anchoMensaje - (i+1);
@@ -337,13 +366,13 @@ namespace Presentacion
             {
                 Console.Write(" ");
             }
-            Console.Write(" ║");
+            Console.Write("   ║");
         }
 
         private static void PintarDetalleArriba(int numAncho)
         {
             Console.Write("╔");
-            for (int i = 0; i < numAncho; i++)
+            for (int i = 0; i < numAncho + 4; i++)
             {
                 Console.Write("═");
             }
@@ -352,7 +381,7 @@ namespace Presentacion
         private static void PintarDetalleAbajo(int numAncho)
         {
             Console.Write("╚");
-            for (int i = 0; i < numAncho; i++)
+            for (int i = 0; i < numAncho + 4; i++)
             {
                 Console.Write("═");
             }
