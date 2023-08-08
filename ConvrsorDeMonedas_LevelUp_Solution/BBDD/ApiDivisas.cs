@@ -22,15 +22,15 @@ namespace Datos
                     resultadoApi = JsonConvert.DeserializeObject<ResultadoApiDivisas>(jsonResponse);
                 }
                 catch (HttpRequestException ex)
-                {
-                    Console.WriteLine($"Error al realizar la solicitud HTTP: {ex.Message}"); //asd
+                {//TODO Quitar el Console.WriteLine
+                    Console.WriteLine($"Error al realizar la solicitud HTTP: {ex.Message}");
                 }
                 catch (JsonException ex)
-                {
+                {//TODO Quitar el Console.WriteLine
                     Console.WriteLine($"Error al deserializar la respuesta JSON: {ex.Message}");
                 }
                 catch (Exception ex)
-                {
+                {//TODO Quitar el Console.WriteLine
                     Console.WriteLine($"Ocurrió un error: {ex.Message}");
                 }
 

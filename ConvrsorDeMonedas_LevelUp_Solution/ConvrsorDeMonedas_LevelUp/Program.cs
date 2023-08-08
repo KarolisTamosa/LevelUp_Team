@@ -270,7 +270,6 @@ namespace Presentacion
 
         public void ModificarDivisas()
         {
-            string err = null;
             try
             {
                 List<Divisa> divisas = ProcesadorArchivoJSON.CogerDivisasDeJson();
@@ -384,7 +383,7 @@ namespace Presentacion
                 MostrarInputCodigoEntradaMientrasSeaInvalido(conversor, divisas, out nombreDivisaOrigen, out esCodigoMonedaValido);
 
                 esCodigoMonedaValido = false;
-                MostrarInputCodigoEntradaMientrasSeaInvalido(conversor, divisas, out nombreDivisaDestino, out esCodigoMonedaValido);
+                MostrarInputCodigoSalidaMientrasSeaInvalido(conversor, divisas, out nombreDivisaDestino, out esCodigoMonedaValido);
 
                 bool esImporteValido = false;
                 double importe;
@@ -468,6 +467,23 @@ namespace Presentacion
             } while (!esCodigoMonedaValido);
         }
 
+        private static void MostrarInputCodigoSalidaMientrasSeaInvalido(Conversor conversor, List<Divisa> divisas, out string nombreDivisaOrigen, out bool esCodigoMonedaValido)
+        {
+            do
+            {
+                Console.WriteLine("╔════════════════════════════════════════════════════════════════════════╗");
+                Console.WriteLine("║                   Inserte el nombre de la divisa de salida:            ║");
+                Console.WriteLine("╚════════════════════════════════════════════════════════════════════════╝");
+                nombreDivisaOrigen = Console.ReadLine() ?? "";
+
+                esCodigoMonedaValido = conversor.ComprobarNombre(nombreDivisaOrigen.ToUpper(), divisas);
+
+                if (!esCodigoMonedaValido)
+                {
+                    MostrarMensajeConColor("Inserte un nombre de divisa valido", ConsoleColor.Yellow);
+                }
+            } while (!esCodigoMonedaValido);
+        }
         public void MostrarHistorial()
         {
             Console.Clear();

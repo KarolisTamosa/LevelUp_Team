@@ -61,7 +61,7 @@ namespace Negocio
 
             ResultadoApiDivisas resultadoApiMonedas = ProcesadorDivisas.CambiarListaDivisaAResultadoApiMonedas(divisas);
 
-            ArchivosJSON.GuardarDivisas(resultadoApiMonedas);
+            ArchivosJSON.GuardarDivisasFinal(resultadoApiMonedas);
             
         }
 
@@ -74,10 +74,10 @@ namespace Negocio
         }
         public static ResultadoApiDivisas CogerResultadoApiMonedasDeJson()
         {
-            ResultadoApiDivisas a = new();
+            ResultadoApiDivisas resultadoApi = new();
             try
             {
-                a = ArchivosJSON.CogerResultadoApiMonedasDeJson();
+                resultadoApi = ArchivosJSON.CogerResultadoApiMonedasDeJson();
             }
             catch (Exception e)
             {
@@ -85,14 +85,14 @@ namespace Negocio
                 Controller.err.MyStringProperty = e.Message;
             }
 
-            return a;
+            return resultadoApi;
         }
         public static ResultadoApiDivisas CogerResultadoApiMonedasDeJsonInbox()
         {
-            ResultadoApiDivisas a = new();
+            ResultadoApiDivisas resultadoApi = new();
             try
             {
-                a = ArchivosJSON.CogerResultadoApiMonedasDeJsonInbox();
+                resultadoApi = ArchivosJSON.CogerResultadoApiMonedasDeJsonInbox();
             }
             catch (Exception e)
             {
@@ -100,7 +100,7 @@ namespace Negocio
                 Controller.err.MyStringProperty = e.Message;
             }
 
-            return a;
+            return resultadoApi;
         }
         public static void ResetearDatosJsonListadoDivisa()
         {
