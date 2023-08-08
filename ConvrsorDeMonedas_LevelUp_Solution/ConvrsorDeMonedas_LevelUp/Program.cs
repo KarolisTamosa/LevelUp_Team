@@ -286,6 +286,60 @@ namespace Presentacion
 
         }
 
+        private static void EscribirMensaje(string mensaje)
+        {
+            int anchoMensaje = mensaje.Length >= 100 ? 100 : mensaje.Length + 2;
+            PintarDetalleArriba(anchoMensaje);
+            Console.WriteLine();
+            PintarMensaje(mensaje, anchoMensaje);
+            Console.WriteLine();
+            PintarDetalleAbajo(anchoMensaje);
+        }
+
+        private static void PintarMensaje(string mensaje, int anchoMensaje)
+        {
+            int faltaAncho = 0;
+            int anchoMensajeSobra = mensaje.Length;
+            Console.Write("║ ");
+
+            for (int i = 0; i < anchoMensajeSobra; i++)
+            {
+                if(i > 97)
+                {
+                    Console.WriteLine(" ║");
+                    Console.Write("║ ");
+                    i = 0;
+                    anchoMensajeSobra = mensaje.Length - 100;
+                }
+                Console.Write(mensaje[i]);
+                faltaAncho = anchoMensaje - (i+1);
+            }
+            for (int i = 0; i < faltaAncho - 2; i++)
+            {
+                Console.Write(" ");
+            }
+            Console.Write(" ║");
+        }
+
+        private static void PintarDetalleArriba(int numAncho)
+        {
+            Console.Write("╔");
+            for (int i = 0; i < numAncho; i++)
+            {
+                Console.Write("═");
+            }
+            Console.Write("╗");
+        }
+        private static void PintarDetalleAbajo(int numAncho)
+        {
+            Console.Write("╚");
+            for (int i = 0; i < numAncho; i++)
+            {
+                Console.Write("═");
+            }
+            Console.Write("╝");
+        }
+
         public void ModificarDivisas()
         {
             try
