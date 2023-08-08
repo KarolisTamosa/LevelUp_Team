@@ -73,9 +73,11 @@ namespace Presentacion
             Console.WriteLine("║   2. Agregar una nueva divisa                                          ║");
             Console.WriteLine("║   3. Eliminar una divisa                                               ║");
             Console.WriteLine("║   4. Resetear listado divisas                                          ║");
-            Console.WriteLine("║   5. Salir                                                             ║");
+            Console.WriteLine("║   5. Volver                                                             ║");
             Console.WriteLine("╚════════════════════════════════════════════════════════════════════════╝");
             AccionesMenuEditarDivisas opcionMenuEditarDivisas = PedirNumeroOpcionMenuEditarDivisasl(5);
+
+
 
             switch (opcionMenuEditarDivisas)
             {
@@ -97,6 +99,8 @@ namespace Presentacion
                     break;
                 default:
                     Console.WriteLine("Opción inválida. Por favor, ingrese una opción válida (1-5).");
+                    Console.ReadLine();
+                    MostrarMenuEditorListadoDivisas();
                     break;
             }
         }
@@ -124,7 +128,7 @@ namespace Presentacion
                 Console.WriteLine("╚══════════════════════════════════╝");
             }
             Console.ReadLine();
-            
+
         }
         private bool PreguntarSiNo()
         {
@@ -164,6 +168,11 @@ namespace Presentacion
 
         }
 
+        private int EsOpcionCorrecta()
+        {
+            return 0; 
+        }
+
         private int PedirNumeroOpcionMenus(int ultimoNumero)
         {
             int result = -1;
@@ -175,17 +184,26 @@ namespace Presentacion
 
         private AccionesMenuEditarDivisas PedirNumeroOpcionMenuEditarDivisasl(int ultimoNumero)
         {
-            bool opcionPedidaCorrecto = false;
-            int result = -1;
-            do
+            //bool opcionPedidaCorrecto = false;
+            //int result = -1;
+            //do
+            //{
+            //    opcionPedidaCorrecto = int.TryParse(Console.ReadLine(), out result);
+            //    opcionPedidaCorrecto = ComprobarValorPedidoCorrecto(result, 1, ultimoNumero);
+
+            //} while (!opcionPedidaCorrecto
+            int result;
+            bool opcionPedidaCorrecto = int.TryParse(Console.ReadLine(), out result);
+            if (!opcionPedidaCorrecto)
             {
-                opcionPedidaCorrecto = int.TryParse(Console.ReadLine(), out result);
-                opcionPedidaCorrecto = ComprobarValorPedidoCorrecto(result, 1, ultimoNumero);
-
-            } while (!opcionPedidaCorrecto);
-
+                return (AccionesMenuEditarDivisas)result;
+            }
+            opcionPedidaCorrecto = ComprobarValorPedidoCorrecto(result, 1, ultimoNumero);
+            if (!opcionPedidaCorrecto)
+            {
+                return (AccionesMenuEditarDivisas)result;
+            }
             return (AccionesMenuEditarDivisas)result;
-
         }
 
         private bool ComprobarValorPedidoCorrecto(int AComprobar, int min, int max)
@@ -380,7 +398,7 @@ namespace Presentacion
                 string nombreDivisaOrigen = string.Empty;
                 string nombreDivisaDestino = string.Empty;
                 bool esCodigoMonedaValido = false;
-                MostrarInputCodigoEntrSalMientrasSeaInvalido(conversor, divisas, out nombreDivisaOrigen, out esCodigoMonedaValido,true);
+                MostrarInputCodigoEntrSalMientrasSeaInvalido(conversor, divisas, out nombreDivisaOrigen, out esCodigoMonedaValido, true);
 
                 esCodigoMonedaValido = false;
                 MostrarInputCodigoEntrSalMientrasSeaInvalido(conversor, divisas, out nombreDivisaDestino, out esCodigoMonedaValido, false);
@@ -465,7 +483,7 @@ namespace Presentacion
                     Console.WriteLine("║                   Inserte el nombre de la divisa de salida:            ║");
                     Console.WriteLine("╚════════════════════════════════════════════════════════════════════════╝");
                 }
-                
+
                 nombreDivisaOrigen = Console.ReadLine() ?? "";
 
                 esCodigoMonedaValido = conversor.ComprobarNombre(nombreDivisaOrigen.ToUpper(), divisas);
