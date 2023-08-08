@@ -551,20 +551,22 @@ namespace Presentacion
             Console.WriteLine("         ╚════════════════════════════╝      ");
             //EscribirMensaje(mensaje);
             Console.Write("                  Ingrese una opción:              ");
-            string opcionListado = Console.ReadLine();
+            string mensaje = Console.ReadLine();
+            AccionesMenuVolverSalir opcionListado = (AccionesMenuVolverSalir)int.Parse(mensaje);
 
-            if (opcionListado == "1")
+
+            switch (opcionListado)
             {
-                MenuPrincipal();
-            }
-            else if (opcionListado == "2")
-            {
-                Console.WriteLine("Saliendo del programa...");
-                Environment.Exit(0);
-            }
-            else
-            {
-                MostrarMensajeConColor("Opción inválida. Por favor, ingrese una opción válida (1-2).", ConsoleColor.Yellow);
+                case AccionesMenuVolverSalir.VolverAtras:
+                    MenuPrincipal();
+                    break;
+                case AccionesMenuVolverSalir.Salir:
+                    Console.WriteLine("Saliendo del programa...");
+                    Environment.Exit(0);
+                    break;
+                default:
+                    MostrarMensajeConColor("Opción inválida. Por favor, ingrese una opción válida (1-2).", ConsoleColor.Yellow);
+                    break;
             }
         }
     }
