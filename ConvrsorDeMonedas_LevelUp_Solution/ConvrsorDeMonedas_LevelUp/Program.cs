@@ -75,7 +75,7 @@ namespace Presentacion
                 "2. Agregar una nueva divisa",
                 "3. Eliminar una divisa",
                 "4. Resetear listado divisas",
-                "5. Salir"
+                "5. Volver"
             }, 3, ANCHO_PANTALLA);
             AccionesMenuEditarDivisas opcionMenuEditarDivisas = PedirNumeroOpcionMenuEditarDivisasl(5);
 
@@ -164,7 +164,7 @@ namespace Presentacion
             return opcionMenu;
 
         }
-        
+
         //retorna -1 si la opcion no es correcta, pasar el valor despues de hacer Console.ReadLine()
         private int EsOpcionCorrecta(string? valor, int valorMinimo, int valorMaximo)
         {
@@ -216,11 +216,9 @@ namespace Presentacion
             List<Divisa> divisas = ProcesadorArchivoJSON.CogerDivisasDeJson();
             if (divisas is not null)
             {
-                while (true)
-                {
-                    Mensajes.MostrarListadoDivisas(divisas);
-                    MenuVolverSalir();
-                }
+
+                Mensajes.MostrarListadoDivisas(divisas);
+                MenuVolverSalir();
             }
             else
             {
@@ -249,7 +247,7 @@ namespace Presentacion
 
         }
 
-        
+
 
         public static void ModificarDivisas()
         {
@@ -323,52 +321,51 @@ namespace Presentacion
         {
             Conversor conversor = new Conversor();
             List<Divisa> divisas = ProcesadorArchivoJSON.CogerDivisasDeJson();
-            while (true)
+
+            Mensajes.MostrarListadoDivisas(divisas);
+            string nombreDivisaOrigen = string.Empty;
+            string nombreDivisaDestino = string.Empty;
+            bool esCodigoMonedaValido = false;
+            MostrarInputCodigoEntrSalMientrasSeaInvalido(conversor, divisas, out nombreDivisaOrigen, out esCodigoMonedaValido, true);
+
+            esCodigoMonedaValido = false;
+            MostrarInputCodigoEntrSalMientrasSeaInvalido(conversor, divisas, out nombreDivisaDestino, out esCodigoMonedaValido, false);
+
+            bool esImporteValido = false;
+            double importe;
+            do
             {
-                Mensajes.MostrarListadoDivisas(divisas);
-                string nombreDivisaOrigen = string.Empty;
-                string nombreDivisaDestino = string.Empty;
-                bool esCodigoMonedaValido = false;
-                MostrarInputCodigoEntrSalMientrasSeaInvalido(conversor, divisas, out nombreDivisaOrigen, out esCodigoMonedaValido, true);
+                Mensajes.EscribirMensaje("Seleccione el importe a convertir: ");
 
-                esCodigoMonedaValido = false;
-                MostrarInputCodigoEntrSalMientrasSeaInvalido(conversor, divisas, out nombreDivisaDestino, out esCodigoMonedaValido, false);
-
-                bool esImporteValido = false;
-                double importe;
-                do
+                bool valorEsNumerico = double.TryParse(Console.ReadLine(), out importe);
+                if (!valorEsNumerico)
                 {
-                    Mensajes.EscribirMensaje("Seleccione el importe a convertir: ");
+                    Mensajes.EscribirMensajeConColor("Inserte un importe valido", ConsoleColor.Yellow);
+                    continue;
+                }
+                esImporteValido = conversor.ComprobarImporte(importe);
 
-                    bool valorEsNumerico = double.TryParse(Console.ReadLine(), out importe);
-                    if (!valorEsNumerico)
-                    {
-                        Mensajes.EscribirMensajeConColor("Inserte un importe valido", ConsoleColor.Yellow);
-                        continue;
-                    }
-                    esImporteValido = conversor.ComprobarImporte(importe);
+                if (!esImporteValido)
+                {
+                    Mensajes.EscribirMensajeConColor("Inserte un importe valido", ConsoleColor.Yellow);
+                }
 
-                    if (!esImporteValido)
-                    {
-                        Mensajes.EscribirMensajeConColor("Inserte un importe valido", ConsoleColor.Yellow);
-                    }
+            } while (!esImporteValido);
 
-                } while (!esImporteValido);
-
-                double resultado = conversor.Convertir(nombreDivisaOrigen, nombreDivisaDestino, importe, divisas, Historial);
-                Console.Clear();
-                Mensajes.EscribirUnaLista(new List<string>
+            double resultado = conversor.Convertir(nombreDivisaOrigen, nombreDivisaDestino, importe, divisas, Historial);
+            Console.Clear();
+            Mensajes.EscribirUnaLista(new List<string>
                 {
                     "EL resultado de la conversión es: " + resultado + " " + nombreDivisaDestino.ToUpper(),
                     "La divisa de entrada ha sido: " + nombreDivisaOrigen.ToUpper()
                 }, 3, ANCHO_PANTALLA);
 
-                MenuVolverSalir();
-            }
+            MenuVolverSalir();
+
 
         }
 
-        
+
 
         private static void MostrarInputCodigoEntrSalMientrasSeaInvalido(Conversor conversor, List<Divisa> divisas, out string nombreDivisaOrigen, out bool esCodigoMonedaValido, bool esDeEntrada)
         {
