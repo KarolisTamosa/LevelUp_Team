@@ -372,7 +372,6 @@ namespace Presentacion
 
         private static void MostrarInputCodigoEntrSalMientrasSeaInvalido(Conversor conversor, List<Divisa> divisas, out string nombreDivisaOrigen, out bool esCodigoMonedaValido, bool esDeEntrada)
         {
-            Controller.err.NuevoError("Error que sale de prueba");
             do
             {
                 if (esDeEntrada)
