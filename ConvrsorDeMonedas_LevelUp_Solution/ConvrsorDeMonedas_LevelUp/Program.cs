@@ -167,10 +167,22 @@ namespace Presentacion
             return opcionMenu;
 
         }
-
-        private int EsOpcionCorrecta()
+        
+        //retorna -1 si la opcion no es correcta, pasar el valor despues de hacer Console.ReadLine()
+        private int EsOpcionCorrecta(string? valor, int valorMinimo, int valorMaximo)
         {
-            return 0; 
+            int opcionNumerica;
+            bool esValorEntero = int.TryParse(valor, out opcionNumerica);
+            if (!esValorEntero)
+            {
+                return -1;
+            }
+            bool esValorEnteroDentroDeRango = ComprobarValorPedidoCorrecto(opcionNumerica, valorMinimo, valorMaximo);
+            if (!esValorEnteroDentroDeRango)
+            {
+                return -1;
+            }
+            return opcionNumerica;
         }
 
         private int PedirNumeroOpcionMenus(int ultimoNumero)
@@ -184,14 +196,6 @@ namespace Presentacion
 
         private AccionesMenuEditarDivisas PedirNumeroOpcionMenuEditarDivisasl(int ultimoNumero)
         {
-            //bool opcionPedidaCorrecto = false;
-            //int result = -1;
-            //do
-            //{
-            //    opcionPedidaCorrecto = int.TryParse(Console.ReadLine(), out result);
-            //    opcionPedidaCorrecto = ComprobarValorPedidoCorrecto(result, 1, ultimoNumero);
-
-            //} while (!opcionPedidaCorrecto
             int result;
             bool opcionPedidaCorrecto = int.TryParse(Console.ReadLine(), out result);
             if (!opcionPedidaCorrecto)
