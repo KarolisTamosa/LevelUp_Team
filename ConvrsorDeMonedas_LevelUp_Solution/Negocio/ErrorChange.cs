@@ -26,6 +26,10 @@ namespace Negocio
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+        public string RecogerMensajeError()
+        {
+            return myString;
+        }
         public void NuevoError(string err)
         {
             Controller.err.idError += 1;

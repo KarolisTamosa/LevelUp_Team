@@ -1,5 +1,7 @@
 ﻿
 
+using Negocio;
+
 namespace Presentacion
 {
     internal static class Mensajes
@@ -72,7 +74,19 @@ namespace Presentacion
             int anchoMensaje = mensaje.Length >= 100 ? 100 : mensaje.Length + 2;
             EscribirMensaje(mensaje, ESPACIO_IZQUIERDA_MENSAJE_DEFECTO, anchoMensaje);
         }
+        public static void MostrarListadoDivisas(List<Divisa> divisas)
+        {
+            Console.Clear();
+            Console.WriteLine("╔═══════════════════════════════════════════╗");
+            Console.WriteLine("║          Listado de Divisas               ║");
+            Console.WriteLine("╠═══════════════════════════════════════════╣");
+            Console.WriteLine("║   Nombre            │ Valor en Dólares    ║");
+            Console.WriteLine("╠═══════════════════════════════════════════╣");
 
+            divisas.ForEach(divisa => Console.WriteLine($"║   {divisa.Nombre,-18}│ {divisa.ValorEnDolares,15:N4}     ║"));
+
+            Console.WriteLine("╚═══════════════════════════════════════════╝");
+        }
 
         private static void PintarMensaje(string mensaje, int anchoMensaje, int espacioIzquierda, int anchoMensajeMaximo)
         {
