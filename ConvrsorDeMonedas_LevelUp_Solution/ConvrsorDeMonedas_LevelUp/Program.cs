@@ -185,7 +185,7 @@ namespace Presentacion
             } while (!opcionPedidaCorrecto);
 
             return (AccionesMenuEditarDivisas)result;
-            EscribirMensaje("");
+            Mensajes.EscribirMensaje("");
 
         }
 
@@ -250,124 +250,7 @@ namespace Presentacion
 
         }
 
-        private static void EscribirUnaLista(List<string> listaMensaje)
-        {
-            int anchoMensaje = listaMensaje.Max().Length + 2;
-
-            PintarDetalleArriba(anchoMensaje);
-
-            foreach (var item in listaMensaje)
-            {
-                Console.WriteLine();
-                PintarMensaje(item, anchoMensaje, anchoMensaje);
-            }
-            Console.WriteLine();
-
-            PintarDetalleAbajo(anchoMensaje);
-        }
-        private static void EscribirUnaLista(List<string> listaMensaje, int anchoMensaje)
-        {
-
-            PintarDetalleArriba(anchoMensaje);
-
-            foreach (var item in listaMensaje)
-            {
-                Console.WriteLine();
-                PintarMensaje(item, anchoMensaje, anchoMensaje);
-            }
-            Console.WriteLine();
-
-            PintarDetalleAbajo(anchoMensaje);
-        }
-        private static void EscribirMensajeError(string mensaje)
-        {
-            MostrarMensajeConColor(mensaje, ConsoleColor.Red);
-        }
-        private static void EscribirMensajeAlerta(string mensaje)
-        {
-            MostrarMensajeConColor(mensaje, ConsoleColor.Yellow);
-        }
-        private static void MostrarMensajeConColor(string mensaje, ConsoleColor color)
-        {
-            Console.ForegroundColor = color;
-            EscribirMensaje(mensaje);
-            Console.ResetColor();
-        }
-        private static void EscribirMensaje(string mensaje)
-        {
-            int anchoMensaje = mensaje.Length >= 100 ? 100 : mensaje.Length + 2;
-            PintarDetalleArriba(anchoMensaje);
-            Console.WriteLine();
-            PintarMensaje(mensaje, anchoMensaje, 100);
-            Console.WriteLine();
-            PintarDetalleAbajo(anchoMensaje);
-        }
-        private static void EscribirMensajeError(string mensaje, int anchoMensaje)
-        {
-            MostrarMensajeConColor(mensaje, ConsoleColor.Red, anchoMensaje);
-        }
-        private static void EscribirMensajeAlerta(string mensaje, int anchoMensaje)
-        {
-            MostrarMensajeConColor(mensaje, ConsoleColor.Yellow, anchoMensaje);
-        }
-        private static void MostrarMensajeConColor(string mensaje, ConsoleColor color, int anchoMensaje)
-        {
-            Console.ForegroundColor = color;
-            EscribirMensaje(mensaje, anchoMensaje);
-            Console.ResetColor();
-        }
-        private static void EscribirMensaje(string mensaje, int anchoMensaje)
-        {
-            PintarDetalleArriba(anchoMensaje);
-            Console.WriteLine();
-            PintarMensaje(mensaje, anchoMensaje, anchoMensaje);
-            Console.WriteLine();
-            PintarDetalleAbajo(anchoMensaje);
-        }
-
-        private static void PintarMensaje(string mensaje, int anchoMensaje, int anchoMensajeMaximo)
-        {
-            int faltaAncho = 0;
-            int anchoMensajeSobra = mensaje.Length;
-            Console.Write("║   ");
-
-            for (int i = 0; i < anchoMensajeSobra; i++)
-            {
-                if(i >= anchoMensajeMaximo -2)
-                {
-                    Console.WriteLine("   ║");
-                    Console.Write("║   ");
-                    i = 0;
-                    anchoMensajeSobra = anchoMensajeSobra - anchoMensajeMaximo;
-                }
-                Console.Write(mensaje[i]);
-                faltaAncho = anchoMensaje - (i+1);
-            }
-            for (int i = 0; i < faltaAncho - 2; i++)
-            {
-                Console.Write(" ");
-            }
-            Console.Write("   ║");
-        }
-
-        private static void PintarDetalleArriba(int numAncho)
-        {
-            Console.Write("╔");
-            for (int i = 0; i < numAncho + 4; i++)
-            {
-                Console.Write("═");
-            }
-            Console.Write("╗");
-        }
-        private static void PintarDetalleAbajo(int numAncho)
-        {
-            Console.Write("╚");
-            for (int i = 0; i < numAncho + 4; i++)
-            {
-                Console.Write("═");
-            }
-            Console.Write("╝");
-        }
+        
 
         public void ModificarDivisas()
         {
@@ -439,7 +322,7 @@ namespace Presentacion
             double nuevoValor;
             if (!double.TryParse(Console.ReadLine(), out nuevoValor))
             {
-                MostrarMensajeConColor("El valor ingresado no es válido.", ConsoleColor.Yellow);
+                Mensajes.EscribirMensajeConColor("El valor ingresado no es válido.", ConsoleColor.Yellow);
                 return;
             }
 
@@ -497,14 +380,14 @@ namespace Presentacion
                     bool valorEsNumerico = double.TryParse(Console.ReadLine(), out importe);
                     if (!valorEsNumerico)
                     {
-                        MostrarMensajeConColor("Inserte un importe valido", ConsoleColor.Yellow);
+                        Mensajes.EscribirMensajeConColor("Inserte un importe valido", ConsoleColor.Yellow);
                         continue;
                     }
                     esImporteValido = conversor.ComprobarImporte(importe);
 
                     if (!esImporteValido)
                     {
-                        MostrarMensajeConColor("Inserte un importe valido", ConsoleColor.Yellow);
+                        Mensajes.EscribirMensajeConColor("Inserte un importe valido", ConsoleColor.Yellow);
                     }
 
                 } while (!esImporteValido);
@@ -546,7 +429,7 @@ namespace Presentacion
 
                 if (!esCodigoMonedaValido)
                 {
-                    MostrarMensajeConColor("Inserte un nombre de divisa valido", ConsoleColor.Yellow);
+                    Mensajes.EscribirMensajeConColor("Inserte un nombre de divisa valido", ConsoleColor.Yellow);
                 }
             } while (!esCodigoMonedaValido);
         }
@@ -556,7 +439,7 @@ namespace Presentacion
             Console.Clear();
             if (Historial.Count == 0)
             {
-                MostrarMensajeConColor("No existen registros en el historial", ConsoleColor.Yellow);
+                Mensajes.EscribirMensajeConColor("No existen registros en el historial", ConsoleColor.Yellow);
                 Console.ReadLine();
                 return;
             }
@@ -594,7 +477,7 @@ namespace Presentacion
                     Environment.Exit(0);
                     break;
                 default:
-                    MostrarMensajeConColor("Opción inválida. Por favor, ingrese una opción válida (1-2).", ConsoleColor.Yellow);
+                    Mensajes.EscribirMensajeConColor("Opción inválida. Por favor, ingrese una opción válida (1-2).", ConsoleColor.Yellow);
                     break;
             }
         }
