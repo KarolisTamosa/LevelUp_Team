@@ -101,7 +101,7 @@ namespace Presentacion
                     break;
                 default:
                     Console.WriteLine("Opción inválida. Por favor, ingrese una opción válida (1-5).");
-                    Console.ReadLine();
+                    Thread.Sleep(2000);
                     MostrarMenuEditorListadoDivisas();
                     break;
             }
@@ -425,8 +425,15 @@ namespace Presentacion
             }, 9, ANCHO_PANTALLA - 9);
             Console.Write("                  Ingrese una opción:              ");
             string mensaje = Console.ReadLine();
-            AccionesMenuVolverSalir opcionListado = (AccionesMenuVolverSalir)int.Parse(mensaje);
+            int opcion;
+            bool esOpcionEntera = int.TryParse(mensaje, out opcion);
+            if (!esOpcionEntera)
+            {
+                MenuPrincipal();
+                return;
+            }
 
+            AccionesMenuVolverSalir opcionListado = (AccionesMenuVolverSalir)int.Parse(mensaje);
 
             switch (opcionListado)
             {
