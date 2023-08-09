@@ -449,13 +449,19 @@ namespace Presentacion
             while (true)
             {
                 MostrarListadoDivisas(divisas);
+                //MenuVolverSalir();
+                //if(Console.ReadKey()== ConsoleKey.Enter)
+                //{
+
+                //}
                 string nombreDivisaOrigen = string.Empty;
                 string nombreDivisaDestino = string.Empty;
                 bool esCodigoMonedaValido = false;
                 MostrarInputCodigoEntrSalMientrasSeaInvalido(conversor, divisas, out nombreDivisaOrigen, out esCodigoMonedaValido,true);
-
+                //MenuVolverSalir();
                 esCodigoMonedaValido = false;
                 MostrarInputCodigoEntrSalMientrasSeaInvalido(conversor, divisas, out nombreDivisaDestino, out esCodigoMonedaValido, false);
+                //MenuVolverSalir();
 
                 bool esImporteValido = false;
                 double importe;
@@ -544,12 +550,10 @@ namespace Presentacion
         }
         private static void MenuVolverSalir()
         {
-            //var mensaje = "1. Volver atrás\n2. Salir";
             Console.WriteLine("         ╔════════════════════════════╗      ");
             Console.WriteLine("         ║   1. Volver atrás          ║      ");
             Console.WriteLine("         ║   2. Salir                 ║      ");
             Console.WriteLine("         ╚════════════════════════════╝      ");
-            //EscribirMensaje(mensaje);
             Console.Write("                  Ingrese una opción:              ");
             string mensaje = Console.ReadLine();
             AccionesMenuVolverSalir opcionListado = (AccionesMenuVolverSalir)int.Parse(mensaje);
