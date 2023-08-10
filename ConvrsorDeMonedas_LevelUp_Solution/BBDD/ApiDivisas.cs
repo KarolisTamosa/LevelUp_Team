@@ -21,17 +21,13 @@ namespace Datos
                     string jsonResponse = await response.Content.ReadAsStringAsync();
                     resultadoApi = JsonConvert.DeserializeObject<ResultadoApiDivisas>(jsonResponse);
                 }
-                catch (HttpRequestException ex)
-                {//TODO Quitar el Console.WriteLine
-                    Console.WriteLine($"Error al realizar la solicitud HTTP: {ex.Message}");
-                }
-                catch (JsonException ex)
-                {//TODO Quitar el Console.WriteLine
-                    Console.WriteLine($"Error al deserializar la respuesta JSON: {ex.Message}");
-                }
                 catch (Exception ex)
-                {//TODO Quitar el Console.WriteLine
-                    Console.WriteLine($"Ocurrió un error: {ex.Message}");
+                {
+                    resultadoApi = new ResultadoApiDivisas()
+                    {
+                        Result = "False",
+                        Documentation = ex.Message
+                    };
                 }
 
             }
@@ -39,6 +35,7 @@ namespace Datos
         }
         public static ResultadoApiDivisas ImportarMonedasDesdeApi()
         {
+
             return ImportarMonedasDesdeApiAsync().GetAwaiter().GetResult();
         }
 
