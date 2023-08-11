@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Domain.IRepositories
 {
-    internal interface IMonedaRepository
+    public interface IMonedaRepository
     {
+
     }
 }

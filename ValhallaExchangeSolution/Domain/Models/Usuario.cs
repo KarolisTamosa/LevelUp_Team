@@ -1,7 +1,10 @@
-﻿namespace Domain.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Domain.Models
 {
     public class Usuario
     {
+        [Key]
         public int IdUsuario { get; set; }
         public string Email { get; set; }
         public string PasswordEncriptado { get; set; }

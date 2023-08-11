@@ -3,7 +3,7 @@
 namespace Domain.Models{    
     public class HistorialPorUsuario
     {
-        [Key] 
+        [Key]
         public int IdHistorialPorUsuario { get; set; }
         public int IdUsuario { get; set; }//FK
         public int IdMonedaOrigen { get; set; }//FK

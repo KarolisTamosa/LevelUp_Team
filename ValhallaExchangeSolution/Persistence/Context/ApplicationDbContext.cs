@@ -8,16 +8,22 @@ using System.Threading.Tasks;
 
 namespace Persistence.Context
 {
-    internal class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : DbContext
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> opciones) : base(opciones) { }
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> opciones) : base() { }
         public DbSet<Moneda> Monedas { get; set; }
         public DbSet<Pais> Paises { get; set; }
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<HistorialPorUsuario> HistorialPorUsuarios { get; set; }
 
-
-
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                // Configura la cadena de conexión y cambia la biblioteca de migraciones
+                optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=PruebaBD;Trusted_Connection=True;MultipleActiveResultSets=true");
+            }
+        }
     }
 
 }
