@@ -21,7 +21,7 @@ namespace Persistence.Context
             if (!optionsBuilder.IsConfigured)
             {
                 // Configura la cadena de conexión y cambia la biblioteca de migraciones
-                optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=PruebaBD;Trusted_Connection=True;MultipleActiveResultSets=true");
+                optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=PruebaBD2;Trusted_Connection=True;MultipleActiveResultSets=true");
             }
         }
     }

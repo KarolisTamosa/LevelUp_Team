@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Persistence.Migrations
 {
-    public partial class cuarto : Migration
+    public partial class sexto : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

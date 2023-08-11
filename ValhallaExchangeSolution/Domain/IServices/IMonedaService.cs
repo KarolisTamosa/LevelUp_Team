@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.IRepositories
+namespace Domain.IServices
 {
-    public interface IMonedaRepository
+    public interface IMonedaService
     {
         List<Moneda> GetMonedas();
         void MeterMonedas(List<Moneda> monedas);

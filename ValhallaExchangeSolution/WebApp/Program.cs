@@ -1,6 +1,10 @@
 
+using Domain.IRepositories;
+using Domain.IServices;
 using Microsoft.EntityFrameworkCore;
 using Persistence.Context;
+using Persistence.Repositories;
+using Services;
 
 namespace WebApp
 {
@@ -15,9 +19,17 @@ namespace WebApp
 
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
             {
-                options.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=PruebaBD;Trusted_Connection=True;MultipleActiveResultSets=true");
+                options.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=PruebaBD2;Trusted_Connection=True;MultipleActiveResultSets=true");
             }
             );
+
+
+            //Servicios
+            builder.Services.AddScoped<IMonedaService, MonedaService>();
+
+            //Repositorios
+            builder.Services.AddScoped<IMonedaRepository, MonedaRepository>();
+
 
             var app = builder.Build();
 
@@ -43,4 +55,6 @@ namespace WebApp
             app.Run();
         }
     }
+
+    
 }

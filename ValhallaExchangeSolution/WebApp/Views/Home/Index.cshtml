@@ -6,3 +6,11 @@
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
+<div class="text-center">
+    @foreach (var moneda in ViewBag.lista)
+    {
+        <h2>@moneda.IdMoneda</h2>
+        <h2>@moneda.Codigo</h2>
+        <h3>@moneda.Nombre</h3>
+    }
+</div>
