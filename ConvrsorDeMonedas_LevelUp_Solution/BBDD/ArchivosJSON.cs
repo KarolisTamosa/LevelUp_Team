@@ -54,22 +54,30 @@ namespace Datos
 
         }
 
-        public static void ProcesarArchivoJSON()
+        public static void ProcesarArchivoJSON(out string? error)
         {
+            error = null;
 
-           //TODO ELIMINAR¿?->  ResultadoApiDivisas divisas = CogerResultadoApiMonedasDeJsonInbox();
+            try
+            {
+                string rutaArchivoBackup = Path.Combine("C:/archivos/backup", $"monedas_{DateTime.Now:yyyyMMdd_HHmmss}.json");
+                File.Copy(RUTA_ARCHIVO_JSON, rutaArchivoBackup);
 
-            string rutaArchivoBackup = Path.Combine("C:/archivos/backup", $"monedas_{DateTime.Now:yyyyMMdd_HHmmss}.json");
-            File.Copy(RUTA_ARCHIVO_JSON, rutaArchivoBackup);
+                string rutaArchivoProgreso = Path.Combine("C:/archivos/proceso", $"monedas_progreso{DateTime.Now:yyyyMMdd_HHmmss}.json");
+                File.Move(RUTA_ARCHIVO_JSON, rutaArchivoProgreso);
 
-            string rutaArchivoProgreso = Path.Combine("C:/archivos/proceso", $"monedas_progreso{DateTime.Now:yyyyMMdd_HHmmss}.json");
-            File.Move(RUTA_ARCHIVO_JSON, rutaArchivoProgreso);
+                string rutaArchivoFinal = Path.Combine("C:/archivos/final", $"monedas_final.json");
+                if (File.Exists(rutaArchivoFinal))
+                    File.Delete(rutaArchivoFinal);
 
-            string rutaArchivoFinal = Path.Combine("C:/archivos/final", $"monedas_final.json");
-            if (File.Exists(rutaArchivoFinal))
-                File.Delete(rutaArchivoFinal);
+                File.Move(rutaArchivoProgreso, rutaArchivoFinal);
+            }
+            catch (Exception ex)
+            {
+                error = ex.Message;
+            }
 
-            File.Move(rutaArchivoProgreso, rutaArchivoFinal);
+            
           
         }
         public static ResultadoApiDivisas CogerResultadoApiMonedasDeJson()
@@ -108,18 +116,27 @@ namespace Datos
         }
         public static void GuardarDivisas(ResultadoApiDivisas resultadoApiMonedas,bool esFinal)
         {
-            string json = JsonConvert.SerializeObject(resultadoApiMonedas, Formatting.Indented);
-            if(esFinal)
+            try
             {
-                File.WriteAllText(RUTA_FINAL_JSON, json);
-            }
-            else
-            {
-                using (StreamWriter sw = new StreamWriter(RUTA_ARCHIVO_JSON))
+                string json = JsonConvert.SerializeObject(resultadoApiMonedas, Formatting.Indented);
+                if (esFinal)
                 {
-                    sw.Write(json);
+                    File.WriteAllText(RUTA_FINAL_JSON, json);
+                }
+                else
+                {
+                    using (StreamWriter sw = new StreamWriter(RUTA_ARCHIVO_JSON))
+                    {
+                        sw.Write(json);
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+
+                //error = 
+            }
+            
         }
     }
 }

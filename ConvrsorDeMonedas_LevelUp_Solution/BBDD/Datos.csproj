@@ -7,13 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Test\**" />
-    <EmbeddedResource Remove="Test\**" />
-    <None Remove="Test\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\BBDD\3. Datos.csproj" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
 </Project>

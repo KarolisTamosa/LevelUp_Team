@@ -9,8 +9,17 @@ namespace Negocio
         {
             if(!ArchivosJSON.ExisteArchivoFinalJSON())
             {
-                ResultadoApiDivisas listaDivisas = ApiDivisas.ImportarMonedasDesdeApi();
-                ArchivosJSON.CrearArchivoJsonPorApi(listaDivisas);
+                    ResultadoApiDivisas listaDivisas = ApiDivisas.ImportarMonedasDesdeApi();
+                if (listaDivisas.Result == "False")
+                {
+                    Controller.err.NuevoError(listaDivisas.Documentation+" || Lo sentimos, pero no puede utilizar la aplicación. Contacte con su administrador");
+                }
+                else
+                {
+                    ArchivosJSON.CrearArchivoJsonPorApi(listaDivisas);
+                }
+
+
             }
 
 
@@ -21,14 +30,10 @@ namespace Negocio
 
             if (ArchivosJSON.ExisteArchivoInboxJSON())
             {
-                try
-                {
-                    ArchivosJSON.ProcesarArchivoJSON();
-                }
-                catch (Exception ex)
-                {
-                    Controller.err.NuevoError($"Error general al leer o procesar el archivo JSON: {ex.Message}");
-                }
+                string? error;
+                ArchivosJSON.ProcesarArchivoJSON(out error);
+
+                if (error is not null) Controller.err.NuevoError(error);
             }
         }
 
