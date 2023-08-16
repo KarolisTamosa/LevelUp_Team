@@ -38,7 +38,7 @@ namespace WebApp.Controllers
 
             _monedaService.MeterMonedas(listaMonedas);
             ViewBag.lista = listaMonedas;
-            return View();
+            return View();//chris
 
         }
 
