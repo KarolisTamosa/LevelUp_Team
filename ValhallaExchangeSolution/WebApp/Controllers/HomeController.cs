@@ -42,6 +42,28 @@ namespace WebApp.Controllers
 
         }
 
+        [HttpPost]
+        //public ActionResult Convertir()
+        //{
+        //    // Aquí puedes realizar la lógica de conversión y otras acciones
+        //    // utilizando los parámetros MonedaOrigen, MonedaDestino e Importe
+
+        //    //// Por ejemplo:
+        //    //decimal importe = decimal.Parse(Importe);
+        //    //decimal resultado = RealizarConversion(importe, MonedaOrigen, MonedaDestino);
+
+        //    //ViewBag.Resultado = resultado;
+
+        //    return View("Index"); // Redirigir de nuevo a la vista
+        //}
+
+        private decimal RealizarConversion(int importe, string monedaOrigen, string monedaDestino)
+        {
+            // Aquí implementa la lógica de conversión real
+            // y devuelve el resultado calculado
+            return importe * 2; // Esto es solo un ejemplo
+        }
+
         public IActionResult Privacy()
         {
             return View();

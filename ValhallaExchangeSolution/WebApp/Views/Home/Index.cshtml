@@ -1,16 +1,57 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+<div class="text-center">
+    <div>
+        <h1>Lista de monedas: </h1>
+        @foreach (var moneda in ViewBag.lista)
+        {
+            <div class="horizontal">
+                <p>@moneda.IdMoneda</p>
+                <p>@moneda.Codigo</p>
+                <p>@moneda.Nombre</p>
+            </div>
+        }
+    </div>
+    <div>
+        <br />
+        <h1>Conversor de monedas:</h1>
+        <div class="horizontal">
+            <p>Moneda origen: </p>
+            <input type="text" name="MonedaOrigen" id="monedaOrigen" placeholder="Moneda origen" />
+        </div>
+        <div class="horizontal">
+            <p>Moneda destino: </p>
+            <input type="text" name="MonedaDestino" id="monedaDestino" placeholder="Moneda destino" />
+        </div>
+        <div class="horizontal">
+            <p>Importe: </p>
+            <input type="text" name="Importe" id="importe" placeholder="Importe" />
+        </div>
+        <div>
+            <button id="modifyButton" onclick="Convertir()">Convertir</button>
+        </div>
+    </div>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
-<div class="text-center">
-    @foreach (var moneda in ViewBag.lista)
-    {
-        <h2>@moneda.IdMoneda</h2>
-        <h2>@moneda.Codigo</h2>
-        <h3>@moneda.Nombre</h3>
+
+<script>
+    function Convertir() {
+        let origen = document.getElementById("monedaOrigen").value;
+        let destino = document.getElementById("monedaDestino").value;
+        let importe = parseInt(document.getElementById("importe").value);
+        
+        $.ajax({
+            url: '@Url.Action("RealizarConversion")',
+            type: 'POST',
+            data: { 
+                importe: importe,
+                monedaOrigen: origen,
+            monedaDestino: destino
+            
+            }
+        }).done(function () {
+            alert('Modify Movie');
+        });
     }
-</div>
+</script>
