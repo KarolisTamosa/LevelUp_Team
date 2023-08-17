@@ -11,5 +11,7 @@ namespace Domain.IServices
     {
         List<Moneda> GetMonedas();
         void MeterMonedas(List<Moneda> monedas);
+        Task<Moneda> ObtenerMonedaPorCodigo(string codigoMoneda);
+        double ObtenerResultadoConvertirMoneda(Moneda monedaOrigen, Moneda monedaDestino, double importe);
     }
 }

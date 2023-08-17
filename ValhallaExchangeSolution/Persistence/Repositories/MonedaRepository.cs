@@ -1,5 +1,6 @@
 ﻿using Domain.IRepositories;
 using Domain.Models;
+using Microsoft.EntityFrameworkCore;
 using Persistence.Context;
 using System;
 using System.Collections.Generic;
@@ -25,6 +26,13 @@ namespace Persistence.Repositories
         {
             _context.Monedas.AddRange(monedas);
             _context.SaveChanges();
+        }
+
+
+        //puede devolver nulo
+        public async Task<Moneda> ObtenerMonedaPorCodigo(string codigoMoneda)
+        {
+            return await _context.Monedas.Where(moneda => moneda.Codigo.Equals(codigoMoneda)).Select(moneda => moneda).FirstOrDefaultAsync();
         }
     }
 }
