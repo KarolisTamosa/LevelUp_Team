@@ -32,7 +32,7 @@ namespace Persistence.Repositories
         //puede devolver nulo
         public async Task<Moneda> ObtenerMonedaPorCodigo(string codigoMoneda)
         {
-            return await _context.Monedas.Where(moneda => moneda.Codigo.Equals(codigoMoneda)).Select(moneda => moneda).FirstOrDefaultAsync();
+            return await _context.Monedas.Where(moneda => moneda.Codigo.ToUpper().Equals(codigoMoneda.ToUpper())).Select(moneda => moneda).FirstOrDefaultAsync();
         }
     }
 }

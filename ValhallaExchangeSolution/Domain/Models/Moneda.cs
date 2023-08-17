@@ -6,6 +6,7 @@ namespace Domain.Models{
     {
         [Key]
         public int IdMoneda { get; set; }
+        //[MaxLength(3)]
         public string Codigo { get; set; }
         public string Nombre { get; set; }
         public double ValorEnDolares { get; set; }

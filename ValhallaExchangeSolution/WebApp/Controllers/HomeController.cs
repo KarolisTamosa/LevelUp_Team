@@ -19,77 +19,75 @@ namespace WebApp.Controllers
         //
         public IActionResult Index()
         {
-            var listaMonedas = new List<Moneda> {
-                new Moneda()
-                {
-                    Codigo = "EUR",
-                    Nombre = "Euro",
-                    ValorEnDolares = 1.2,
-                    Eliminado = false
-                },
-                new Moneda()
-                {
-                    Codigo = "USD",
-                    Nombre = "Dolar",
-                    ValorEnDolares = 1,
-                    Eliminado = false
-                }
-            };
-
-            _monedaService.MeterMonedas(listaMonedas);
-            ViewBag.resultado = 0;
-            ViewBag.lista = listaMonedas;
+            List<Moneda> lista = _monedaService.GetMonedas();
+            if (lista.Count == 0)
+            {
+                var listaMonedas = new List<Moneda> {
+                    new Moneda()
+                    {
+                        Codigo = "EUR",
+                        Nombre = "Euro",
+                        ValorEnDolares = 1.2,
+                        Eliminado = false
+                    },
+                    new Moneda()
+                    {
+                        Codigo = "USD",
+                        Nombre = "Dolar",
+                        ValorEnDolares = 1,
+                        Eliminado = false
+                    }
+                };
+                _monedaService.MeterMonedas(listaMonedas);
+                ViewBag.lista = _monedaService.GetMonedas();
+            }
+            else
+            {
+                ViewBag.lista = lista;
+            }
             return View();//chris
 
         }
 
-        
-        //public ActionResult Convertir()
-        //{
-        //    // Aquí puedes realizar la lógica de conversión y otras acciones
-        //    // utilizando los parámetros MonedaOrigen, MonedaDestino e Importe
 
-        //    //// Por ejemplo:
-        //    //decimal importe = decimal.Parse(Importe);
-        //    //decimal resultado = RealizarConversion(importe, MonedaOrigen, MonedaDestino);
-
-        //    //ViewBag.Resultado = resultado;
-
-        //    return View("Index"); // Redirigir de nuevo a la vista
-        //}
         [HttpPost]
-        public IActionResult RealizarConversion(int importe, string monedaOrigen, string monedaDestino)
-        {
-           ViewBag.resultado = importe * 2;
-            return Json(new { ViewBag.resultado });
-        }
+        public string RealizarConversion(string importeInput, string codigoMonedaOrigen, string codigoMonedaDestino)
 
-        private async Task Provisional()
         {
+            string resultado = "";
             try
             {
-                var input1 = "";
-                var input2 = "";
-                var importeInput = "";
 
                 bool esNumerico = double.TryParse(importeInput, out double importe);
 
-                if (!string.IsNullOrEmpty(input1) && !string.IsNullOrEmpty(input2) && esNumerico)
+                if (!string.IsNullOrEmpty(codigoMonedaOrigen) && !string.IsNullOrEmpty(codigoMonedaDestino) && esNumerico)
                 {
-                    Moneda monedaOrigen = _monedaService.ObtenerMonedaPorCodigo(input1).Result;//getawaiter en vez de await para hacerlo sincrono y se pueda llamar en el html
-                    Moneda monedaDestino = _monedaService.ObtenerMonedaPorCodigo(input2).Result;
+                    Moneda monedaOrigen = _monedaService.ObtenerMonedaPorCodigo(codigoMonedaOrigen).Result;//getawaiter en vez de await para hacerlo sincrono y se pueda llamar en el html
+                    Moneda monedaDestino = _monedaService.ObtenerMonedaPorCodigo(codigoMonedaDestino).Result;
                     if (monedaOrigen != null && monedaDestino != null && importe >= 0)
                     {
-                        double resultado = _monedaService.ObtenerResultadoConvertirMoneda(monedaOrigen, monedaDestino, importe);
+                         resultado = _monedaService.ObtenerResultadoConvertirMoneda(monedaOrigen, monedaDestino, importe).ToString();
+                    }
+                    else
+                    {
+                        resultado = "Alguna código de moneda no existe o el importe es negativo";
                     }
                 }
+                else
+                {
+                    resultado = "Alguno de los valores que has metido es null";
+                }
+                
 
                 //mensaje de error
             }
             catch (Exception ex)
             {
-
+                resultado = "Error en la conversión de monedas.";
             }
+
+            return resultado;
+
         }
 
         public IActionResult Privacy()

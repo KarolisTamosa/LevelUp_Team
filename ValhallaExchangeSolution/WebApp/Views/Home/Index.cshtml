@@ -3,17 +3,6 @@
 }
 <div class="text-center">
     <div>
-        <h1>Lista de monedas: </h1>
-        @foreach (var moneda in ViewBag.lista)
-        {
-            <div class="horizontal">
-                <p>@moneda.IdMoneda</p>
-                <p>@moneda.Codigo</p>
-                <p>@moneda.Nombre</p>
-            </div>
-        }
-    </div>
-    <div>
         <br />
         <h1>Conversor de monedas:</h1>
         <div class="horizontal">
@@ -35,6 +24,18 @@
             <p id="resultado"> Resultado: 0</p>
         </div>
     </div>
+    <div>
+        <h1>Lista de monedas: </h1>
+        @foreach (var moneda in ViewBag.lista)
+        {
+            <div class="horizontal">
+                <p>@moneda.IdMoneda</p>
+                <p>@moneda.Codigo</p>
+                <p>@moneda.Nombre</p>
+            </div>
+        }
+    </div>
+
 
 </div>
 
@@ -42,18 +43,18 @@
     function Convertir() {
         let origen = document.getElementById("monedaOrigen").value;
         let destino = document.getElementById("monedaDestino").value;
-        let importe = parseInt(document.getElementById("importe").value);
+        let importe = document.getElementById("importe").value;
 
         $.ajax({
             url: '@Url.Action("RealizarConversion", "Home")',
             type: 'POST',
             data: {
-                importe: importe,
-                monedaOrigen: origen,
-                monedaDestino: destino
+                importeInput: importe,
+                codigoMonedaOrigen: origen,
+                codigoMonedaDestino: destino
             },
             success: function (data) {
-                actualizarResultadoEnPagina(data.resultado);
+                actualizarResultadoEnPagina(data);
             },
             error: function () {
                 alert('Error en la llamada AJAX');
