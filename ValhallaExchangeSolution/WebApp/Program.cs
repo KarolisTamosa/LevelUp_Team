@@ -26,10 +26,10 @@ namespace WebApp
 
             //Servicios
             builder.Services.AddScoped<IMonedaService, MonedaService>();
+            builder.Services.AddScoped<IApiMonedasService, ApiMonedasService>();
 
             //Repositorios
             builder.Services.AddScoped<IMonedaRepository, MonedaRepository>();
-
 
             var app = builder.Build();
 

@@ -10,43 +10,32 @@ namespace WebApp.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IMonedaService _monedaService;
+        private readonly IApiMonedasService _apiMonedasService;
 
-        public HomeController(ILogger<HomeController> logger, IMonedaService monedaService)
+        public HomeController(ILogger<HomeController> logger, IMonedaService monedaService, IApiMonedasService apiMonedasService)
         {
             _logger = logger;
             _monedaService = monedaService;
+            _apiMonedasService = apiMonedasService;
         }
         //
         public IActionResult Index()
         {
+
+
             List<Moneda> lista = _monedaService.GetMonedas();
             if (lista.Count == 0)
             {
-                var listaMonedas = new List<Moneda> {
-                    new Moneda()
-                    {
-                        Codigo = "EUR",
-                        Nombre = "Euro",
-                        ValorEnDolares = 1.2,
-                        Eliminado = false
-                    },
-                    new Moneda()
-                    {
-                        Codigo = "USD",
-                        Nombre = "Dolar",
-                        ValorEnDolares = 1,
-                        Eliminado = false
-                    }
-                };
-                _monedaService.MeterMonedas(listaMonedas);
+                lista = _apiMonedasService.ObtenerListaMonedasDeApi();
+                _monedaService.MeterMonedas(lista);
                 ViewBag.lista = _monedaService.GetMonedas();
             }
             else
             {
                 ViewBag.lista = lista;
             }
-            return View();//chris
 
+            return View();
         }
 
 
@@ -54,6 +43,7 @@ namespace WebApp.Controllers
         public string RealizarConversion(string importeInput, string codigoMonedaOrigen, string codigoMonedaDestino)
 
         {
+
             string resultado = "";
             try
             {
@@ -70,7 +60,7 @@ namespace WebApp.Controllers
                     }
                     else
                     {
-                        resultado = "Alguna código de moneda no existe o el importe es negativo";
+                        resultado = "Algun código de moneda no existe o el importe es negativo";
                     }
                 }
                 else

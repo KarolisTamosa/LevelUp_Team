@@ -22,6 +22,10 @@ namespace Persistence.Repositories
             return _context.Monedas.ToList();
         }
 
+        public void BorrarRegistrosDeMoneda() { 
+            
+        }
+
         public void MeterMonedas(List<Moneda> monedas)
         {
             _context.Monedas.AddRange(monedas);

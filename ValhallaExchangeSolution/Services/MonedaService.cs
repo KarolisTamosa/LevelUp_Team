@@ -13,9 +13,11 @@ namespace Services
     public class MonedaService : IMonedaService
     {
         private readonly IMonedaRepository _monedaRepository;
-        public MonedaService(IMonedaRepository monedaRepository)
+        private readonly IApiMonedasService _apiMonedasService;
+        public MonedaService(IMonedaRepository monedaRepository, IApiMonedasService apiMonedasService)
         {
             _monedaRepository = monedaRepository;
+            _apiMonedasService = apiMonedasService;
         }
         public List<Moneda> GetMonedas()
         {
@@ -37,6 +39,15 @@ namespace Services
         {
             double factor = (monedaDestino.ValorEnDolares / monedaOrigen.ValorEnDolares);
             return importe * factor;
+        }
+
+        public async Task ActualizarMonedasDeApiPorDia()
+        {
+            //recoger monedas de bd
+
+            //recoger monedas de api
+
+            //
         }
     }
 }
