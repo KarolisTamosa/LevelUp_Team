@@ -37,12 +37,13 @@ namespace WebApp.Controllers
             };
 
             _monedaService.MeterMonedas(listaMonedas);
+            ViewBag.resultado = 0;
             ViewBag.lista = listaMonedas;
             return View();//chris
 
         }
 
-        [HttpPost]
+        
         //public ActionResult Convertir()
         //{
         //    // Aquí puedes realizar la lógica de conversión y otras acciones
@@ -56,12 +57,11 @@ namespace WebApp.Controllers
 
         //    return View("Index"); // Redirigir de nuevo a la vista
         //}
-
-        private decimal RealizarConversion(int importe, string monedaOrigen, string monedaDestino)
+        [HttpPost]
+        public IActionResult RealizarConversion(int importe, string monedaOrigen, string monedaDestino)
         {
-            // Aquí implementa la lógica de conversión real
-            // y devuelve el resultado calculado
-            return importe * 2; // Esto es solo un ejemplo
+           ViewBag.resultado = importe * 2;
+            return Json(new { ViewBag.resultado });
         }
 
         public IActionResult Privacy()

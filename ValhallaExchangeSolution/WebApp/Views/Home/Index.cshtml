@@ -31,6 +31,9 @@
         <div>
             <button id="modifyButton" onclick="Convertir()">Convertir</button>
         </div>
+        <div class="horizontal">
+            <p id="resultado"> Resultado: 0</p>
+        </div>
     </div>
 
 </div>
@@ -40,18 +43,24 @@
         let origen = document.getElementById("monedaOrigen").value;
         let destino = document.getElementById("monedaDestino").value;
         let importe = parseInt(document.getElementById("importe").value);
-        
+
         $.ajax({
-            url: '@Url.Action("RealizarConversion")',
+            url: '@Url.Action("RealizarConversion", "Home")',
             type: 'POST',
-            data: { 
+            data: {
                 importe: importe,
                 monedaOrigen: origen,
-            monedaDestino: destino
-            
+                monedaDestino: destino
+            },
+            success: function (data) {
+                actualizarResultadoEnPagina(data.resultado);
+            },
+            error: function () {
+                alert('Error en la llamada AJAX');
             }
-        }).done(function () {
-            alert('Modify Movie');
         });
+    }
+    function actualizarResultadoEnPagina(resultadoConversion) {
+        document.getElementById("resultado").innerText = "Resultado: " + resultadoConversion;
     }
 </script>
