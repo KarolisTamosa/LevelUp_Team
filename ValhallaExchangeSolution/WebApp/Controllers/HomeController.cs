@@ -64,6 +64,34 @@ namespace WebApp.Controllers
             return importe * 2; // Esto es solo un ejemplo
         }
 
+        private async Task Provisional()
+        {
+            try
+            {
+                var input1 = "";
+                var input2 = "";
+                var importeInput = "";
+
+                bool esNumerico = double.TryParse(importeInput, out double importe);
+
+                if (!string.IsNullOrEmpty(input1) && !string.IsNullOrEmpty(input2) && esNumerico)
+                {
+                    Moneda monedaOrigen = _monedaService.ObtenerMonedaPorCodigo(input1).Result;//getawaiter en vez de await para hacerlo sincrono y se pueda llamar en el html
+                    Moneda monedaDestino = _monedaService.ObtenerMonedaPorCodigo(input2).Result;
+                    if (monedaOrigen != null && monedaDestino != null && importe >= 0)
+                    {
+                        double resultado = _monedaService.ObtenerResultadoConvertirMoneda(monedaOrigen, monedaDestino, importe);
+                    }
+                }
+
+                //mensaje de error
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
         public IActionResult Privacy()
         {
             return View();
