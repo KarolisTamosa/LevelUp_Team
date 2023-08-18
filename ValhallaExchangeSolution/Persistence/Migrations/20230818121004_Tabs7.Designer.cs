@@ -12,8 +12,8 @@ using Persistence.Context;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230817115934_demo")]
-    partial class demo
+    [Migration("20230818121004_Tabs7")]
+    partial class Tabs7
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -51,6 +51,12 @@ namespace Persistence.Migrations
                         .HasColumnType("float");
 
                     b.HasKey("IdHistorialPorUsuario");
+
+                    b.HasIndex("IdMonedaDestino");
+
+                    b.HasIndex("IdMonedaOrigen");
+
+                    b.HasIndex("IdUsuario");
 
                     b.ToTable("HistorialPorUsuarios");
                 });
@@ -129,7 +135,64 @@ namespace Persistence.Migrations
 
                     b.HasKey("IdUsuario");
 
+                    b.HasIndex("IdPais");
+
                     b.ToTable("Usuarios");
+                });
+
+            modelBuilder.Entity("Domain.Models.HistorialPorUsuario", b =>
+                {
+                    b.HasOne("Domain.Models.Moneda", "MonedaDestino")
+                        .WithMany("HistorialesPorUsuarioDestino")
+                        .HasForeignKey("IdMonedaDestino")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Models.Moneda", "MonedaOrigen")
+                        .WithMany("HistorialesPorUsuarioOrigen")
+                        .HasForeignKey("IdMonedaOrigen")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Models.Usuario", "Usuario")
+                        .WithMany("HistorialesPorUsuario")
+                        .HasForeignKey("IdUsuario")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("MonedaDestino");
+
+                    b.Navigation("MonedaOrigen");
+
+                    b.Navigation("Usuario");
+                });
+
+            modelBuilder.Entity("Domain.Models.Usuario", b =>
+                {
+                    b.HasOne("Domain.Models.Pais", "Pais")
+                        .WithMany("Usuarios")
+                        .HasForeignKey("IdPais")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Pais");
+                });
+
+            modelBuilder.Entity("Domain.Models.Moneda", b =>
+                {
+                    b.Navigation("HistorialesPorUsuarioDestino");
+
+                    b.Navigation("HistorialesPorUsuarioOrigen");
+                });
+
+            modelBuilder.Entity("Domain.Models.Pais", b =>
+                {
+                    b.Navigation("Usuarios");
+                });
+
+            modelBuilder.Entity("Domain.Models.Usuario", b =>
+                {
+                    b.Navigation("HistorialesPorUsuario");
                 });
 #pragma warning restore 612, 618
         }

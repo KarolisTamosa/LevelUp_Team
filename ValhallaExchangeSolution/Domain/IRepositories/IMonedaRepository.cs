@@ -11,6 +11,6 @@ namespace Domain.IRepositories
     {
         List<Moneda> GetMonedas();
         void MeterMonedas(List<Moneda> monedas);
-        Task<Moneda> ObtenerMonedaPorCodigo(string codigoMoneda);
+        Task<Moneda?> ObtenerMonedaPorCodigo(string codigoMoneda);
     }
 }

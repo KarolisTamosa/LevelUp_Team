@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BBDD\Datos.csproj" />
+    <ProjectReference Include="..\BBDD\DatosDeprecated.csproj" />
   </ItemGroup>
 
 </Project>

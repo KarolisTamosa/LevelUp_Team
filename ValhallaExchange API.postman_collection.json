@@ -1,0 +1,59 @@
+{
+	"info": {
+		"_postman_id": "18e7aaae-48a2-4628-9e1b-76b75b14b79b",
+		"name": "ValhallaExchange API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Moneda",
+			"item": [
+				{
+					"name": "New Request",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/Moneda",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"Moneda"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "host",
+			"value": "https://localhost:7294",
+			"type": "default"
+		}
+	]
+}

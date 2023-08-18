@@ -29,7 +29,7 @@ namespace Services
             _monedaRepository.MeterMonedas(monedas);
         }
 
-        public async Task<Moneda> ObtenerMonedaPorCodigo(string codigoMoneda)
+        public async Task<Moneda?> ObtenerMonedaPorCodigo(string codigoMoneda)
         {
             return await _monedaRepository.ObtenerMonedaPorCodigo(codigoMoneda);
         }
