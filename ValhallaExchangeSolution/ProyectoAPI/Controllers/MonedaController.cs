@@ -20,8 +20,16 @@ namespace ProyectoAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Moneda>>> GetMonedas()
         {
-            var listaMonedas = _monedaService.GetMonedas();
-            return Ok(listaMonedas);
+            try
+            {
+                IEnumerable<Moneda> listaMonedas = await _monedaService.GetMonedas();
+                return Ok(listaMonedas.ToList());
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
         //localhost:xxxxx/api/Moneda/eur
 
@@ -37,11 +45,12 @@ namespace ProyectoAPI.Controllers
                 }
                 return Ok(moneda);
 
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 return BadRequest(ex + " - ERROR NUESTRO");//400
             }
-            
+
         }
         [Route("ConvertirMoneda")]
         [HttpPost]
@@ -55,14 +64,14 @@ namespace ProyectoAPI.Controllers
                 //verificar si existe moneda
                 var monedaOrigen = await _monedaService.ObtenerMonedaPorCodigo(codigoMonedaOrigen);
                 var monedaDestino = await _monedaService.ObtenerMonedaPorCodigo(codigoMonedaDestino);
-                if (monedaOrigen == null || monedaDestino == null|| importe < 0)
+                if (monedaOrigen == null || monedaDestino == null || importe < 0)
                 {
                     return BadRequest("Alguno de los codigos de las monedas introducidas no son validas O el importe introduciodo es negativo");
                 }
                 var resultado = _monedaService.ObtenerResultadoConvertirMoneda(monedaOrigen, monedaDestino, importe);
                 return Ok(resultado);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
