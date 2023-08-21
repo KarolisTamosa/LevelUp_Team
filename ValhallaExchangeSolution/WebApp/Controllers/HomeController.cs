@@ -24,7 +24,7 @@ namespace WebApp.Controllers
 
 
             var lista = _monedaService.GetMonedas().GetAwaiter().GetResult().ToList();
-            if (lista.Count == 0)
+            if (lista == null || lista.Count == 0)
             {
                 var listaApi = _apiMonedasService.ObtenerListaMonedasDeApi();
                 _monedaService.MeterMonedas(listaApi).GetAwaiter().GetResult();
