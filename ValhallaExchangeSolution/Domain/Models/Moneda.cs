@@ -12,9 +12,7 @@ namespace Domain.Models{
         public string Nombre { get; set; }
         public double ValorEnDolares { get; set; }
         public bool Eliminado { get; set; }
-        [InverseProperty("MonedaOrigen")]
-        public IEnumerable<HistorialPorUsuario> HistorialesPorUsuarioOrigen { get; set; }
-        [InverseProperty("MonedaDestino")]
-        public IEnumerable<HistorialPorUsuario> HistorialesPorUsuarioDestino { get; set; }
+        public IEnumerable<HistorialPorUsuario> HistorialesPorMonedaOrigen { get; set; }
+        public IEnumerable<HistorialPorUsuario> HistorialesPorMonedaDestino { get; set; }
     }
 }

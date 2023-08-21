@@ -18,17 +18,17 @@ namespace WebApp.Controllers
             _monedaService = monedaService;
             _apiMonedasService = apiMonedasService;
         }
-        //
+
         public IActionResult Index()
         {
 
 
-            List<Moneda> lista = _monedaService.GetMonedas();
+            var lista = _monedaService.GetMonedas().GetAwaiter().GetResult().ToList();
             if (lista.Count == 0)
             {
-                lista = _apiMonedasService.ObtenerListaMonedasDeApi();
-                _monedaService.MeterMonedas(lista);
-                ViewBag.lista = _monedaService.GetMonedas();
+                var listaApi = _apiMonedasService.ObtenerListaMonedasDeApi();
+                _monedaService.MeterMonedas(listaApi).GetAwaiter().GetResult();
+                ViewBag.lista = _monedaService.GetMonedas().GetAwaiter().GetResult().ToList();
             }
             else
             {
@@ -52,8 +52,8 @@ namespace WebApp.Controllers
 
                 if (!string.IsNullOrEmpty(codigoMonedaOrigen) && !string.IsNullOrEmpty(codigoMonedaDestino) && esNumerico)
                 {
-                    Moneda monedaOrigen = _monedaService.ObtenerMonedaPorCodigo(codigoMonedaOrigen).Result;//getawaiter en vez de await para hacerlo sincrono y se pueda llamar en el html
-                    Moneda monedaDestino = _monedaService.ObtenerMonedaPorCodigo(codigoMonedaDestino).Result;
+                    Moneda monedaOrigen = _monedaService.ObtenerMonedaPorCodigo(codigoMonedaOrigen).GetAwaiter().GetResult();//getawaiter en vez de await para hacerlo sincrono y se pueda llamar en el html
+                    Moneda monedaDestino = _monedaService.ObtenerMonedaPorCodigo(codigoMonedaDestino).GetAwaiter().GetResult();
                     if (monedaOrigen != null && monedaDestino != null && importe >= 0)
                     {
                          resultado = _monedaService.ObtenerResultadoConvertirMoneda(monedaOrigen, monedaDestino, importe).ToString();

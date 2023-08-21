@@ -19,17 +19,17 @@ namespace Services
             _monedaRepository = monedaRepository;
             _apiMonedasService = apiMonedasService;
         }
-        public List<Moneda> GetMonedas()
+        public async Task<IEnumerable<Moneda>> GetMonedas()
         {
-            return _monedaRepository.GetMonedas();
+            return await _monedaRepository.GetMonedas();
         }
 
-        public void MeterMonedas(List<Moneda> monedas)
+        public async Task MeterMonedas(List<Moneda> monedas)
         {
-            _monedaRepository.MeterMonedas(monedas);
+            await _monedaRepository.MeterMonedas(monedas);
         }
 
-        public async Task<Moneda?> ObtenerMonedaPorCodigo(string codigoMoneda)
+        public async Task<Moneda> ObtenerMonedaPorCodigo(string codigoMoneda)
         {
             return await _monedaRepository.ObtenerMonedaPorCodigo(codigoMoneda);
         }

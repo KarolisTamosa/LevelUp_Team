@@ -14,13 +14,12 @@ namespace Domain.Models{
 
 
         [ForeignKey("MonedaOrigen")]
-        [InverseProperty("HistorialesPorUsuarioOrigen")]
         public int IdMonedaOrigen { get; set; }//FK
         public Moneda MonedaOrigen { get; set; }
 
 
         [ForeignKey("MonedaDestino")]
-        [InverseProperty("HistorialesPorUsuarioDestino")]
+        
         public int IdMonedaDestino { get; set; }//FK
         public Moneda MonedaDestino { get; set; }
 

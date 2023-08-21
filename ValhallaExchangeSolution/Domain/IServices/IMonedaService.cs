@@ -9,9 +9,9 @@ namespace Domain.IServices
 {
     public interface IMonedaService
     {
-        List<Moneda> GetMonedas();
-        void MeterMonedas(List<Moneda> monedas);
-        Task<Moneda?> ObtenerMonedaPorCodigo(string codigoMoneda);
+        Task<IEnumerable<Moneda>> GetMonedas();
+        Task MeterMonedas(List<Moneda> monedas);
+        Task<Moneda> ObtenerMonedaPorCodigo(string codigoMoneda);
         double ObtenerResultadoConvertirMoneda(Moneda monedaOrigen, Moneda monedaDestino, double importe);
     }
 }

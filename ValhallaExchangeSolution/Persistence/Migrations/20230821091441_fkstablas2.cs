@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Persistence.Migrations
 {
-    public partial class Tabs7 : Migration
+    public partial class fkstablas2 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -59,7 +59,7 @@ namespace Persistence.Migrations
                         column: x => x.IdPais,
                         principalTable: "Paises",
                         principalColumn: "IdPais",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -83,19 +83,19 @@ namespace Persistence.Migrations
                         column: x => x.IdMonedaDestino,
                         principalTable: "Monedas",
                         principalColumn: "IdMoneda",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_HistorialPorUsuarios_Monedas_IdMonedaOrigen",
                         column: x => x.IdMonedaOrigen,
                         principalTable: "Monedas",
                         principalColumn: "IdMoneda",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_HistorialPorUsuarios_Usuarios_IdUsuario",
                         column: x => x.IdUsuario,
                         principalTable: "Usuarios",
                         principalColumn: "IdUsuario",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateIndex(

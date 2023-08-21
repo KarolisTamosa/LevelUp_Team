@@ -141,13 +141,13 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Domain.Models.HistorialPorUsuario", b =>
                 {
                     b.HasOne("Domain.Models.Moneda", "MonedaDestino")
-                        .WithMany("HistorialesPorUsuarioDestino")
+                        .WithMany("HistorialesPorMonedaDestino")
                         .HasForeignKey("IdMonedaDestino")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Domain.Models.Moneda", "MonedaOrigen")
-                        .WithMany("HistorialesPorUsuarioOrigen")
+                        .WithMany("HistorialesPorMonedaOrigen")
                         .HasForeignKey("IdMonedaOrigen")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -178,9 +178,9 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Models.Moneda", b =>
                 {
-                    b.Navigation("HistorialesPorUsuarioDestino");
+                    b.Navigation("HistorialesPorMonedaDestino");
 
-                    b.Navigation("HistorialesPorUsuarioOrigen");
+                    b.Navigation("HistorialesPorMonedaOrigen");
                 });
 
             modelBuilder.Entity("Domain.Models.Pais", b =>

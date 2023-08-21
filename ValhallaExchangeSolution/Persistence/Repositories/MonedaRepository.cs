@@ -17,24 +17,22 @@ namespace Persistence.Repositories
         {
             _context = context;
         }
-        public List<Moneda> GetMonedas()
+        public async Task<IEnumerable<Moneda>> GetMonedas()
         {
-            return _context.Monedas.ToList();
+            return await _context.Monedas.ToListAsync();
         }
 
         public void BorrarRegistrosDeMoneda() { 
             
         }
 
-        public void MeterMonedas(List<Moneda> monedas)
+        public async Task MeterMonedas(List<Moneda> monedas)
         {
             _context.Monedas.AddRange(monedas);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-
-        //puede devolver nulo
-        public async Task<Moneda?> ObtenerMonedaPorCodigo(string codigoMoneda)
+        public async Task<Moneda> ObtenerMonedaPorCodigo(string codigoMoneda)
         {
             return await _context.Monedas.Where(moneda => moneda.Codigo.ToUpper().Equals(codigoMoneda.ToUpper())).FirstOrDefaultAsync();
         }

@@ -24,6 +24,18 @@ namespace Persistence.Context
                 optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=PruebaBD3;Trusted_Connection=True;MultipleActiveResultSets=true");
             }
         }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<HistorialPorUsuario>()
+                .HasOne(historial => historial.MonedaOrigen)
+                .WithMany(moneda => moneda.HistorialesPorMonedaOrigen)
+                .HasForeignKey(historial => historial.IdMonedaOrigen);
+
+            modelBuilder.Entity<HistorialPorUsuario>()
+                .HasOne(historial => historial.MonedaDestino)
+                .WithMany(moneda => moneda.HistorialesPorMonedaDestino)
+                .HasForeignKey(historial => historial.IdMonedaDestino);
+        }
     }
 
 }

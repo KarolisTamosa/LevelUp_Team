@@ -12,8 +12,8 @@ using Persistence.Context;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230818121004_Tabs7")]
-    partial class Tabs7
+    [Migration("20230821091441_fkstablas2")]
+    partial class fkstablas2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -143,13 +143,13 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Domain.Models.HistorialPorUsuario", b =>
                 {
                     b.HasOne("Domain.Models.Moneda", "MonedaDestino")
-                        .WithMany("HistorialesPorUsuarioDestino")
+                        .WithMany("HistorialesPorMonedaDestino")
                         .HasForeignKey("IdMonedaDestino")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Domain.Models.Moneda", "MonedaOrigen")
-                        .WithMany("HistorialesPorUsuarioOrigen")
+                        .WithMany("HistorialesPorMonedaOrigen")
                         .HasForeignKey("IdMonedaOrigen")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -180,9 +180,9 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Models.Moneda", b =>
                 {
-                    b.Navigation("HistorialesPorUsuarioDestino");
+                    b.Navigation("HistorialesPorMonedaDestino");
 
-                    b.Navigation("HistorialesPorUsuarioOrigen");
+                    b.Navigation("HistorialesPorMonedaOrigen");
                 });
 
             modelBuilder.Entity("Domain.Models.Pais", b =>

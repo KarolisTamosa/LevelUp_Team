@@ -9,8 +9,8 @@ namespace Domain.IRepositories
 {
     public interface IMonedaRepository
     {
-        List<Moneda> GetMonedas();
-        void MeterMonedas(List<Moneda> monedas);
-        Task<Moneda?> ObtenerMonedaPorCodigo(string codigoMoneda);
+        Task<IEnumerable<Moneda>> GetMonedas();
+        Task MeterMonedas(List<Moneda> monedas);
+        Task<Moneda> ObtenerMonedaPorCodigo(string codigoMoneda);
     }
 }
