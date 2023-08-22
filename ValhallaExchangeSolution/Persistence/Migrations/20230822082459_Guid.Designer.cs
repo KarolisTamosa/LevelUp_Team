@@ -12,8 +12,8 @@ using Persistence.Context;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230821091441_fkstablas2")]
-    partial class fkstablas2
+    [Migration("20230822082459_Guid")]
+    partial class Guid
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -26,11 +26,9 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Models.HistorialPorUsuario", b =>
                 {
-                    b.Property<int>("IdHistorialPorUsuario")
+                    b.Property<Guid>("IdHistorialPorUsuario")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdHistorialPorUsuario"), 1L, 1);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("FactorCambio")
                         .HasColumnType("int");
@@ -38,14 +36,14 @@ namespace Persistence.Migrations
                     b.Property<DateTime>("FechaConversion")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("IdMonedaDestino")
-                        .HasColumnType("int");
+                    b.Property<Guid>("IdMonedaDestino")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("IdMonedaOrigen")
-                        .HasColumnType("int");
+                    b.Property<Guid>("IdMonedaOrigen")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("IdUsuario")
-                        .HasColumnType("int");
+                    b.Property<Guid>("IdUsuario")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<double>("Importe")
                         .HasColumnType("float");
@@ -63,11 +61,9 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Models.Moneda", b =>
                 {
-                    b.Property<int>("IdMoneda")
+                    b.Property<Guid>("IdMoneda")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdMoneda"), 1L, 1);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Codigo")
                         .IsRequired()
@@ -90,11 +86,9 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Models.Pais", b =>
                 {
-                    b.Property<int>("IdPais")
+                    b.Property<Guid>("IdPais")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdPais"), 1L, 1);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("Eliminado")
                         .HasColumnType("bit");
@@ -110,11 +104,9 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Models.Usuario", b =>
                 {
-                    b.Property<int>("IdUsuario")
+                    b.Property<Guid>("IdUsuario")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdUsuario"), 1L, 1);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("Eliminado")
                         .HasColumnType("bit");
@@ -126,8 +118,8 @@ namespace Persistence.Migrations
                     b.Property<DateTime>("FechaNacimiento")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("IdPais")
-                        .HasColumnType("int");
+                    b.Property<Guid>("IdPais")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("PasswordEncriptado")
                         .IsRequired()

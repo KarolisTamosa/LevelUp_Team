@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Persistence.Migrations
 {
-    public partial class fkstablas2 : Migration
+    public partial class Guid : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -13,8 +13,7 @@ namespace Persistence.Migrations
                 name: "Monedas",
                 columns: table => new
                 {
-                    IdMoneda = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    IdMoneda = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Codigo = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Nombre = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ValorEnDolares = table.Column<double>(type: "float", nullable: false),
@@ -29,8 +28,7 @@ namespace Persistence.Migrations
                 name: "Paises",
                 columns: table => new
                 {
-                    IdPais = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    IdPais = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Nombre = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Eliminado = table.Column<bool>(type: "bit", nullable: false)
                 },
@@ -43,13 +41,12 @@ namespace Persistence.Migrations
                 name: "Usuarios",
                 columns: table => new
                 {
-                    IdUsuario = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    IdUsuario = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PasswordEncriptado = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     FechaNacimiento = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Eliminado = table.Column<bool>(type: "bit", nullable: false),
-                    IdPais = table.Column<int>(type: "int", nullable: false)
+                    IdPais = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -66,11 +63,10 @@ namespace Persistence.Migrations
                 name: "HistorialPorUsuarios",
                 columns: table => new
                 {
-                    IdHistorialPorUsuario = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    IdUsuario = table.Column<int>(type: "int", nullable: false),
-                    IdMonedaOrigen = table.Column<int>(type: "int", nullable: false),
-                    IdMonedaDestino = table.Column<int>(type: "int", nullable: false),
+                    IdHistorialPorUsuario = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    IdUsuario = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    IdMonedaOrigen = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    IdMonedaDestino = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     FactorCambio = table.Column<int>(type: "int", nullable: false),
                     Importe = table.Column<double>(type: "float", nullable: false),
                     FechaConversion = table.Column<DateTime>(type: "datetime2", nullable: false)

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Persistence.Repositories
 {
-    internal class HistorialRepository
+    public class HistorialRepository
     {
     }
 }
