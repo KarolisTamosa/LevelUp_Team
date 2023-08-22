@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Domain.IRepositories
 {
     public interface IUsuarioRepository
-    {
+    { 
         Task<Usuario> GetUsuarioPorID(Guid id);
     }
 }

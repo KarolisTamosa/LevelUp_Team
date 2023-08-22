@@ -14,7 +14,7 @@ namespace Services
     {
         private readonly IUsuarioRepository _usuarioRepository;
         public UsuarioService(IUsuarioRepository usuarioRepository)
-        {
+        { 
             _usuarioRepository = usuarioRepository;
         }
         public async Task<Usuario> GetUsuarioPorID(Guid id)

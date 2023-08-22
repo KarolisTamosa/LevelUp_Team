@@ -49,6 +49,9 @@ namespace Persistence.Migrations
                     b.Property<double>("Importe")
                         .HasColumnType("float");
 
+                    b.Property<double>("ResultadoConversion")
+                        .HasColumnType("float");
+
                     b.HasKey("IdHistorialPorUsuario");
 
                     b.HasIndex("IdMonedaDestino");

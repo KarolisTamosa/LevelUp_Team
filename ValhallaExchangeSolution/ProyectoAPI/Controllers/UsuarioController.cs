@@ -4,6 +4,6 @@ namespace ProyectoAPI.Controllers
 {
     public class UsuarioController:ControllerBase
     {
-
+         
     }
 }
