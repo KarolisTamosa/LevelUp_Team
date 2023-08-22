@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.Models{    
-    public class HistorialPorUsuario
+    public class Historial
     {
         [Key]
         public Guid IdHistorialPorUsuario { get; set; }
@@ -26,6 +26,8 @@ namespace Domain.Models{
         public int FactorCambio { get; set; } //guardamos el factor ya que cada dia los valores en dolares varian, los guardamos para hacer una simple operacion para calcular el resultado
         public double Importe { get; set; }
         public DateTime FechaConversion { get; set; }
+
+        public bool Eliminado { get; set; }
 
     }
 }

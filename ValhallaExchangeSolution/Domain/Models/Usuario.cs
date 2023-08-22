@@ -17,7 +17,7 @@ namespace Domain.Models
         public Guid IdPais { get; set; }//FK
         public Pais Pais { get; set; }
 
-        public IEnumerable<HistorialPorUsuario> HistorialesPorUsuario { get; set; }
+        public IEnumerable<Historial> HistorialesPorUsuario { get; set; }
 
     }
 }

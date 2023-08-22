@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Persistence.Migrations
 {
-    public partial class Guid : Migration
+    public partial class CambioHistorial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -60,7 +60,7 @@ namespace Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "HistorialPorUsuarios",
+                name: "Historial",
                 columns: table => new
                 {
                     IdHistorialPorUsuario = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -69,25 +69,26 @@ namespace Persistence.Migrations
                     IdMonedaDestino = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     FactorCambio = table.Column<int>(type: "int", nullable: false),
                     Importe = table.Column<double>(type: "float", nullable: false),
-                    FechaConversion = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    FechaConversion = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Eliminado = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_HistorialPorUsuarios", x => x.IdHistorialPorUsuario);
+                    table.PrimaryKey("PK_Historial", x => x.IdHistorialPorUsuario);
                     table.ForeignKey(
-                        name: "FK_HistorialPorUsuarios_Monedas_IdMonedaDestino",
+                        name: "FK_Historial_Monedas_IdMonedaDestino",
                         column: x => x.IdMonedaDestino,
                         principalTable: "Monedas",
                         principalColumn: "IdMoneda",
                         onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
-                        name: "FK_HistorialPorUsuarios_Monedas_IdMonedaOrigen",
+                        name: "FK_Historial_Monedas_IdMonedaOrigen",
                         column: x => x.IdMonedaOrigen,
                         principalTable: "Monedas",
                         principalColumn: "IdMoneda",
                         onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
-                        name: "FK_HistorialPorUsuarios_Usuarios_IdUsuario",
+                        name: "FK_Historial_Usuarios_IdUsuario",
                         column: x => x.IdUsuario,
                         principalTable: "Usuarios",
                         principalColumn: "IdUsuario",
@@ -95,18 +96,18 @@ namespace Persistence.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_HistorialPorUsuarios_IdMonedaDestino",
-                table: "HistorialPorUsuarios",
+                name: "IX_Historial_IdMonedaDestino",
+                table: "Historial",
                 column: "IdMonedaDestino");
 
             migrationBuilder.CreateIndex(
-                name: "IX_HistorialPorUsuarios_IdMonedaOrigen",
-                table: "HistorialPorUsuarios",
+                name: "IX_Historial_IdMonedaOrigen",
+                table: "Historial",
                 column: "IdMonedaOrigen");
 
             migrationBuilder.CreateIndex(
-                name: "IX_HistorialPorUsuarios_IdUsuario",
-                table: "HistorialPorUsuarios",
+                name: "IX_Historial_IdUsuario",
+                table: "Historial",
                 column: "IdUsuario");
 
             migrationBuilder.CreateIndex(
@@ -118,7 +119,7 @@ namespace Persistence.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "HistorialPorUsuarios");
+                name: "Historial");
 
             migrationBuilder.DropTable(
                 name: "Monedas");

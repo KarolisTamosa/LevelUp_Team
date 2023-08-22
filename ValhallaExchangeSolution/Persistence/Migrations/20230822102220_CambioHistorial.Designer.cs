@@ -12,8 +12,8 @@ using Persistence.Context;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230822082459_Guid")]
-    partial class Guid
+    [Migration("20230822102220_CambioHistorial")]
+    partial class CambioHistorial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -24,11 +24,14 @@ namespace Persistence.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("Domain.Models.HistorialPorUsuario", b =>
+            modelBuilder.Entity("Domain.Models.Historial", b =>
                 {
                     b.Property<Guid>("IdHistorialPorUsuario")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Eliminado")
+                        .HasColumnType("bit");
 
                     b.Property<int>("FactorCambio")
                         .HasColumnType("int");
@@ -56,7 +59,7 @@ namespace Persistence.Migrations
 
                     b.HasIndex("IdUsuario");
 
-                    b.ToTable("HistorialPorUsuarios");
+                    b.ToTable("Historial");
                 });
 
             modelBuilder.Entity("Domain.Models.Moneda", b =>
@@ -132,7 +135,7 @@ namespace Persistence.Migrations
                     b.ToTable("Usuarios");
                 });
 
-            modelBuilder.Entity("Domain.Models.HistorialPorUsuario", b =>
+            modelBuilder.Entity("Domain.Models.Historial", b =>
                 {
                     b.HasOne("Domain.Models.Moneda", "MonedaDestino")
                         .WithMany("HistorialesPorMonedaDestino")

@@ -14,7 +14,7 @@ namespace Persistence.Context
         public DbSet<Moneda> Monedas { get; set; }
         public DbSet<Pais> Paises { get; set; }
         public DbSet<Usuario> Usuarios { get; set; }
-        public DbSet<HistorialPorUsuario> HistorialPorUsuarios { get; set; }
+        public DbSet<Historial> Historial { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -26,12 +26,12 @@ namespace Persistence.Context
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<HistorialPorUsuario>()
+            modelBuilder.Entity<Historial>()
                 .HasOne(historial => historial.MonedaOrigen)
                 .WithMany(moneda => moneda.HistorialesPorMonedaOrigen)
                 .HasForeignKey(historial => historial.IdMonedaOrigen);
 
-            modelBuilder.Entity<HistorialPorUsuario>()
+            modelBuilder.Entity<Historial>()
                 .HasOne(historial => historial.MonedaDestino)
                 .WithMany(moneda => moneda.HistorialesPorMonedaDestino)
                 .HasForeignKey(historial => historial.IdMonedaDestino);
