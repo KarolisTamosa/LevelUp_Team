@@ -29,13 +29,14 @@
         @foreach (var moneda in ViewBag.lista)
         {
             <div class="horizontal">
+                <img src="@Html.Raw("https://www.countryflagicons.com/SHINY/32/" + @moneda.Codigo.Substring(0,2) + ".png")">
                 <p>@moneda.IdMoneda</p>
                 <p>@moneda.Codigo</p>
                 <p>@moneda.Nombre</p>
             </div>
         }
     </div>
-    
+
 
 
 </div>
