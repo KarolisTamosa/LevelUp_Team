@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Persistence.Migrations
 {
-    public partial class CambioHistorial : Migration
+    public partial class HistorialConResultado : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -70,6 +70,7 @@ namespace Persistence.Migrations
                     FactorCambio = table.Column<int>(type: "int", nullable: false),
                     Importe = table.Column<double>(type: "float", nullable: false),
                     FechaConversion = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ResultadoConversion = table.Column<double>(type: "float", nullable: false),
                     Eliminado = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>

@@ -27,6 +27,7 @@ namespace Domain.Models{
         public double Importe { get; set; }
         public DateTime FechaConversion { get; set; }
 
+        public double ResultadoConversion { get; set; }
         public bool Eliminado { get; set; }
 
     }

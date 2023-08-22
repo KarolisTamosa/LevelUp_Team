@@ -12,8 +12,8 @@ using Persistence.Context;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230822102220_CambioHistorial")]
-    partial class CambioHistorial
+    [Migration("20230822105616_HistorialConResultado")]
+    partial class HistorialConResultado
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -49,6 +49,9 @@ namespace Persistence.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<double>("Importe")
+                        .HasColumnType("float");
+
+                    b.Property<double>("ResultadoConversion")
                         .HasColumnType("float");
 
                     b.HasKey("IdHistorialPorUsuario");
