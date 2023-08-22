@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Domain.IServices
 {
-    internal interface IHistorialService
+    public interface IHistorialService
     {
     }
 }

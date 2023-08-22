@@ -6,7 +6,7 @@ namespace Domain.Models
     public class Usuario
     {
         [Key]
-        public int IdUsuario { get; set; }
+        public Guid IdUsuario { get; set; }
         public string Email { get; set; }
         public string PasswordEncriptado { get; set; }
         public DateTime FechaNacimiento { get; set; }
@@ -14,7 +14,7 @@ namespace Domain.Models
         
         
         [ForeignKey("Pais")]
-        public int IdPais { get; set; }//FK
+        public Guid IdPais { get; set; }//FK
         public Pais Pais { get; set; }
 
         public IEnumerable<HistorialPorUsuario> HistorialesPorUsuario { get; set; }
