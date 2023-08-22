@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.IServices
+namespace Domain.IRepositories
 {
-    public interface IUsuarioService
+    public interface IUsuarioRepository
     {
         Task<Usuario> GetUsuarioPorID(Guid id);
     }

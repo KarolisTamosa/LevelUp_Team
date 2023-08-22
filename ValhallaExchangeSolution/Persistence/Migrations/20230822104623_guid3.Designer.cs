@@ -12,8 +12,8 @@ using Persistence.Context;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230822102220_CambioHistorial")]
-    partial class CambioHistorial
+    [Migration("20230822104623_guid3")]
+    partial class guid3
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

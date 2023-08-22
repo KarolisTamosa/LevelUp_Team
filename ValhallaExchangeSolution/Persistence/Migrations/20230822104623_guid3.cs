@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Persistence.Migrations
 {
-    public partial class CambioHistorial : Migration
+    public partial class guid3 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

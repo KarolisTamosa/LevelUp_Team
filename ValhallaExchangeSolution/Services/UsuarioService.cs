@@ -10,8 +10,16 @@ using System.Threading.Tasks;
 
 namespace Services
 {
-    internal class UsuarioService:IUsuarioService
+    public class UsuarioService : IUsuarioService
     {
-
+        private readonly IUsuarioRepository _usuarioRepository;
+        public UsuarioService(IUsuarioRepository usuarioRepository)
+        {
+            _usuarioRepository = usuarioRepository;
+        }
+        public async Task<Usuario> GetUsuarioPorID(Guid id)
+        {
+            return await _usuarioRepository.GetUsuarioPorID(id);
+        }
     }
 }
