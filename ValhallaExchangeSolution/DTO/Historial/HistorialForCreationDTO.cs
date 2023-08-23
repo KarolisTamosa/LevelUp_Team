@@ -6,19 +6,11 @@ using System.Threading.Tasks;
 
 namespace DTO.Historial
 {
-    public class HistorialGetDTO
+    public class HistorialForCreationDTO
     {
-
-        public Guid IdHistorial { get; set; }
-        public Guid IdUsuario { get; set; }
         public string CodigoMonedaOrigen { get; set; }
-        public double ValorMonedaOrigen { get; set; }
         public string CodigoMonedaDestino { get; set; }
-        public double ValorMonedaDestino { get; set; }
         public double Importe { get; set; }
-        public DateTime FechaConversion { get; set; }
         public double ResultadoConversion { get; set; }
-
-
     }
 }

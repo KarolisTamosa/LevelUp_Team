@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Domain.IRepositories;
 using Domain.IServices;
+using Domain.Models;
 using DTO.Historial;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -12,14 +13,17 @@ namespace ProyectoAPI.Controllers
     public class HistorialController : ControllerBase
     {
 
-        private readonly IHistorialService _monedaService;
+        private readonly IHistorialService _historialService;
+        private readonly IUsuarioService _usuarioService;
+        private readonly IMonedaService _monedaService;
         private readonly IMapper _mapper;
 
         //private readonly IUsuarioService _usuarioService;
-        public HistorialController(IHistorialService monedaService/*, IUsuarioService usuarioService*/)
+        public HistorialController(IHistorialService historialService, IUsuarioService usuarioService, IMonedaService monedaService)
         {
+            _historialService = historialService;
+            _usuarioService = usuarioService;
             _monedaService = monedaService;
-            //_usuarioService = usuarioService;
         }
         [HttpGet]
         public async Task<ActionResult<IEnumerable<HistorialGetDTO>>> GetHistorialPorUsuario([FromRoute] Guid usuarioId)
@@ -29,14 +33,79 @@ namespace ProyectoAPI.Controllers
             //    return NotFound(new { message = "No existen registros de este usuario"});
             //}
 
-            var historialPorUsuarioFromRepo = await _monedaService.GetHistorialPorUsuario(usuarioId);
-            
+            var historialPorUsuarioFromRepo = await _historialService.GetHistorialPorUsuario(usuarioId);
+
             if (historialPorUsuarioFromRepo == null)
             {
-                return NotFound( new { message = "No existen registros de historial de este usuario"});
+                return NotFound(new { message = "No existen registros de historial de este usuario" });
             }
 
             return Ok(_mapper.Map<IEnumerable<HistorialGetDTO>>(historialPorUsuarioFromRepo));
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> GuardarHistorial([FromRoute] Guid usuarioId, [FromBody] HistorialForCreationDTO historialDTO)
+        {
+            //guardar historial
+            try
+            {
+                var usuario = await _usuarioService.GetUsuarioPorID(usuarioId);
+                if (usuario == null)
+                {
+                    return NotFound(new { message = "No existe un usuario con este id" });
+                }
+
+                var monedaOrigen = await _monedaService.ObtenerMonedaPorCodigo(historialDTO.CodigoMonedaOrigen ?? "");
+                var monedaDestino = await _monedaService.ObtenerMonedaPorCodigo(historialDTO.CodigoMonedaDestino ?? "");
+                if (monedaOrigen == null || monedaDestino == null)
+                {
+                    return BadRequest(new { message = "Codigos de monedas invalidos" });
+                }
+                //Historial historialModel = _mapper.Map<Historial>(historialDTO);
+
+                Historial historialModel = new Historial
+                {
+                    IdUsuario = usuarioId,
+                    IdMonedaOrigen = monedaOrigen.IdMoneda,
+                    IdMonedaDestino = monedaDestino.IdMoneda,
+                    FactorCambio = _monedaService.ObtenerFactorCambioDeDosMonedas(monedaOrigen, monedaDestino),//llamar a metodo de _monedaService que retorne el factor dado 2 monedas
+                    Importe = historialDTO.Importe,
+                    FechaConversion = DateTime.Now,
+                    ResultadoConversion = historialDTO.ResultadoConversion,
+                    Eliminado = false
+                };
+
+                await _historialService.GuardarRegistroDeHistorial(historialModel);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpDelete("{idHistorial}")]
+        public async Task<ActionResult> BorrarRegistroHistorialDeUsuario([FromRoute] Guid usuarioId, [FromRoute] Guid idHistorial)
+        {
+            try
+            {
+                var usuario = await _usuarioService.GetUsuarioPorID(usuarioId);
+                if (usuario == null)
+                {
+                    return NotFound(new { message = "No existe un usuario con este id" });
+                }
+                var historial = await _historialService.GetHistorialById(idHistorial);
+                if (historial == null)
+                {
+                    return NotFound(new { message = "No existe un registro del historial con este id" });
+                }
+                await _historialService.BorrarRegistroDeHistorial(historial);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }
