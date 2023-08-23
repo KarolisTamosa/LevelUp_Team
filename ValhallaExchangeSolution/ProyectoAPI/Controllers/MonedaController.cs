@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ProyectoAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/Moneda")]
     [ApiController]
     public class MonedaController : ControllerBase
     {

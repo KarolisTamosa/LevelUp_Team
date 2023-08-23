@@ -17,9 +17,44 @@ namespace Persistence.Repositories
         {
             _context = context;
         }
+
         public async Task<IEnumerable<Historial>> GetHistorialPorUsuario(Guid usuarioId)
         {
+            if (usuarioId == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(usuarioId));
+            }
             return await _context.Historial.Where(historial => historial.IdUsuario.Equals(usuarioId) && !historial.Eliminado).ToListAsync();
+        }
+
+        public async Task GuardarRegistroDeHistorial(Historial historial)
+        {
+            if (historial == null)
+            {
+                throw new ArgumentNullException(nameof(historial));
+            }
+            _context.Add(historial);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task BorrarRegistroDeHistorial(Historial historial)
+        {
+            if (historial == null)
+            {
+                throw new ArgumentNullException(nameof(historial));
+            }
+            historial.Eliminado = true;
+            _context.Entry(historial).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<Historial> GetHistorialById(Guid idHistorial)
+        {
+            if (idHistorial == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(idHistorial));
+            }
+            return await _context.Historial.Where(historial => historial.IdHistorial.Equals(idHistorial) && !historial.Eliminado).FirstOrDefaultAsync();
         }
     }
 }

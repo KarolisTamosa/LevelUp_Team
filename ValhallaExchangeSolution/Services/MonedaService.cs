@@ -49,5 +49,15 @@ namespace Services
 
             //
         }
+
+        public double ObtenerFactorCambioDeDosMonedas(Moneda monedaOrigen, Moneda monedaDestino)
+        {
+            if (monedaOrigen == null || monedaDestino == null)
+            {
+                throw new ArgumentNullException(nameof(monedaOrigen));//lanzar excepcion y la controla el controlador de la api
+            }
+
+            return (monedaDestino.ValorEnDolares / monedaOrigen.ValorEnDolares);
+        }
     }
 }

@@ -5,11 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Persistence.Migrations
 {
-<<<<<<<< HEAD:ValhallaExchangeSolution/Persistence/Migrations/20230822104623_guid3.cs
-    public partial class guid3 : Migration
-========
-    public partial class HistorialConResultado : Migration
->>>>>>>> ac1623c817c32e9c86e99847c1a32e111cd2f51a:ValhallaExchangeSolution/Persistence/Migrations/20230822105616_HistorialConResultado.cs
+    public partial class uV : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -67,11 +63,11 @@ namespace Persistence.Migrations
                 name: "Historial",
                 columns: table => new
                 {
-                    IdHistorialPorUsuario = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    IdHistorial = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     IdUsuario = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     IdMonedaOrigen = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     IdMonedaDestino = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    FactorCambio = table.Column<int>(type: "int", nullable: false),
+                    FactorCambio = table.Column<double>(type: "float", nullable: false),
                     Importe = table.Column<double>(type: "float", nullable: false),
                     FechaConversion = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ResultadoConversion = table.Column<double>(type: "float", nullable: false),
@@ -79,7 +75,7 @@ namespace Persistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Historial", x => x.IdHistorialPorUsuario);
+                    table.PrimaryKey("PK_Historial", x => x.IdHistorial);
                     table.ForeignKey(
                         name: "FK_Historial_Monedas_IdMonedaDestino",
                         column: x => x.IdMonedaDestino,

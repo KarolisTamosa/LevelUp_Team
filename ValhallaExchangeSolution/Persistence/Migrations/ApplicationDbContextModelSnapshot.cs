@@ -24,15 +24,15 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Models.Historial", b =>
                 {
-                    b.Property<Guid>("IdHistorialPorUsuario")
+                    b.Property<Guid>("IdHistorial")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("Eliminado")
                         .HasColumnType("bit");
 
-                    b.Property<int>("FactorCambio")
-                        .HasColumnType("int");
+                    b.Property<double>("FactorCambio")
+                        .HasColumnType("float");
 
                     b.Property<DateTime>("FechaConversion")
                         .HasColumnType("datetime2");
@@ -52,7 +52,7 @@ namespace Persistence.Migrations
                     b.Property<double>("ResultadoConversion")
                         .HasColumnType("float");
 
-                    b.HasKey("IdHistorialPorUsuario");
+                    b.HasKey("IdHistorial");
 
                     b.HasIndex("IdMonedaDestino");
 

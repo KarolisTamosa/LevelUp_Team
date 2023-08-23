@@ -19,7 +19,11 @@ namespace Persistence.Repositories
         }
         public async Task<Usuario> GetUsuarioPorID(Guid id)
         {
-            return await _context.Usuarios.Where(usuario => usuario.IdUsuario.Equals(id)).FirstOrDefaultAsync();
+            if (id == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(id));
+            }
+            return await _context.Usuarios.Where(usuario => usuario.IdUsuario.Equals(id) && !usuario.Eliminado).FirstOrDefaultAsync();
         }
     }
 }

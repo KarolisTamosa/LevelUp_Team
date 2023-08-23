@@ -5,7 +5,7 @@ namespace Domain.Models{
     public class Historial
     {
         [Key]
-        public Guid IdHistorialPorUsuario { get; set; }
+        public Guid IdHistorial { get; set; }
 
 
         [ForeignKey("Usuario")]
@@ -23,7 +23,7 @@ namespace Domain.Models{
         public Guid IdMonedaDestino { get; set; }//FK
         public Moneda MonedaDestino { get; set; }
 
-        public int FactorCambio { get; set; } //guardamos el factor ya que cada dia los valores en dolares varian, los guardamos para hacer una simple operacion para calcular el resultado
+        public double FactorCambio { get; set; } //guardamos el factor ya que cada dia los valores en dolares varian, los guardamos para hacer una simple operacion para calcular el resultado
         public double Importe { get; set; }
         public DateTime FechaConversion { get; set; }
 
