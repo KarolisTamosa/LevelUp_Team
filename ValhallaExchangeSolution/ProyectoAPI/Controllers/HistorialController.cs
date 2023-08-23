@@ -28,10 +28,11 @@ namespace ProyectoAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<HistorialGetDTO>>> GetHistorialPorUsuario([FromRoute] Guid usuarioId)
         {
-            //if (!await _monedaService.AuthorExistsAsync(usuarioId))
-            //{
-            //    return NotFound(new { message = "No existen registros de este usuario"});
-            //}
+            var usuario = await _usuarioService.GetUsuarioPorID(usuarioId);
+            if (usuario == null)
+            {
+                return NotFound(new { message = "No existe un usuario con este id" });
+            }
 
             var historialPorUsuarioFromRepo = await _historialService.GetHistorialPorUsuario(usuarioId);
 
@@ -41,6 +42,26 @@ namespace ProyectoAPI.Controllers
             }
 
             return Ok(_mapper.Map<IEnumerable<HistorialGetDTO>>(historialPorUsuarioFromRepo));
+        }
+
+        [HttpGet("{historialId}")]
+        public async Task<ActionResult<HistorialGetDTO>> GetUnHistorialPorUsuario([FromRoute] Guid usuarioId, [FromRoute] Guid historialId)
+        {
+            var usuario = await _usuarioService.GetUsuarioPorID(usuarioId);
+            if (usuario == null)
+            {
+                return NotFound(new { message = "No existe un usuario con este id" });
+            }
+
+
+            var unHistorialPorUsuarioFromRepo = await _historialService.GetHistorialById(historialId);
+
+            if (unHistorialPorUsuarioFromRepo == null)
+            {
+                return NotFound(new { message = "No existen registros de historial de este historial" });
+            }
+
+            return Ok(_mapper.Map<HistorialGetDTO>(unHistorialPorUsuarioFromRepo));
         }
 
         [HttpPost]

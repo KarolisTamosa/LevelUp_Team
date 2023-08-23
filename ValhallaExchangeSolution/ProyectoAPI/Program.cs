@@ -5,6 +5,8 @@ using Persistence.Context;
 using Persistence.Repositories;
 using Services;
 
+
+
 namespace ProyectoAPI
 {
     public class Program
@@ -13,7 +15,11 @@ namespace ProyectoAPI
         {
             var builder = WebApplication.CreateBuilder(args);
 
+
+
             // Add services to the container.
+
+
 
             //Contexto de base de datos
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -22,12 +28,19 @@ namespace ProyectoAPI
             }
             );
 
+
+
             //Servicios
             builder.Services.AddScoped<IMonedaService, MonedaService>();
             builder.Services.AddScoped<IApiMonedasService, ApiMonedasService>();
-
+            builder.Services.AddScoped<IHistorialService, HistorialService>();
+            builder.Services.AddScoped<IUsuarioService, UsuarioService>();
             //Repositorios
             builder.Services.AddScoped<IMonedaRepository, MonedaRepository>();
+            builder.Services.AddScoped<IHistorialRepository, HistorialRepository>();
+            builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+
+
 
 
 
@@ -36,12 +49,12 @@ namespace ProyectoAPI
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            
-
 
 
 
             var app = builder.Build();
+
+
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
@@ -50,12 +63,21 @@ namespace ProyectoAPI
                 app.UseSwaggerUI();
             }
 
+
+
             app.UseHttpsRedirection();
+
+
 
             app.UseAuthorization();
 
 
+
+
+
             app.MapControllers();
+
+
 
             app.Run();
         }
