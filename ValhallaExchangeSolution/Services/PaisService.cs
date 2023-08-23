@@ -18,6 +18,11 @@ namespace Services
             _paisService = paisRepository;
         }
 
+        public Task<IEnumerable<Pais>> GetPaises()
+        {
+            return _paisService.GetPaises();
+        }
+
         public Task<Pais> GetPaisPorId(Guid IdPais)
         {
             return _paisService.ObtenerPaisPorId(IdPais);

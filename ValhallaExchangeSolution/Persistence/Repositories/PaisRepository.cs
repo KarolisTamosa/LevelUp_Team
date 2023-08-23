@@ -24,6 +24,11 @@ namespace Persistence.Repositories
 
         }
 
+        public async Task<IEnumerable<Pais>> GetPaises()
+        {
+            return await _context.Paises.ToListAsync();
+        }
+
         public Task<IEnumerable<Pais>> GetPaisPorUsuario(Guid IdPais)
         {
             throw new NotImplementedException();

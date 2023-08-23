@@ -1,3 +1,4 @@
+using AutoMapper;
 using Domain.IRepositories;
 using Domain.IServices;
 using Microsoft.EntityFrameworkCore;
@@ -36,6 +37,7 @@ namespace ProyectoAPI
             builder.Services.AddScoped<IHistorialService, HistorialService>();
             builder.Services.AddScoped<IUsuarioService, UsuarioService>();
             builder.Services.AddScoped<IPaisService, PaisService>();
+         
             //Repositorios
             builder.Services.AddScoped<IMonedaRepository, MonedaRepository>();
             builder.Services.AddScoped<IHistorialRepository, HistorialRepository>();
@@ -51,6 +53,8 @@ namespace ProyectoAPI
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            // Mapper
+            builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 
 

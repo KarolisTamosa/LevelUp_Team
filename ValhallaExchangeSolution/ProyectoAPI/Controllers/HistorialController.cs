@@ -19,11 +19,12 @@ namespace ProyectoAPI.Controllers
         private readonly IMapper _mapper;
 
         //private readonly IUsuarioService _usuarioService;
-        public HistorialController(IHistorialService historialService, IUsuarioService usuarioService, IMonedaService monedaService)
+        public HistorialController(IHistorialService historialService, IUsuarioService usuarioService, IMonedaService monedaService, IMapper mapper)
         {
             _historialService = historialService;
             _usuarioService = usuarioService;
             _monedaService = monedaService;
+            _mapper = mapper;
         }
         [HttpGet]
         public async Task<ActionResult<IEnumerable<HistorialGetDTO>>> GetHistorialPorUsuario([FromRoute] Guid usuarioId)
@@ -40,8 +41,8 @@ namespace ProyectoAPI.Controllers
             {
                 return NotFound(new { message = "No existen registros de historial de este usuario" });
             }
-
-            return Ok(_mapper.Map<IEnumerable<HistorialGetDTO>>(historialPorUsuarioFromRepo));
+            IEnumerable<HistorialGetDTO> p = _mapper.Map<IEnumerable<HistorialGetDTO>>(historialPorUsuarioFromRepo);
+            return Ok(p);
         }
 
         [HttpGet("{historialId}")]

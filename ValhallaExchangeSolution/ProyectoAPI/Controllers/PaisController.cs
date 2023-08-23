@@ -1,4 +1,5 @@
-﻿using Domain.IServices;
+﻿using AutoMapper;
+using Domain.IServices;
 using Domain.Models;
 using DTO;
 using Microsoft.AspNetCore.Http;
@@ -13,12 +14,15 @@ namespace ProyectoAPI.Controllers
     public class PaisController : ControllerBase
     {
         private readonly IPaisService _paisservice;
+        private readonly IMapper _mapper;
 
 
 
-        public PaisController(IPaisService paisService)
+        public PaisController(IPaisService paisService, IMapper mapper)
         {
             _paisservice = paisService;
+            _mapper = mapper;
+            _mapper=mapper;
         }
 
 
@@ -30,6 +34,23 @@ namespace ProyectoAPI.Controllers
             {
                 Pais listaPaises = await _paisservice.GetPaisPorId(IdPais);
                 return Ok(listaPaises);
+
+
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Pais>>> GetPaises()
+        {
+            try
+            {
+                IEnumerable<Pais> listaPaises = await _paisservice.GetPaises();
+                return Ok(_mapper.Map<IEnumerable<PaisesDTO>>(_mapper.Map<IEnumerable<PaisesDTO>>(listaPaises)));
 
 
 
