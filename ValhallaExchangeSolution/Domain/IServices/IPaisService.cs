@@ -10,5 +10,6 @@ namespace Domain.IServices
     public interface IPaisService
     {
         Task<IEnumerable<Pais>> GetPaisPorUsuario(Guid IdPais);
+        Task<Pais> GetPaisPorId(Guid IdPais);
     }
 }

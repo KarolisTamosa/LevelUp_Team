@@ -36,7 +36,7 @@ namespace ProyectoAPI.Controllers
 
             var historialPorUsuarioFromRepo = await _historialService.GetHistorialPorUsuario(usuarioId);
 
-            if (historialPorUsuarioFromRepo == null)
+            if (historialPorUsuarioFromRepo == null || historialPorUsuarioFromRepo.Count() == 0)
             {
                 return NotFound(new { message = "No existen registros de historial de este usuario" });
             }

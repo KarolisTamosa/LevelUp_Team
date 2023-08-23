@@ -11,6 +11,8 @@ namespace Domain.IRepositories
     {
         Task<IEnumerable<Pais>> GetPais();
         Task MeterPaises(List<Pais> Paises);
-        Task<Moneda> ObtenerPaisPorId(Guid IdPais);
+        Task<Pais> ObtenerPaisPorId(Guid IdPais);
+        Task<IEnumerable<Pais>> GetPaisPorUsuario(Guid IdPais);
+
     }
 }

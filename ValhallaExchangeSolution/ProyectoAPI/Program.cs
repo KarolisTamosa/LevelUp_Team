@@ -35,10 +35,12 @@ namespace ProyectoAPI
             builder.Services.AddScoped<IApiMonedasService, ApiMonedasService>();
             builder.Services.AddScoped<IHistorialService, HistorialService>();
             builder.Services.AddScoped<IUsuarioService, UsuarioService>();
+            builder.Services.AddScoped<IPaisService, PaisService>();
             //Repositorios
             builder.Services.AddScoped<IMonedaRepository, MonedaRepository>();
             builder.Services.AddScoped<IHistorialRepository, HistorialRepository>();
             builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+            builder.Services.AddScoped<IPaisRepository, PaisRepository>();
 
 
 
