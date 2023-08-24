@@ -9,10 +9,22 @@
 			"name": "Moneda",
 			"item": [
 				{
-					"name": "New Request",
+					"name": "ObtenerMonedas",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
 						"method": "GET",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
 							"raw": "{{host}}/api/Moneda",
 							"host": [
@@ -21,6 +33,162 @@
 							"path": [
 								"api",
 								"Moneda"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ObtenerMonedaPorCodigo",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/api/Moneda/eur",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"Moneda",
+								"eur"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ConvertirMonedaApi",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"CodigoMonedaOrigen\": \"EUR\",\r\n    \"CodigoMonedaDestino\": \"USD\",\r\n    \"Importe\": 100\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/Moneda/ConvertirMoneda",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"Moneda",
+								"ConvertirMoneda"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Usuario",
+			"item": [
+				{
+					"name": "ActualizarUsuario",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json-patch+json",
+								"type": "default"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n    {\r\n      \"op\": \"replace\",\r\n      \"path\": \"/email\",\r\n      \"value\": \"asaaaaa@gmail.com\"\r\n    }\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:7294/api/Usuario/bb77f273-d3a3-4d04-8d2e-0db30c7fe279",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7294",
+							"path": [
+								"api",
+								"Usuario",
+								"bb77f273-d3a3-4d04-8d2e-0db30c7fe279"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "LoginUser",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Email\": \"usuario60@example.com\",\r\n    \"Password\": \"1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/Usuario/login",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"Usuario",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RegistrarUsuario",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Email\": \"xxxx@gmail.com\",\r\n    \"Password\": \"xxxx\",\r\n    \"FechaNacimiento\": \"2023-08-24T10:21:05.093Z\",\r\n    \"IdPais\": \"dd4313bc-d9bf-4002-b42b-047edd8b04dc\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/Usuario/registrarUsuario",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"Usuario",
+								"registrarUsuario"
 							]
 						}
 					},
