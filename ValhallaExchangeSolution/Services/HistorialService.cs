@@ -1,11 +1,8 @@
 ﻿using Domain.IRepositories;
 using Domain.IServices;
 using Domain.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.Data.SqlClient;
+using System.Data;
 
 namespace Services
 {
@@ -17,9 +14,9 @@ namespace Services
             _historialRepository = historialRepository;
         }
 
-        public async Task<IEnumerable<Historial>> GetHistorialPorUsuario(Guid usuarioId)
+        public async Task<IEnumerable<Historial>> GetHistorialPorUsuario(Guid usuarioId, int numResultados)
         {
-            return await _historialRepository.GetHistorialPorUsuario(usuarioId);
+            return await _historialRepository.GetHistorialPorUsuario(usuarioId, numResultados);
         }
 
         public async Task GuardarRegistroDeHistorial(Historial historial)
@@ -34,6 +31,11 @@ namespace Services
         public async Task<Historial> GetHistorialById(Guid idHistorial)
         {
             return await _historialRepository.GetHistorialById(idHistorial);
+        }
+
+        public async Task<IEnumerable<Historial>> GetHistorialPorUsuarioConProcedimientoAlmacenado(Guid usuarioId, int numResultados)
+        {
+            return await _historialRepository.GetHistorialPorUsuarioConProcedimientoAlmacenado(usuarioId, numResultados);
         }
 
         public async Task<Historial> GetHistorialByIdHistorialEIdUsuario(Guid idHistorial, Guid idUsuario)

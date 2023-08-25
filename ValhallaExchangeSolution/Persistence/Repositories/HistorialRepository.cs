@@ -1,12 +1,8 @@
 ﻿using Domain.IRepositories;
 using Domain.Models;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Persistence.Context;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Persistence.Repositories
 {
@@ -18,13 +14,20 @@ namespace Persistence.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<Historial>> GetHistorialPorUsuario(Guid usuarioId)
+        public async Task<IEnumerable<Historial>> GetHistorialPorUsuario(Guid usuarioId, int numResultados)
         {
             if (usuarioId == Guid.Empty)
             {
                 throw new ArgumentNullException(nameof(usuarioId));
             }
-            return await _context.Historial.Where(historial => historial.IdUsuario.Equals(usuarioId) && !historial.Eliminado).ToListAsync();
+            return await _context.Historial.Where(historial => historial.IdUsuario.Equals(usuarioId) && !historial.Eliminado).OrderByDescending(historial => historial.FechaConversion).Take(numResultados).ToListAsync();
+        }
+        public async Task<IEnumerable<Historial>> GetHistorialPorUsuarioConProcedimientoAlmacenado(Guid usuarioId, int numResultados)
+        {
+            var usuarioIdParam = new SqlParameter("@UsuarioId", usuarioId);
+            var numResultadosParam = new SqlParameter("@NumResultados", numResultados);
+
+            return await _context.Historial.FromSqlRaw($"EXEC GetHistorialFromUsuarios @UsuarioId, @NumResultados", usuarioIdParam, numResultadosParam).ToListAsync();
         }
 
         public async Task GuardarRegistroDeHistorial(Historial historial)

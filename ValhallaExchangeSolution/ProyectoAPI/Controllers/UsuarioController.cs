@@ -5,6 +5,10 @@ using Microsoft.AspNetCore.JsonPatch;
 using DTO.Usuario;
 using AutoMapper;
 using DTO.Historial;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 using Utils;
 
 namespace ProyectoAPI.Controllers
@@ -15,10 +19,14 @@ namespace ProyectoAPI.Controllers
     {
         private readonly IUsuarioService _usuarioService;
         private readonly IMapper _mapper;
-        public UsuarioController(IUsuarioService usuarioService, IMapper mapper)
+        private readonly IConfiguration _configuration;
+
+        public UsuarioController(IUsuarioService usuarioService, IMapper mapper,
+            IConfiguration configuration)
         {
             _usuarioService = usuarioService;
             _mapper = mapper;
+            _configuration = configuration;
         }
 
         [HttpGet("{idUsuario}")]
@@ -182,6 +190,21 @@ namespace ProyectoAPI.Controllers
             {
                 return BadRequest(ex + " - ERROR NUESTRO");
             }
+        }
+
+        private JwtSecurityToken GetToken(List<Claim> authClaims)
+        {
+            var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
+
+            var token = new JwtSecurityToken(
+                issuer: _configuration["JWT:ValidIssuer"],
+                audience: _configuration["JWT:ValidAudience"],
+                expires: DateTime.Now.AddHours(3),
+                claims: authClaims,
+                signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
+                );
+
+            return token;
         }
     }
 }
