@@ -35,7 +35,7 @@ namespace ProyectoAPI.Controllers
                 return NotFound(new { message = "No existe un usuario con este id" });
             }
 
-            var historialPorUsuarioFromRepo = await _historialService.GetHistorialPorUsuario(usuarioId, res);
+            var historialPorUsuarioFromRepo = await _historialService.GetHistorialPorUsuarioConProcedimientoAlmacenado(usuarioId, res);
 
             if (historialPorUsuarioFromRepo == null || historialPorUsuarioFromRepo.Count() == 0)
             {

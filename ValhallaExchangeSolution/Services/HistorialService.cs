@@ -1,6 +1,8 @@
 ﻿using Domain.IRepositories;
 using Domain.IServices;
 using Domain.Models;
+using Microsoft.Data.SqlClient;
+using System.Data;
 
 namespace Services
 {
@@ -29,6 +31,11 @@ namespace Services
         public async Task<Historial> GetHistorialById(Guid idHistorial)
         {
             return await _historialRepository.GetHistorialById(idHistorial);
+        }
+
+        public async Task<IEnumerable<Historial>> GetHistorialPorUsuarioConProcedimientoAlmacenado(Guid usuarioId, int numResultados)
+        {
+            return await _historialRepository.GetHistorialPorUsuarioConProcedimientoAlmacenado(usuarioId, numResultados);
         }
     }
 }

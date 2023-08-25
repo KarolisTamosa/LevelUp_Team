@@ -10,6 +10,7 @@ namespace Domain.IRepositories
     public interface IHistorialRepository
     {
         Task<IEnumerable<Historial>> GetHistorialPorUsuario(Guid usuarioId, int numResultados);
+        Task<IEnumerable<Historial>> GetHistorialPorUsuarioConProcedimientoAlmacenado(Guid usuarioId, int numResultados);
         Task GuardarRegistroDeHistorial(Historial historial);
         Task<Historial> GetHistorialById(Guid idHistorial);
         Task BorrarRegistroDeHistorial(Historial historial);
