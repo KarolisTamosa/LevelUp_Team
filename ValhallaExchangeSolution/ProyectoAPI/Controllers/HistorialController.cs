@@ -77,15 +77,15 @@ namespace ProyectoAPI.Controllers
                     return NotFound(new { message = "No existe un usuario con este id" });
                 }
 
-                var monedaOrigen = await _monedaService.ObtenerMonedaPorCodigo(historialDTO.CodigoMonedaOrigen ?? "");
-                var monedaDestino = await _monedaService.ObtenerMonedaPorCodigo(historialDTO.CodigoMonedaDestino ?? "");
+                var monedaOrigen = await _monedaService.ObtenerMonedaPorCodigo(historialDTO.CodigoMonedaOrigen);
+                var monedaDestino = await _monedaService.ObtenerMonedaPorCodigo(historialDTO.CodigoMonedaDestino);
                 if (monedaOrigen == null || monedaDestino == null)
                 {
                     return BadRequest(new { message = "Codigos de monedas invalidos" });
                 }
                 //Historial historialModel = _mapper.Map<Historial>(historialDTO);
 
-                Historial historialModel = new Historial
+                var historialModel = new Historial()
                 {
                     IdUsuario = usuarioId,
                     IdMonedaOrigen = monedaOrigen.IdMoneda,
@@ -98,7 +98,7 @@ namespace ProyectoAPI.Controllers
                 };
 
                 await _historialService.GuardarRegistroDeHistorial(historialModel);
-                return Ok();
+                return Ok(new { message = "Registro de Historial guardado con exito" });
             }
             catch (Exception ex)
             {

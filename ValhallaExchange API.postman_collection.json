@@ -63,34 +63,6 @@
 						}
 					},
 					"response": []
-				},
-				{
-					"name": "ConvertirMonedaApi",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"CodigoMonedaOrigen\": \"EUR\",\r\n    \"CodigoMonedaDestino\": \"USD\",\r\n    \"Importe\": 100\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{host}}/api/Moneda/ConvertirMoneda",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"api",
-								"Moneda",
-								"ConvertirMoneda"
-							]
-						}
-					},
-					"response": []
 				}
 			]
 		},
@@ -115,7 +87,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "[\r\n    {\r\n      \"op\": \"replace\",\r\n      \"path\": \"/email\",\r\n      \"value\": \"asaaaaa@gmail.com\"\r\n    }\r\n]",
+							"raw": "[\r\n    {\r\n      \"op\": \"replace\",\r\n      \"path\": \"/email\",\r\n      \"value\": \"nnnn@gmail.com\"\r\n    },\r\n    {\r\n      \"op\": \"replace\",\r\n      \"path\": \"/PasswordEncriptado\",\r\n      \"value\": \"akojsljdsa\"\r\n    }\r\n]",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -123,7 +95,7 @@
 							}
 						},
 						"url": {
-							"raw": "https://localhost:7294/api/Usuario/bb77f273-d3a3-4d04-8d2e-0db30c7fe279",
+							"raw": "https://localhost:7294/api/Usuario/af6f5a54-4025-4657-9d65-08dba48c0979",
 							"protocol": "https",
 							"host": [
 								"localhost"
@@ -132,7 +104,7 @@
 							"path": [
 								"api",
 								"Usuario",
-								"bb77f273-d3a3-4d04-8d2e-0db30c7fe279"
+								"af6f5a54-4025-4657-9d65-08dba48c0979"
 							]
 						}
 					},
@@ -173,7 +145,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"Email\": \"xxxx@gmail.com\",\r\n    \"Password\": \"xxxx\",\r\n    \"FechaNacimiento\": \"2023-08-24T10:21:05.093Z\",\r\n    \"IdPais\": \"dd4313bc-d9bf-4002-b42b-047edd8b04dc\"\r\n}",
+							"raw": "{\r\n    \"Email\": \"aaaa@gmail.com\",\r\n    \"Password\": \"aaaa\",\r\n    \"FechaNacimiento\": \"2000-08-24T10:21:05.093Z\",\r\n    \"IdPais\": \"dd4313bc-d9bf-4002-b42b-047edd8b04dc\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -193,8 +165,63 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "GetUsuarioPorId",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/Usuario/af6f5a54-4025-4657-9d65-08dba48c0979",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"Usuario",
+								"af6f5a54-4025-4657-9d65-08dba48c0979"
+							]
+						}
+					},
+					"response": []
 				}
 			]
+		},
+		{
+			"name": "Conversor",
+			"item": [
+				{
+					"name": "ConvertirMonedaApi",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"CodigoMonedaOrigen\": \"EUR\",\r\n    \"CodigoMonedaDestino\": \"USD\",\r\n    \"Importe\": 100\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/conversor",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"conversor"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Historial",
+			"item": []
 		}
 	],
 	"event": [

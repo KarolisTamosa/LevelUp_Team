@@ -3,6 +3,8 @@ using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.JsonPatch;
 using DTO.Usuario;
+using AutoMapper;
+using DTO.Historial;
 
 namespace ProyectoAPI.Controllers
 {
@@ -11,23 +13,25 @@ namespace ProyectoAPI.Controllers
     public class UsuarioController : ControllerBase
     {
         private readonly IUsuarioService _usuarioService;
-        public UsuarioController(IUsuarioService usuarioService)
+        private readonly IMapper _mapper;
+        public UsuarioController(IUsuarioService usuarioService, IMapper mapper)
         {
             _usuarioService = usuarioService;
+            _mapper = mapper;
         }
 
         [HttpGet("{idUsuario}")]
-        public async Task<ActionResult<Usuario>> GetUsuario([FromRoute] Guid idUsuario)
+        public async Task<ActionResult<UsuarioDTO>> GetUsuario([FromRoute] Guid idUsuario)
         {
             try
             {
-                var usuario = await _usuarioService.GetUsuarioPorID(idUsuario);
-                if (usuario == null)
+                var usuarioModel = await _usuarioService.GetUsuarioPorID(idUsuario);
+                if (usuarioModel == null)
                 {
-                    return NotFound();
+                    return NotFound( new { message = "el usuario no existe"});
                 }
-                return Ok(usuario);
-
+                var usuarioDTO = _mapper.Map<UsuarioDTO>(usuarioModel);
+                return Ok(usuarioDTO);
             }
             catch (Exception ex)
             {
@@ -66,8 +70,6 @@ namespace ProyectoAPI.Controllers
                 //creamos metodo para actualizar
                 await _usuarioService.ActualizarUsuario(usuarioModel);
 
-
-
                 return NoContent();
 
             }
@@ -88,21 +90,14 @@ namespace ProyectoAPI.Controllers
                 {
                     return BadRequest("Formato incorrecto");//400
                 }
-                //validar nombre de usuario
-                //var validateExistence = await _usuarioService.ExisteUsuarioConEmail(usuarioDTO.Email);
                 bool existeUsuarioConEmail = await _usuarioService.ExisteUsuarioConEmailIndicado(usuarioDTO.Email);
                 if (existeUsuarioConEmail)
                 {
                     return BadRequest(new { message = "El usuario con email " + usuarioDTO.Email + " ya existe!" });
                 }
-                //salvar usuario
-                var usuarioModel = new Usuario()
-                {
-                    Email = usuarioDTO.Email,
-                    PasswordEncriptado = usuarioDTO.Password,
-                    FechaNacimiento = usuarioDTO.FechaNacimiento,
-                    IdPais = usuarioDTO.IdPais
-                };
+                var usuarioModel = _mapper.Map<Usuario>(usuarioDTO);
+                //usuarioModel.PasswordEncriptado = encriptarPasword(usuarioModel.PasswordEncriptado);
+
                 await _usuarioService.CrearUsuario(usuarioModel);
                 return Ok(new { message = "Usuario creado con exito" });
             }
@@ -120,24 +115,14 @@ namespace ProyectoAPI.Controllers
         {
             try
             {
-                var usuarioModel = new Usuario()
-                {
-                    Email = usuarioDTO.Email,
-                    PasswordEncriptado = usuarioDTO.Password//llamar a util que lo encripte
-                };
+                var usuarioModel = _mapper.Map<Usuario>(usuarioDTO);
                 var usuario = await _usuarioService.ValidarUsuarioParaLogueo(usuarioModel);
 
                 if (usuario == null)
                 {
                     return BadRequest(new { message = "Usuario o contrasena invalidos" });
                 }
-                var usuarioDevolucionDTO = new UsuarioDTO()
-                {
-                    IdUsuario = usuario.IdUsuario,
-                    Email = usuario.Email,
-                    IdPais = usuario.IdPais,
-                    Edad = 5
-                };
+                var usuarioDevolucionDTO = _mapper.Map<UsuarioDTO>(usuario);
                 return Ok(usuarioDevolucionDTO);//retornaremos despues el token JWT, por ahora el usuarioDTO
             }
             catch (Exception ex)

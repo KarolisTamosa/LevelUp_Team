@@ -34,6 +34,10 @@ namespace Persistence.Repositories
 
         public async Task<Moneda> ObtenerMonedaPorCodigo(string codigoMoneda)
         {
+            if (string.IsNullOrEmpty(codigoMoneda))
+            {
+                throw new ArgumentNullException(nameof(codigoMoneda));
+            }
             return await _context.Monedas.Where(moneda => moneda.Codigo.ToUpper().Equals(codigoMoneda.ToUpper())).FirstOrDefaultAsync();
         }
 
