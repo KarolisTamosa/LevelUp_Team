@@ -27,6 +27,13 @@ namespace ProyectoAPI.Profiles
             CreateMap<UsuarioForLoginDTO, Usuario>().
                 ForMember(model => model.PasswordEncriptado, ent =>
                 ent.MapFrom(dto => dto.Password));
+
+            CreateMap<Usuario, UsuarioParaActualizarDTO>()
+                .ForMember(dto => dto.Password, ent =>
+                ent.MapFrom(model => model.PasswordEncriptado))
+                .ForMember(dto => dto.Email, ent =>
+                ent.MapFrom(model => model.Email));
+
         }
     }
 }

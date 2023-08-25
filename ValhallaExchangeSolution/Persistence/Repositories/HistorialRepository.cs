@@ -56,5 +56,18 @@ namespace Persistence.Repositories
             }
             return await _context.Historial.Where(historial => historial.IdHistorial.Equals(idHistorial) && !historial.Eliminado).FirstOrDefaultAsync();
         }
+
+        public async Task<Historial> GetHistorialByIdHistorialEIdUsuario(Guid idHistorial, Guid idUsuario)
+        {
+            if (idHistorial == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(idHistorial));
+            }
+            if (idUsuario == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(idUsuario));
+            }
+            return await _context.Historial.Where(historial => historial.IdHistorial.Equals(idHistorial) && historial.IdUsuario.Equals(idUsuario) && !historial.Eliminado).FirstOrDefaultAsync();
+        }
     }
 }

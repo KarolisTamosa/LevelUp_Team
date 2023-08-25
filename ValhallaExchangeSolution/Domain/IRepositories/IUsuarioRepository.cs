@@ -10,7 +10,7 @@ namespace Domain.IRepositories
     public interface IUsuarioRepository
     { 
         Task<Usuario> GetUsuarioPorID(Guid id);
-        Task ActualizarUsuario(Usuario usuario);
+        Task<bool> ActualizarUsuario(Usuario usuario);
         Task<bool> ExisteUsuarioConEmailIndicado(string email);
         Task CrearUsuario(Usuario usuario);
         Task<Usuario> ValidarUsuarioParaLogueo(Usuario usuario);

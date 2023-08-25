@@ -9,6 +9,6 @@ namespace DTO.Usuario
     public class UsuarioParaActualizarDTO
     {
         public string Email { get; set; }
-        public string PasswordEncriptado { get; set; }
+        public string Password { get; set; }
     }
 }

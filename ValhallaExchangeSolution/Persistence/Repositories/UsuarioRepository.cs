@@ -27,10 +27,34 @@ namespace Persistence.Repositories
             return await _context.Usuarios.Where(usuario => usuario.IdUsuario.Equals(id) && !usuario.Eliminado).FirstOrDefaultAsync();
         }
 
-        public async Task ActualizarUsuario(Usuario usuario)
+        public async Task<bool> ActualizarUsuario(Usuario usuario)
         {
-            _context.Entry(usuario).State = EntityState.Modified;
+            //_context.Entry(usuario).State = EntityState.Modified;
+            //await _context.SaveChangesAsync();
+
+
+            if (usuario == null)
+            {
+                throw new ArgumentNullException(nameof(usuario));
+            }
+
+            // Busca el usuario en la base de datos por su ID
+            var usuarioExistente = await GetUsuarioPorID(usuario.IdUsuario);
+
+            if (usuarioExistente == null)
+            {
+                return false; // O puedes lanzar una excepción si lo prefieres
+            }
+
+            // Actualiza las propiedades del usuario existente con las del nuevo usuario
+            usuarioExistente.Email = usuario.Email;
+            usuarioExistente.PasswordEncriptado = usuario.PasswordEncriptado;
+            // Actualiza otras propiedades según sea necesario
+
+            // Guarda los cambios en la base de datos
             await _context.SaveChangesAsync();
+            return true;
+
         }
 
         public async Task<bool> ExisteUsuarioConEmailIndicado(string email)

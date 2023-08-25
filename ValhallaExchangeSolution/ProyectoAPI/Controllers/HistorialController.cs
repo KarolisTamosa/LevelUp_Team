@@ -83,7 +83,6 @@ namespace ProyectoAPI.Controllers
                 {
                     return BadRequest(new { message = "Codigos de monedas invalidos" });
                 }
-                //Historial historialModel = _mapper.Map<Historial>(historialDTO);
 
                 var historialModel = new Historial()
                 {
@@ -116,13 +115,13 @@ namespace ProyectoAPI.Controllers
                 {
                     return NotFound(new { message = "No existe un usuario con este id" });
                 }
-                var historial = await _historialService.GetHistorialById(idHistorial);
+                var historial = await _historialService.GetHistorialByIdHistorialEIdUsuario(idHistorial, usuarioId);
                 if (historial == null)
                 {
                     return NotFound(new { message = "No existe un registro del historial con este id" });
                 }
                 await _historialService.BorrarRegistroDeHistorial(historial);
-                return Ok();
+                return Ok(new { message = "Registro de historial eliminado con exito" });
             }
             catch (Exception ex)
             {

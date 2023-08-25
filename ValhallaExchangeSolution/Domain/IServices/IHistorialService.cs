@@ -13,5 +13,6 @@ namespace Domain.IServices
         Task GuardarRegistroDeHistorial(Historial historial);
         Task<Historial> GetHistorialById(Guid idHistorial);
         Task BorrarRegistroDeHistorial(Historial historial);
+        Task<Historial> GetHistorialByIdHistorialEIdUsuario(Guid idHistorial, Guid idUsuario);
     }
 }
