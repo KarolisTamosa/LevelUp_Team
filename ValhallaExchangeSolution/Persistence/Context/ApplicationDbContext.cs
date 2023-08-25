@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 
 namespace Persistence.Context
 {
+    //+ Identity (*)
+    //+ JWT
     public class ApplicationDbContext : DbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> opciones) : base() { }

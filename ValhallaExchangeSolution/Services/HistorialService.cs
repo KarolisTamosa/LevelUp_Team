@@ -17,9 +17,9 @@ namespace Services
             _historialRepository = historialRepository;
         }
 
-        public async Task<IEnumerable<Historial>> GetHistorialPorUsuario(Guid usuarioId)
+        public async Task<IEnumerable<Historial>> GetHistorialPorUsuario(Guid usuarioId, int numResultados)
         {
-            return await _historialRepository.GetHistorialPorUsuario(usuarioId);
+            return await _historialRepository.GetHistorialPorUsuario(usuarioId, numResultados);
         }
 
         public async Task GuardarRegistroDeHistorial(Historial historial)

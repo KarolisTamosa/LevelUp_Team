@@ -27,7 +27,7 @@ namespace ProyectoAPI.Controllers
             _mapper = mapper;
         }
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<HistorialGetDTO>>> GetHistorialPorUsuario([FromRoute] Guid usuarioId)
+        public async Task<ActionResult<IEnumerable<HistorialGetDTO>>> GetHistorialPorUsuario([FromRoute] Guid usuarioId, [FromQuery] int res = 10)
         {
             var usuario = await _usuarioService.GetUsuarioPorID(usuarioId);
             if (usuario == null)
@@ -35,7 +35,7 @@ namespace ProyectoAPI.Controllers
                 return NotFound(new { message = "No existe un usuario con este id" });
             }
 
-            var historialPorUsuarioFromRepo = await _historialService.GetHistorialPorUsuario(usuarioId);
+            var historialPorUsuarioFromRepo = await _historialService.GetHistorialPorUsuario(usuarioId, res);
 
             if (historialPorUsuarioFromRepo == null || historialPorUsuarioFromRepo.Count() == 0)
             {
