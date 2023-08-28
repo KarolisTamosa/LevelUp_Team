@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ProyectoAPI.Controllers
 {
-    [Route("api/pais")]
+    [Route("api/paises")]
     [ApiController]
     public class PaisController : ControllerBase
     {
@@ -28,12 +28,12 @@ namespace ProyectoAPI.Controllers
 
 
         [HttpGet("{Idpais}")]
-        public async Task<ActionResult<Pais>> GetPais(Guid IdPais)
+        public async Task<ActionResult<PaisesDTO>> GetPais(Guid IdPais)
         {
             try
             {
-                Pais listaPaises = await _paisservice.GetPaisPorId(IdPais);
-                return Ok(listaPaises);
+                Pais pais = await _paisservice.GetPaisPorId(IdPais);
+                return Ok(_mapper.Map<PaisesDTO>(pais));
 
 
 
@@ -45,7 +45,7 @@ namespace ProyectoAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Pais>>> GetPaises()
+        public async Task<ActionResult<IEnumerable<PaisesDTO>>> GetPaises()
         {
             try
             {

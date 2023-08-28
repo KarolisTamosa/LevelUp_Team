@@ -1,4 +1,5 @@
-﻿using Domain.IServices;
+﻿using AutoMapper;
+using Domain.IServices;
 using Domain.Models;
 using DTO;
 using Microsoft.AspNetCore.Http;
@@ -6,24 +7,27 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ProyectoAPI.Controllers
 {
-    [Route("api/Moneda")]
+    [Route("api/monedas")]
     [ApiController]
     public class MonedaController : ControllerBase
     {
         private readonly IMonedaService _monedaService;
+        private readonly IMapper _mapper;
 
-        public MonedaController(IMonedaService monedaService)
+
+        public MonedaController(IMonedaService monedaService, IMapper mapper)
         {
             _monedaService = monedaService;
+            _mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Moneda>>> GetMonedas()
+        public async Task<ActionResult<List<MonedaDTO>>> GetMonedas()
         {
             try
             {
                 IEnumerable<Moneda> listaMonedas = await _monedaService.GetMonedas();
-                return Ok(listaMonedas.ToList());
+                return Ok(_mapper.Map<IEnumerable<MonedaDTO>>(listaMonedas));
 
             }
             catch (Exception ex)
@@ -34,7 +38,7 @@ namespace ProyectoAPI.Controllers
         //localhost:xxxxx/api/Moneda/eur
 
         [HttpGet("{codigoMoneda}")]
-        public async Task<ActionResult<Moneda>> GetMoneda([FromRoute] string codigoMoneda)
+        public async Task<ActionResult<MonedaDTO>> GetMoneda([FromRoute] string codigoMoneda)
         {
             try
             {
@@ -43,7 +47,7 @@ namespace ProyectoAPI.Controllers
                 {
                     return NotFound();
                 }
-                return Ok(moneda);
+                return Ok(_mapper.Map<MonedaDTO>(moneda));
 
             }
             catch (Exception ex)

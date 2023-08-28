@@ -1,8 +1,9 @@
 {
 	"info": {
-		"_postman_id": "18e7aaae-48a2-4628-9e1b-76b75b14b79b",
+		"_postman_id": "0093b20c-3f33-4fe4-bc98-98c9c811fd85",
 		"name": "ValhallaExchange API",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28928417"
 	},
 	"item": [
 		{
@@ -26,13 +27,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/api/Moneda",
+							"raw": "{{host}}/api/monedas",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"api",
-								"Moneda"
+								"monedas"
 							]
 						}
 					},
@@ -51,14 +52,14 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{host}}/api/Moneda/eur",
+							"raw": "{{host}}/api/monedas/usd",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"api",
-								"Moneda",
-								"eur"
+								"monedas",
+								"usd"
 							]
 						}
 					},
@@ -95,16 +96,14 @@
 							}
 						},
 						"url": {
-							"raw": "https://localhost:7294/api/Usuario/af6f5a54-4025-4657-9d65-08dba48c0979",
-							"protocol": "https",
+							"raw": "{{host}}/api/usuarios/{{idUsuarioPrueba}}",
 							"host": [
-								"localhost"
+								"{{host}}"
 							],
-							"port": "7294",
 							"path": [
 								"api",
-								"Usuario",
-								"af6f5a54-4025-4657-9d65-08dba48c0979"
+								"usuarios",
+								"{{idUsuarioPrueba}}"
 							]
 						}
 					},
@@ -125,13 +124,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/api/Usuario/login",
+							"raw": "{{host}}/api/usuarios/login",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"api",
-								"Usuario",
+								"usuarios",
 								"login"
 							]
 						}
@@ -153,13 +152,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/api/Usuario/registrarUsuario",
+							"raw": "{{host}}/api/usuarios/registrarUsuario",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"api",
-								"Usuario",
+								"usuarios",
 								"registrarUsuario"
 							]
 						}
@@ -172,14 +171,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/api/Usuario/af6f5a54-4025-4657-9d65-08dba48c0979",
+							"raw": "{{host}}/api/usuarios/{{idUsuarioPrueba}}",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"api",
-								"Usuario",
-								"af6f5a54-4025-4657-9d65-08dba48c0979"
+								"usuarios",
+								"{{idUsuarioPrueba}}"
 							]
 						}
 					},
@@ -221,7 +220,117 @@
 		},
 		{
 			"name": "Historial",
-			"item": []
+			"item": [
+				{
+					"name": "GetHistorialPorUsuario",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/usuarios/{{idUsuarioPrueba}}/historial",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"usuarios",
+								"{{idUsuarioPrueba}}",
+								"historial"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get10UltimosHistorialesPorUsuario",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/usuarios/{{idUsuarioPrueba}}/historial?res=3",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"usuarios",
+								"{{idUsuarioPrueba}}",
+								"historial"
+							],
+							"query": [
+								{
+									"key": "res",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetUnHistorial",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/usuarios/{{idUsuarioPrueba}}/historial/{{idHistorialPrueba}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"usuarios",
+								"{{idUsuarioPrueba}}",
+								"historial",
+								"{{idHistorialPrueba}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Pais",
+			"item": [
+				{
+					"name": "GetPaises",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/pais",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"pais"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetPaisesPorId",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/paises/{{isPaisPrueba}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"paises",
+								"{{isPaisPrueba}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	],
 	"event": [
@@ -249,6 +358,26 @@
 			"key": "host",
 			"value": "https://localhost:7294",
 			"type": "default"
+		},
+		{
+			"key": "idHistorialPrueba",
+			"value": "b3ed9c37-d504-4d16-a302-02a39de812ba",
+			"type": "string"
+		},
+		{
+			"key": "idUsuarioPrueba",
+			"value": "2ea42e50-ade2-4254-801c-5a15e13aa1af",
+			"type": "string"
+		},
+		{
+			"key": "idPaisPrueba",
+			"value": "677216d4-25c4-44b2-998a-00b6cc67694b",
+			"type": "string"
+		},
+		{
+			"key": "idMonedaPrueba",
+			"value": "94edc584-e589-4cd0-4579-08dba4954363",
+			"type": "string"
 		}
 	]
 }

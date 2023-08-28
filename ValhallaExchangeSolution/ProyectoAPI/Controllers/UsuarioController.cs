@@ -12,7 +12,7 @@ using System.Text;
 
 namespace ProyectoAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/usuarios")]
     [ApiController]
     public class UsuarioController : ControllerBase
     {

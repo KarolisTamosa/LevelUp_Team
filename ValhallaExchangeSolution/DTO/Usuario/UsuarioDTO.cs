@@ -11,7 +11,7 @@ namespace DTO.Usuario
     {
         public Guid IdUsuario { get; set; }
         public string Email { get; set; }
-        public Guid IdPais { get; set; }//FK
+        public string  NombrePais{ get; set; }//FK
         public int Edad { get; set; }
     }
 }

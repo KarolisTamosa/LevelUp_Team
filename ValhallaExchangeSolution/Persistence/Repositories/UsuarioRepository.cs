@@ -19,7 +19,7 @@ namespace Persistence.Repositories
             {
                 throw new ArgumentNullException(nameof(id));
             }
-            return await _context.Usuarios.Where(usuario => usuario.IdUsuario.Equals(id) && !usuario.Eliminado).FirstOrDefaultAsync();
+            return await _context.Usuarios.Include(u => u.Pais).Where(usuario => usuario.IdUsuario.Equals(id) && !usuario.Eliminado).FirstOrDefaultAsync();
         }
 
         public async Task ActualizarUsuario(Usuario usuario)
@@ -58,7 +58,7 @@ namespace Persistence.Repositories
                 throw new ArgumentNullException(nameof(string.Empty));//para que no entre a la bbdd y no la bloquee
             }
             //hacer consulta en bbdd con username y password
-            var user = await _context.Usuarios.Where(u => u.Email == usuario.Email && u.PasswordEncriptado == usuario.PasswordEncriptado).FirstOrDefaultAsync();
+            var user = await _context.Usuarios.Include(u => u.Pais).Where(u => u.Email == usuario.Email && u.PasswordEncriptado == usuario.PasswordEncriptado).FirstOrDefaultAsync();
             return user;
         }
     }

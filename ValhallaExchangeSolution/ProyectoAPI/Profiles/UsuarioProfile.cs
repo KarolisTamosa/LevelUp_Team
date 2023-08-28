@@ -15,8 +15,8 @@ namespace ProyectoAPI.Profiles
                 ent.MapFrom(val => $"{val.IdUsuario}"))
                 .ForMember(dto => dto.Email, ent =>
                 ent.MapFrom(val => $"{val.Email}"))
-                .ForMember(dto => dto.IdPais, ent =>
-                ent.MapFrom(val => $"{val.IdPais}"))
+                .ForMember(dto => dto.NombrePais, ent =>
+                ent.MapFrom(val => $"{val.Pais.Nombre}"))
                 .ForMember(dto => dto.Edad, ent =>
                 ent.MapFrom(val => UsuarioUtils.CalcularEdad(val.FechaNacimiento)));
             

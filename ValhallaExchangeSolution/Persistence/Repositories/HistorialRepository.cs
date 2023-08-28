@@ -20,14 +20,24 @@ namespace Persistence.Repositories
             {
                 throw new ArgumentNullException(nameof(usuarioId));
             }
-            return await _context.Historial.Where(historial => historial.IdUsuario.Equals(usuarioId) && !historial.Eliminado).OrderByDescending(historial => historial.FechaConversion).Take(numResultados).ToListAsync();
+            return await _context.Historial.Include(historial => historial.Usuario).Include(historial => historial.MonedaOrigen).Include(historial => historial.MonedaDestino).Where(historial => historial.IdUsuario.Equals(usuarioId) && !historial.Eliminado).OrderByDescending(historial => historial.FechaConversion).Take(numResultados).ToListAsync();
         }
         public async Task<IEnumerable<Historial>> GetHistorialPorUsuarioConProcedimientoAlmacenado(Guid usuarioId, int numResultados)
         {
             var usuarioIdParam = new SqlParameter("@UsuarioId", usuarioId);
             var numResultadosParam = new SqlParameter("@NumResultados", numResultados);
 
-            return await _context.Historial.FromSqlRaw($"EXEC GetHistorialFromUsuarios @UsuarioId, @NumResultados", usuarioIdParam, numResultadosParam).ToListAsync();
+            var resultado = await _context.Historial.FromSqlRaw($"EXEC GetHistorialFromUsuarios @UsuarioId, @NumResultados", usuarioIdParam, numResultadosParam).ToListAsync();
+            foreach (var historial in resultado)
+            {
+                _context.Entry(historial)
+                .Reference(h => h.MonedaOrigen)
+                .Load();
+                _context.Entry(historial)
+                .Reference(h => h.MonedaDestino)
+                .Load();
+            }
+            return resultado;
         }
 
         public async Task GuardarRegistroDeHistorial(Historial historial)
@@ -57,7 +67,7 @@ namespace Persistence.Repositories
             {
                 throw new ArgumentNullException(nameof(idHistorial));
             }
-            return await _context.Historial.Where(historial => historial.IdHistorial.Equals(idHistorial) && !historial.Eliminado).FirstOrDefaultAsync();
+            return await _context.Historial.Include(historial => historial.Usuario).Include(historial => historial.MonedaOrigen).Include(historial => historial.MonedaDestino).Where(historial => historial.IdHistorial.Equals(idHistorial) && !historial.Eliminado).FirstOrDefaultAsync();
         }
     }
 }
