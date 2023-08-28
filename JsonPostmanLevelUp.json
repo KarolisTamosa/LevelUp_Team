@@ -144,7 +144,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"Email\": \"aaaa@gmail.com\",\r\n    \"Password\": \"aaaa\",\r\n    \"FechaNacimiento\": \"2000-08-24T10:21:05.093Z\",\r\n    \"IdPais\": \"dd4313bc-d9bf-4002-b42b-047edd8b04dc\"\r\n}",
+							"raw": "{\r\n    \"Email\": \"aaaa@gmail.com\",\r\n    \"Password\": \"aaaa\",\r\n    \"FechaNacimiento\": \"2000-08-24T10:21:05.093Z\",\r\n    \"IdPais\": \"{{idPaisPrueba}}\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -299,13 +299,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/api/pais",
+							"raw": "{{host}}/api/paises",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"api",
-								"pais"
+								"paises"
 							]
 						}
 					},
@@ -317,14 +317,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/api/paises/{{isPaisPrueba}}",
+							"raw": "{{host}}/api/paises/{{idPaisPrueba}}",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"api",
 								"paises",
-								"{{isPaisPrueba}}"
+								"{{idPaisPrueba}}"
 							]
 						}
 					},
