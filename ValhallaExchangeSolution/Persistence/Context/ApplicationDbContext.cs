@@ -32,6 +32,7 @@ namespace Persistence.Context
                 .HasOne(historial => historial.MonedaDestino)
                 .WithMany(moneda => moneda.HistorialesPorMonedaDestino)
                 .HasForeignKey(historial => historial.IdMonedaDestino);
+
         }
     }
 
