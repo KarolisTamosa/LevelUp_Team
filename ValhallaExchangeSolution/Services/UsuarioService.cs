@@ -17,9 +17,9 @@ namespace Services
             return await _usuarioRepository.GetUsuarioPorID(id);
         }
 
-        public async Task ActualizarUsuario(Usuario usuario)
+        public async Task<bool> ActualizarUsuario(Usuario usuario)
         {
-            await _usuarioRepository.ActualizarUsuario(usuario);
+            return await _usuarioRepository.ActualizarUsuario(usuario);
         }
 
         public async Task<bool> ExisteUsuarioConEmailIndicado(string email)

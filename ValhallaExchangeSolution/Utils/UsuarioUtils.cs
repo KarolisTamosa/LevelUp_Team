@@ -13,5 +13,24 @@ namespace Utils
             }
             return edad;
         }
+
+
+        public static bool EsEdadPermitida(DateTime fechaNacimiento)
+        {
+            return CalcularEdad(fechaNacimiento) >= 18;
+        }
+        
+        public static bool EsPasswordConFormatoValido(string password, int longitudMinima, int longitudMaxima)
+        {
+            //TODO: Mas adelante podemos verificar que tenga una mayuscula mas un caracter especial
+            int longitud = password.Length;
+            return longitud >= longitudMinima && longitud <= longitudMaxima;
+        }
+
+        public static bool EsEmailConFormatoValido(string email)
+        {
+            //TODO: Mas adelante comprobar que tiene el formato de "@gmail.com"
+            return true;
+        }
     }
 }

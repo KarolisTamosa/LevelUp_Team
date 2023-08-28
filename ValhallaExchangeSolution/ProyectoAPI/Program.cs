@@ -2,6 +2,7 @@ using AutoMapper;
 using Domain.IRepositories;
 using Domain.IServices;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Serialization;
 using Persistence.Context;
 using Persistence.Repositories;
 using Services;
@@ -37,7 +38,7 @@ namespace ProyectoAPI
             builder.Services.AddScoped<IHistorialService, HistorialService>();
             builder.Services.AddScoped<IUsuarioService, UsuarioService>();
             builder.Services.AddScoped<IPaisService, PaisService>();
-         
+
             //Repositorios
             builder.Services.AddScoped<IMonedaRepository, MonedaRepository>();
             builder.Services.AddScoped<IHistorialRepository, HistorialRepository>();
@@ -48,7 +49,13 @@ namespace ProyectoAPI
 
 
 
-            builder.Services.AddControllers();
+            builder.Services.AddControllers().AddNewtonsoftJson(setupAction =>
+            {
+                setupAction.SerializerSettings.ContractResolver =
+                    new CamelCasePropertyNamesContractResolver();
+            });
+
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();

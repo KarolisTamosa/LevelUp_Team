@@ -19,7 +19,6 @@ namespace ProyectoAPI.Profiles
                 ent.MapFrom(val => $"{val.MonedaDestino.ValorEnDolares}"));
 
 
-
             //CreateMap<ApiMonedasDTO, Moneda>()
             //    .ForMember(dest => dest.NombreCompleto, opt => opt.MapFrom(src => $"{src.Nombre} {src.Apellido}")); ;
 

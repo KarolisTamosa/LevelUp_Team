@@ -37,5 +37,10 @@ namespace Services
         {
             return await _historialRepository.GetHistorialPorUsuarioConProcedimientoAlmacenado(usuarioId, numResultados);
         }
+
+        public async Task<Historial> GetHistorialByIdHistorialEIdUsuario(Guid idHistorial, Guid idUsuario)
+        {
+            return await _historialRepository.GetHistorialByIdHistorialEIdUsuario(idHistorial, idUsuario);
+        }
     }
 }
