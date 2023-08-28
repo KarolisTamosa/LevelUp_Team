@@ -9,34 +9,34 @@ namespace Persistence.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.Sql(@"use PruebaBD3
-
-
- --Insertar datos en la tabla de Paises
+--Insertar datos en la tabla de Paises
 INSERT INTO [dbo].[Paises] ([IdPais], [Nombre], [Eliminado])
 VALUES
-    (NEWID(), 'País 1', 0),
-    (NEWID(), 'País 2', 0),
-    (NEWID(), 'País 3', 0),
-    (NEWID(), 'País 4', 0),
-    (NEWID(), 'País 5', 0),
-    (NEWID(), 'País 6', 0),
-    (NEWID(), 'País 7', 0),
-    (NEWID(), 'País 8', 0),
-    (NEWID(), 'País 9', 0),
-    (NEWID(), 'País 10', 0),
-    (NEWID(), 'País 11', 0),
-    (NEWID(), 'País 12', 0),
-    (NEWID(), 'País 20', 0);
+('677216d4-25c4-44b2-998a-00b6cc67694b', 'País 1', 0),
+(NEWID(), 'País 2', 0),
+(NEWID(), 'País 3', 0),
+(NEWID(), 'País 4', 0),
+(NEWID(), 'País 5', 0),
+(NEWID(), 'País 6', 0),
+(NEWID(), 'País 7', 0),
+(NEWID(), 'País 8', 0),
+(NEWID(), 'País 9', 0),
+(NEWID(), 'País 10', 0),
+(NEWID(), 'País 11', 0),
+(NEWID(), 'País 12', 0),
+(NEWID(), 'País 20', 0);
+
 
 -- Insertar datos en la tabla de Usuarios relacionando con los países
 INSERT INTO [dbo].[Usuarios] ([IdUsuario], [Email], [PasswordEncriptado], [FechaNacimiento], [Eliminado], [IdPais])
 VALUES
-    (NEWID(), 'usuario1@example.com', '1234', '1990-01-01', 0, (SELECT TOP 1 [IdPais] FROM [dbo].[Paises] ORDER BY NEWID())),
-    (NEWID(), 'usuario2@example.com', '1234', '1985-05-10', 0, (SELECT TOP 1 [IdPais] FROM [dbo].[Paises] ORDER BY NEWID())),
-    (NEWID(), 'usuario3@example.com', '1234', '1985-05-10', 0, (SELECT TOP 1 [IdPais] FROM [dbo].[Paises] ORDER BY NEWID())),
-    (NEWID(), 'usuario4@example.com', '1234', '1985-05-10', 0, (SELECT TOP 1 [IdPais] FROM [dbo].[Paises] ORDER BY NEWID())),
-    (NEWID(), 'usuario5@example.com', '1234', '1985-05-10', 0, (SELECT TOP 1 [IdPais] FROM [dbo].[Paises] ORDER BY NEWID())),
-    (NEWID(), 'usuario60@example.com', '1234', '1998-09-15', 0, (SELECT TOP 1 [IdPais] FROM [dbo].[Paises] ORDER BY NEWID()));
+('2ea42e50-ade2-4254-801c-5a15e13aa1af', 'usuario1@example.com', '1234', '1990-01-01', 0, (SELECT TOP 1 [IdPais] FROM [dbo].[Paises] ORDER BY NEWID())),
+(NEWID(), 'usuario2@example.com', '1234', '1985-05-10', 0, (SELECT TOP 1 [IdPais] FROM [dbo].[Paises] ORDER BY NEWID())),
+(NEWID(), 'usuario3@example.com', '1234', '1985-05-10', 0, (SELECT TOP 1 [IdPais] FROM [dbo].[Paises] ORDER BY NEWID())),
+(NEWID(), 'usuario4@example.com', '1234', '1985-05-10', 0, (SELECT TOP 1 [IdPais] FROM [dbo].[Paises] ORDER BY NEWID())),
+(NEWID(), 'usuario5@example.com', '1234', '1985-05-10', 0, (SELECT TOP 1 [IdPais] FROM [dbo].[Paises] ORDER BY NEWID())),
+(NEWID(), 'usuario60@example.com', '1234', '1998-09-15', 0, (SELECT TOP 1 [IdPais] FROM [dbo].[Paises] ORDER BY NEWID()));
+
 
 -- Insertar Monedas en tabla Monedas
 INSERT INTO [dbo].[Monedas] ([IdMoneda], [Codigo], [Nombre], [ValorEnDolares], [Eliminado])
@@ -180,7 +180,7 @@ VALUES
 ('c87995bc-7c2c-4291-f01b-08dba49b16ee',	'TJS',	'Somoni tayiko',	10.9266	,0),
 ('686c1a0c-706a-4dc9-f01c-08dba49b16ee',	'TMT',	'Manat turcomano',	3.4933	,0),
 ('052c7cee-208f-4e1d-f01d-08dba49b16ee',	'TND',	'Dinar tunecino',	3.1116	,0),
-('3ad866bb-4845-466f-f01e-08dba49b16ee',	'TOP',	'Paʻanga tongano',	2.353	,0),
+('3ad866bb-4845-466f-f01e-08dba49b16ee',	'TOP',	'Paanga tongano',	2.353	,0),
 ('007369cc-2750-4def-f01f-08dba49b16ee',	'TRY',	'Lira turca',	27.2266	,0),
 ('e622b183-e51b-4d8e-f020-08dba49b16ee',	'TTD',	'Dólar de Trinidad y Tobago',	6.7696	,0),
 ('6ef41503-adee-4812-f021-08dba49b16ee',	'TVD',	'Dólar de Tuvalu',	1.5473	,0),
@@ -204,13 +204,14 @@ VALUES
 ('485ad76e-b0e5-430b-f033-08dba49b16ee',	'ZMW',	'Kwacha zambiano',	19.4586	,0),
 ('9b89f34c-f407-4fb4-f034-08dba49b16ee',	'ZWL',	'Dólar zimbabuense',	4588.1261	,0);
 
+
+
 -- Insertar datos en la tabla de Historial
 INSERT INTO [dbo].[Historial] ([IdHistorial], [IdUsuario], [IdMonedaOrigen], [IdMonedaDestino], [FactorCambio], [Importe], [FechaConversion], [ResultadoConversion], [Eliminado])
 VALUES
-    (NEWID(), (SELECT TOP 1 [IdUsuario] FROM [dbo].[Usuarios] ORDER BY NEWID()), (SELECT TOP 1 [IdMoneda] FROM [dbo].[Monedas] ORDER BY NEWID()), (SELECT TOP 1 [IdMoneda] FROM [dbo].[Monedas] ORDER BY NEWID()), 100, 500.00, GETDATE(), 600.00, 0),
-    (NEWID(), (SELECT TOP 1 [IdUsuario] FROM [dbo].[Usuarios] ORDER BY NEWID()), (SELECT TOP 1 [IdMoneda] FROM [dbo].[Monedas] ORDER BY NEWID()), (SELECT TOP 1 [IdMoneda] FROM [dbo].[Monedas] ORDER BY NEWID()), 80, 300.00, GETDATE(), 240.00, 0),
-    -- Agregar más registros aquí
-    (NEWID(), (SELECT TOP 1 [IdUsuario] FROM [dbo].[Usuarios] ORDER BY NEWID()), (SELECT TOP 1 [IdMoneda] FROM [dbo].[Monedas] ORDER BY NEWID()), (SELECT TOP 1 [IdMoneda] FROM [dbo].[Monedas] ORDER BY NEWID()), 120, 750.00, GETDATE(), 900.00, 0);");
+('b3ed9c37-d504-4d16-a302-02a39de812ba', '2ea42e50-ade2-4254-801c-5a15e13aa1af', (SELECT TOP 1 [IdMoneda] FROM [dbo].[Monedas] ORDER BY NEWID()), (SELECT TOP 1 [IdMoneda] FROM [dbo].[Monedas] ORDER BY NEWID()), 100, 500.00, GETDATE(), 600.00, 0),
+(NEWID(), '2ea42e50-ade2-4254-801c-5a15e13aa1af', (SELECT TOP 1 [IdMoneda] FROM [dbo].[Monedas] ORDER BY NEWID()), (SELECT TOP 1 [IdMoneda] FROM [dbo].[Monedas] ORDER BY NEWID()), 80, 300.00, GETDATE(), 240.00, 0),
+(NEWID(), '2ea42e50-ade2-4254-801c-5a15e13aa1af', (SELECT TOP 1 [IdMoneda] FROM [dbo].[Monedas] ORDER BY NEWID()), (SELECT TOP 1 [IdMoneda] FROM [dbo].[Monedas] ORDER BY NEWID()), 120, 750.00, GETDATE(), 900.00, 0);");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
