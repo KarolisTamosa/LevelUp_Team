@@ -1,5 +1,7 @@
 ﻿using Domain.IServices;
 using DTO;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,6 +17,7 @@ namespace ProyectoAPI.Controllers
             _monedaService = monedaService;
         }
 
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpPost]
         public async Task<ActionResult<double>> Convertir([FromBody] ConversorDTO conversorDTO)
         {

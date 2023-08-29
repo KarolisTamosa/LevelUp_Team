@@ -1,12 +1,15 @@
 using AutoMapper;
 using Domain.IRepositories;
 using Domain.IServices;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Serialization;
 using Persistence.Context;
 using Persistence.Repositories;
 using Services;
+using System.Text;
 
 namespace ProyectoAPI
 {
@@ -47,7 +50,7 @@ namespace ProyectoAPI
                     new CamelCasePropertyNamesContractResolver();
             });
 
-            // Añadir AutoMapper
+            // Aï¿½adir AutoMapper
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             // Configurar CORS
@@ -60,6 +63,21 @@ namespace ProyectoAPI
                            .AllowAnyMethod();
                 });
             });
+
+            // Add Authentication
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)//que tipo de esquema utilizamos
+                    .AddJwtBearer(options =>
+                        options.TokenValidationParameters = new TokenValidationParameters//que cosas quereoms validar cada vez que ingrese el token
+                        {
+                            ValidateIssuer = true,//que valide el emisoe
+                            ValidateAudience = true,//valide audiencia
+                            ValidateLifetime = true,//que el token no haya expirado (que no pase el timepo que asignamos al crear token)
+                            ValidateIssuerSigningKey = true,//que valide la security key (del appsetings.json)
+                            ValidIssuer = builder.Configuration["Jwt:Issuer"],//pasando parametros (los que configuramos en el appsettings.json)
+                            ValidAudience = builder.Configuration["Jwt:Audience"],//seteamos la audiencia valida (backend valido) para checkear que sea correcta
+                            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:SecretKey"])),//seteamos la secretkey para que la valide a partir de ella
+                            ClockSkew = TimeSpan.Zero
+                        });
 
             var app = builder.Build();
 
@@ -77,6 +95,8 @@ namespace ProyectoAPI
             app.UseAuthorization();
 
             app.UseCors();
+
+            app.UseAuthentication();//
 
             app.MapControllers();
 

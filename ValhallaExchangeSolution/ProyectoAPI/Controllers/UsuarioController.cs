@@ -10,6 +10,9 @@ using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Utils;
+using ProyectoAPI.Seguridad;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ProyectoAPI.Controllers
 {
@@ -48,12 +51,16 @@ namespace ProyectoAPI.Controllers
             }
         }
 
-        [HttpPatch("{idUsuario}")]//DEPRECATED
-        public async Task<IActionResult> ActualizarPropiedadesUsuario([FromRoute] Guid idUsuario,
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpPatch/*("{idUsuario}")*/]//DEPRECATED
+        public async Task<IActionResult> ActualizarPropiedadesUsuario(/*[FromRoute] Guid idUsuario,*/
            [FromBody] JsonPatchDocument<UsuarioParaActualizarDTO> patchDoc)
         {
             try
             {
+                var identity = HttpContext.User.Identity as ClaimsIdentity;
+                Guid idUsuario = JwtConfigurator.GetTokenUsuario(identity);
+
                 if (patchDoc == null)
                 {
                     return BadRequest(new { message = "El documento de parche JSON no puede ser nulo." });
@@ -183,8 +190,10 @@ namespace ProyectoAPI.Controllers
                 {
                     return BadRequest(new { message = "Usuario o contrasena invalidos" });
                 }
-                var usuarioDevolucionDTO = _mapper.Map<UsuarioDTO>(usuario);
-                return Ok(usuarioDevolucionDTO);//retornaremos despues el token JWT, por ahora el usuarioDTO
+                //var usuarioDevolucionDTO = _mapper.Map<UsuarioDTO>(usuario);
+                //return Ok(usuarioDevolucionDTO);//retornaremos despues el token JWT, por ahora el usuarioDTO
+                string tokenString = JwtConfigurator.GetToken(usuario, _configuration);
+                return Ok(new { token = tokenString });//despues devolveremos el token (con id y todo), pero por ahora devolvemos mensaje
             }
             catch (Exception ex)
             {

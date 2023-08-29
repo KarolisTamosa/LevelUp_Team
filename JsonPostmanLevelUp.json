@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "0093b20c-3f33-4fe4-bc98-98c9c811fd85",
+		"_postman_id": "34e950e0-279a-4f3f-a44a-f4ed1713b0db",
 		"name": "ValhallaExchange API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "28928417"
+		"_exporter_id": "29001629"
 	},
 	"item": [
 		{
@@ -73,6 +73,16 @@
 				{
 					"name": "ActualizarUsuario",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PATCH",
 						"header": [
 							{
@@ -88,7 +98,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "[\r\n    {\r\n      \"op\": \"replace\",\r\n      \"path\": \"/email\",\r\n      \"value\": \"nnnn@gmail.com\"\r\n    },\r\n    {\r\n      \"op\": \"replace\",\r\n      \"path\": \"/PasswordEncriptado\",\r\n      \"value\": \"akojsljdsa\"\r\n    }\r\n]",
+							"raw": "[\r\n    {\r\n      \"op\": \"replace\",\r\n      \"path\": \"/email\",\r\n      \"value\": \"nnnn@gmail.com\"\r\n    },\r\n    {\r\n      \"op\": \"replace\",\r\n      \"path\": \"/password\",\r\n      \"value\": \"akojsljdsa\"\r\n    }\r\n]",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -96,14 +106,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/api/usuarios/{{idUsuarioPrueba}}",
+							"raw": "{{host}}/api/usuarios",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"api",
-								"usuarios",
-								"{{idUsuarioPrueba}}"
+								"usuarios"
 							]
 						}
 					},
@@ -192,6 +201,16 @@
 				{
 					"name": "ConvertirMonedaApi",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -377,6 +396,11 @@
 		{
 			"key": "idMonedaPrueba",
 			"value": "94edc584-e589-4cd0-4579-08dba4954363",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c3VhcmlvNjBAZXhhbXBsZS5jb20iLCJpZFVzdWFyaW8iOiIwOGUxMzA4OC0zNjUzLTQ3ZjEtYjJiMC1jNzVjMWU0YmQwNzEiLCJleHAiOjE2OTU4NjA3NjUsImlzcyI6InR1ZG9taW5pby5jb20iLCJhdWQiOiJ0dWRvbWluaW8uY29tIn0.8M1mk7MYSrYUzunTIZ_rOUHYqgVmE84kX_ZCf5oX0T0",
 			"type": "string"
 		}
 	]
