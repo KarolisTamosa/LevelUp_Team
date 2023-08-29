@@ -1,9 +1,8 @@
 {
 	"info": {
-		"_postman_id": "34e950e0-279a-4f3f-a44a-f4ed1713b0db",
-		"name": "ValhallaExchange API",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "29001629"
+		"_postman_id": "6b39643c-71d3-4b33-a165-44a32ba780f9",
+		"name": "ValhallaExchange API Copy 2",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
