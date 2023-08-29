@@ -25,7 +25,7 @@ namespace ProyectoAPI
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ProyectoAPI", Version = "v1" });
             });
 
-            // Contexto de base de datos
+            // Contexto de base de datos.
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
             {
                 options.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=PruebaBD3;Trusted_Connection=True;MultipleActiveResultSets=true");
