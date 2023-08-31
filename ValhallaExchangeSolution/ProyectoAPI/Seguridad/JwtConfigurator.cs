@@ -51,21 +51,5 @@ namespace ProyectoAPI.Seguridad
             }
             return Guid.Empty;//po si identity no es nulo, pero si llega hasta aqui es porque el token tiene valor
         }
-        ////nos interesa por ahora el id, pero podriamos devolver todo lo que queramos
-        //public static int GetTokenUsuario(ClaimsIdentity identity)
-        //{
-        //    if (identity != null)
-        //    {
-        //        IEnumerable<Claim> claims = identity.Claims;
-        //        foreach (var claim in claims)
-        //        {
-        //            if (claim.Type == "idUsuario")
-        //            {
-        //                return int.Parse(claim.Value);
-        //            }
-        //        }
-        //    }
-        //    return 0;//po si identity no es nulo, pero si llega hasta aqui es porque el token tiene valor
-        //}
     }
 }

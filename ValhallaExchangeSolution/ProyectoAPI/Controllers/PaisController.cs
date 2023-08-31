@@ -34,13 +34,10 @@ namespace ProyectoAPI.Controllers
             {
                 Pais pais = await _paisservice.GetPaisPorId(IdPais);
                 return Ok(_mapper.Map<PaisesDTO>(pais));
-
-
-
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(new { message = ex.GetType() + " - ERROR DE SERVIDOR " });
             }
         }
 
@@ -51,13 +48,10 @@ namespace ProyectoAPI.Controllers
             {
                 IEnumerable<Pais> listaPaises = await _paisservice.GetPaises();
                 return Ok(_mapper.Map<IEnumerable<PaisesDTO>>(_mapper.Map<IEnumerable<PaisesDTO>>(listaPaises)));
-
-
-
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(new { message = ex.GetType() + " - ERROR DE SERVIDOR " });
             }
         }
     }

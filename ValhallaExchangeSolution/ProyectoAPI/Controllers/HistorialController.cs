@@ -3,8 +3,12 @@ using Domain.IRepositories;
 using Domain.IServices;
 using Domain.Models;
 using DTO.Historial;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ProyectoAPI.Seguridad;
+using System.Security.Claims;
 
 namespace ProyectoAPI.Controllers
 {
@@ -26,51 +30,96 @@ namespace ProyectoAPI.Controllers
             _monedaService = monedaService;
             _mapper = mapper;
         }
-        [HttpGet]
+
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpGet]//PRIVADO
         public async Task<ActionResult<IEnumerable<HistorialGetDTO>>> GetHistorialPorUsuario([FromRoute] Guid usuarioId, [FromQuery] int res = 10)
         {
-            var usuario = await _usuarioService.GetUsuarioPorID(usuarioId);
-            if (usuario == null)
+            try
             {
-                return NotFound(new { message = "No existe un usuario con este id" });
+                //Obtener id del token de la cabecera de la peticion
+                var identity = HttpContext.User.Identity as ClaimsIdentity;
+                Guid idUsuario = JwtConfigurator.GetTokenUsuario(identity);
+
+                if (idUsuario != usuarioId)
+                {
+                    return Unauthorized(new { message = "No tienes permiso para acceder al historial" });
+                }
+
+                var usuario = await _usuarioService.GetUsuarioPorID(usuarioId);
+                if (usuario == null)
+                {
+                    return NotFound(new { message = "No existe un usuario con este id" });
+                }
+
+                var historialPorUsuarioFromRepo = await _historialService.GetHistorialPorUsuarioConProcedimientoAlmacenado(usuarioId, res);
+
+                if (historialPorUsuarioFromRepo == null || historialPorUsuarioFromRepo.Count() == 0)
+                {
+                    return NotFound(new { message = "No existen registros de historial de este usuario" });
+                }
+                IEnumerable<HistorialGetDTO> p = _mapper.Map<IEnumerable<HistorialGetDTO>>(historialPorUsuarioFromRepo);
+                return Ok(p);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.GetType() + " - ERROR DE SERVIDOR " });
             }
 
-            var historialPorUsuarioFromRepo = await _historialService.GetHistorialPorUsuarioConProcedimientoAlmacenado(usuarioId, res);
-
-            if (historialPorUsuarioFromRepo == null || historialPorUsuarioFromRepo.Count() == 0)
-            {
-                return NotFound(new { message = "No existen registros de historial de este usuario" });
-            }
-            IEnumerable<HistorialGetDTO> p = _mapper.Map<IEnumerable<HistorialGetDTO>>(historialPorUsuarioFromRepo);
-            return Ok(p);
         }
 
         [HttpGet("{historialId}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<ActionResult<HistorialGetDTO>> GetUnHistorialPorUsuario([FromRoute] Guid usuarioId, [FromRoute] Guid historialId)
         {
-            var usuario = await _usuarioService.GetUsuarioPorID(usuarioId);
-            if (usuario == null)
+            try
             {
-                return NotFound(new { message = "No existe un usuario con este id" });
+                var identity = HttpContext.User.Identity as ClaimsIdentity;
+                Guid idUsuario = JwtConfigurator.GetTokenUsuario(identity);
+
+                if (idUsuario != usuarioId)
+                {
+                    return Unauthorized(new { message = "No tienes permiso para acceder al historial" });
+                }
+
+
+                var usuario = await _usuarioService.GetUsuarioPorID(usuarioId);
+                if (usuario == null)
+                {
+                    return NotFound(new { message = "No existe un usuario con este id" });
+                }
+
+                //TODO: crear metodo repositorio que reciba idhistorial e idUsuario y que devuelva registro
+                var unHistorialPorUsuarioFromRepo = await _historialService.GetHistorialById(historialId);
+
+                if (unHistorialPorUsuarioFromRepo == null)
+                {
+                    return NotFound(new { message = "No existen registros de historial de este historial" });
+                }
+
+                return Ok(_mapper.Map<HistorialGetDTO>(unHistorialPorUsuarioFromRepo));
             }
-
-
-            var unHistorialPorUsuarioFromRepo = await _historialService.GetHistorialById(historialId);
-
-            if (unHistorialPorUsuarioFromRepo == null)
+            catch (Exception ex)
             {
-                return NotFound(new { message = "No existen registros de historial de este historial" });
+                return BadRequest(new { message = ex.GetType() + " - ERROR DE SERVIDOR " });
             }
-
-            return Ok(_mapper.Map<HistorialGetDTO>(unHistorialPorUsuarioFromRepo));
         }
 
         [HttpPost]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<ActionResult> GuardarHistorial([FromRoute] Guid usuarioId, [FromBody] HistorialForCreationDTO historialDTO)
         {
             //guardar historial
             try
             {
+                var identity = HttpContext.User.Identity as ClaimsIdentity;
+                Guid idUsuario = JwtConfigurator.GetTokenUsuario(identity);
+
+                if (idUsuario != usuarioId)
+                {
+                    return Unauthorized(new { message = "No tienes permiso para guardar el historial" });
+                }
+
                 var usuario = await _usuarioService.GetUsuarioPorID(usuarioId);
                 if (usuario == null)
                 {
@@ -101,15 +150,24 @@ namespace ProyectoAPI.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(new { message = ex.GetType() + " - ERROR DE SERVIDOR " });
             }
         }
 
         [HttpDelete("{idHistorial}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<ActionResult> BorrarRegistroHistorialDeUsuario([FromRoute] Guid usuarioId, [FromRoute] Guid idHistorial)
         {
             try
             {
+                var identity = HttpContext.User.Identity as ClaimsIdentity;
+                Guid idUsuario = JwtConfigurator.GetTokenUsuario(identity);
+
+                if (idUsuario != usuarioId)
+                {
+                    return Unauthorized(new { message = "No tienes permiso para borrar el registro del historial" });
+                }
+
                 var usuario = await _usuarioService.GetUsuarioPorID(usuarioId);
                 if (usuario == null)
                 {
@@ -125,7 +183,7 @@ namespace ProyectoAPI.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(new { message = ex.GetType() + " - ERROR DE SERVIDOR " });
             }
         }
     }

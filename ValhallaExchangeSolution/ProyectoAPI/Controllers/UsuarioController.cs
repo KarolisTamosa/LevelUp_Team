@@ -47,14 +47,13 @@ namespace ProyectoAPI.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex + " - ERROR NUESTRO");//400
+                return BadRequest(new { message = ex.GetType() + " - ERROR DE SERVIDOR " });
             }
         }
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        [HttpPatch/*("{idUsuario}")*/]//DEPRECATED
-        public async Task<IActionResult> ActualizarPropiedadesUsuario(/*[FromRoute] Guid idUsuario,*/
-           [FromBody] JsonPatchDocument<UsuarioParaActualizarDTO> patchDoc)
+        [HttpPatch/*("{idUsuario}")*/]
+        public async Task<IActionResult> ActualizarPropiedadesUsuario([FromBody] JsonPatchDocument<UsuarioParaActualizarDTO> patchDoc)
         {
             try
             {
@@ -99,7 +98,7 @@ namespace ProyectoAPI.Controllers
                 {
                     return BadRequest(new { message = "Correo con formato invalido" });
                 }
-                bool esPasswordValida = UsuarioUtils.EsPasswordConFormatoValido(usuarioToUpdate.Password,4,16);
+                bool esPasswordValida = UsuarioUtils.EsPasswordConFormatoValido(usuarioToUpdate.Password, 4, 16);
                 if (!esPasswordValida)
                 {
                     return BadRequest(new { message = "Contraseña con formato invalido, debe tener ente 4 y 16 caracteres" });
@@ -120,7 +119,7 @@ namespace ProyectoAPI.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex + " - ERROR NUESTRO");
+                return BadRequest(new { message = ex.GetType() + " - ERROR DE SERVIDOR " });
             }
         }
 
@@ -136,7 +135,7 @@ namespace ProyectoAPI.Controllers
                     return BadRequest("Formato incorrecto");//400
                 }
 
-                if (string.IsNullOrEmpty(usuarioDTO.Email) || string.IsNullOrEmpty(usuarioDTO.Password) || usuarioDTO.FechaNacimiento == null || usuarioDTO.IdPais == null|| usuarioDTO.IdPais == Guid.Empty)
+                if (string.IsNullOrEmpty(usuarioDTO.Email) || string.IsNullOrEmpty(usuarioDTO.Password) || usuarioDTO.FechaNacimiento == null || usuarioDTO.IdPais == null || usuarioDTO.IdPais == Guid.Empty)
                 {
                     return BadRequest(new { message = "Debes completar todos los campos" });
                 }
@@ -171,7 +170,7 @@ namespace ProyectoAPI.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex + " - ERROR NUESTRO");
+                return BadRequest(new { message = ex.GetType() + " - ERROR DE SERVIDOR " });
             }
         }
 
@@ -197,23 +196,9 @@ namespace ProyectoAPI.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex + " - ERROR NUESTRO");
+                return BadRequest(new { message = ex.GetType() + " - ERROR DE SERVIDOR " });
             }
         }
 
-        private JwtSecurityToken GetToken(List<Claim> authClaims)
-        {
-            var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
-
-            var token = new JwtSecurityToken(
-                issuer: _configuration["JWT:ValidIssuer"],
-                audience: _configuration["JWT:ValidAudience"],
-                expires: DateTime.Now.AddHours(3),
-                claims: authClaims,
-                signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
-                );
-
-            return token;
-        }
     }
 }
